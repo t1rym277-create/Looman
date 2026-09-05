@@ -2,276 +2,1763 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>WOOD / LUMEN — дерево, свет и форма</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#06100a">
+<title>WOOD / LUMEN</title>
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#07100b;color:#f5f1e8;font-family:Manrope,system-ui,sans-serif;overflow-x:hidden}
-body{overscroll-behavior:none}.webgl{position:fixed;inset:0;z-index:0}
-.noise{position:fixed;inset:0;z-index:4;pointer-events:none;opacity:.075;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E")}
-.vignette{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(circle at 50% 45%,transparent 28%,rgba(0,0,0,.18) 62%,rgba(0,0,0,.62) 100%)}
-.ui{position:fixed;z-index:6;left:5vw;right:5vw;top:25px;display:flex;align-items:center;justify-content:space-between;pointer-events:none}
-.logo{letter-spacing:.22em;font-weight:700;font-size:12px}.logo span{opacity:.45}
-.counter{font-size:11px;letter-spacing:.16em;opacity:.72}.progress{position:fixed;z-index:6;left:5vw;bottom:30px;width:90px;height:2px;background:rgba(255,255,255,.18)}
-.progress i{display:block;width:0;height:100%;background:#d8bf8c;transition:width .15s}
-.scrollhint{position:fixed;z-index:6;right:5vw;bottom:25px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.6;writing-mode:vertical-rl}
-.content{position:relative;z-index:5;width:100%;height:1000vh;pointer-events:none}
-.panel{position:absolute;left:7vw;width:min(480px,72vw);opacity:0;transform:translateY(25px);transition:opacity .45s,transform .7s}
-.panel.active{opacity:1;transform:translateY(0)}
-.panel h1,.panel h2{margin:0 0 15px;line-height:.94;font-family:"Playfair Display",serif;font-weight:500;letter-spacing:-.035em}
-.panel h1{font-size:clamp(48px,7.2vw,104px)}.panel h2{font-size:clamp(38px,5.3vw,72px)}
-.panel p{margin:0;max-width:420px;font-size:14px;line-height:1.7;color:rgba(245,241,232,.72)}
-.kicker{font-size:10px;letter-spacing:.23em;text-transform:uppercase;color:#d8bf8c;margin-bottom:15px}
-.hero{top:22vh}.hero p{font-size:15px;max-width:390px}
-.quote{top:50vh;left:auto;right:7vw;text-align:right}.quote p{margin-left:auto}
-.material{top:71vh}.material .tag{display:inline-flex;gap:8px;border:1px solid rgba(255,255,255,.2);padding:8px 11px;border-radius:100px;font-size:10px;letter-spacing:.12em;margin-top:20px}
-.story{top:101vh}.story2{top:129vh;left:auto;right:7vw;text-align:right}.story3{top:159vh}
-.cta{top:190vh;left:7vw}.cta h2{font-size:clamp(44px,6vw,86px)}
-.orb-info{position:fixed;z-index:7;right:6vw;top:50%;transform:translateY(-50%) translateX(20px);width:250px;opacity:0;pointer-events:none;transition:.5s}
-.orb-info.show{opacity:1;transform:translateY(-50%) translateX(0)}
-.orb-info .line{height:1px;background:rgba(255,255,255,.2);margin:12px 0}.orb-info b{font-size:11px;letter-spacing:.14em;text-transform:uppercase}.orb-info small{font-size:11px;line-height:1.55;color:rgba(255,255,255,.6)}
-.mobile-note{display:none}
+*{box-sizing:border-box}
+
+html,body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#06100a;
+font-family:Arial,Helvetica,sans-serif;
+touch-action:none;
+}
+
+body{
+overscroll-behavior:none;
+}
+
+canvas{
+position:fixed!important;
+inset:0;
+width:100%!important;
+height:100%!important;
+display:block;
+touch-action:none;
+}
+
+#hud{
+position:fixed;
+inset:max(18px,env(safe-area-inset-top)) 22px auto;
+z-index:10;
+color:#f5f1e8;
+pointer-events:none;
+}
+
+.brand{
+font-weight:800;
+font-size:12px;
+letter-spacing:.28em;
+}
+
+.brand i{
+font-style:normal;
+opacity:.35;
+}
+
+.counter{
+position:absolute;
+right:0;
+top:0;
+font-size:10px;
+letter-spacing:.2em;
+opacity:.7;
+}
+
+#copy{
+position:fixed;
+z-index:8;
+left:7vw;
+top:24vh;
+width:min(520px,76vw);
+pointer-events:none;
+text-shadow:0 4px 30px #000;
+}
+
+.kicker{
+font-size:9px;
+letter-spacing:.25em;
+color:#dfc38b;
+text-transform:uppercase;
+margin-bottom:14px;
+}
+
+h1{
+font:400 clamp(44px,7vw,92px)/.93 Georgia,"Times New Roman",serif;
+letter-spacing:-.05em;
+margin:0 0 17px;
+}
+
+#desc{
+font-size:13px;
+line-height:1.65;
+color:#eee9dfb5;
+max-width:420px;
+margin:0;
+}
+
+#info{
+position:fixed;
+z-index:9;
+right:6vw;
+top:50%;
+width:255px;
+padding:16px;
+border:1px solid #ffffff25;
+border-radius:18px;
+background:#06110bd9;
+backdrop-filter:blur(14px);
+-webkit-backdrop-filter:blur(14px);
+color:#f4f0e6;
+opacity:0;
+transform:translate(14px,-50%);
+transition:.35s;
+pointer-events:none;
+}
+
+#info.show{
+opacity:1;
+transform:translate(0,-50%);
+}
+
+#info b{
+font-size:10px;
+letter-spacing:.18em;
+text-transform:uppercase;
+}
+
+#info hr{
+border:0;
+border-top:1px solid #ffffff20;
+margin:10px 0;
+}
+
+#info span{
+font-size:11px;
+line-height:1.55;
+color:#ffffffa8;
+}
+
+#bottom{
+position:fixed;
+z-index:9;
+left:22px;
+right:22px;
+bottom:max(18px,env(safe-area-inset-bottom));
+display:flex;
+justify-content:space-between;
+align-items:end;
+pointer-events:none;
+}
+
+#progress{
+width:100px;
+height:2px;
+background:#ffffff24;
+}
+
+#progress i{
+display:block;
+width:0;
+height:100%;
+background:#dfc38b;
+}
+
+#hint{
+font-size:9px;
+letter-spacing:.2em;
+writing-mode:vertical-rl;
+opacity:.5;
+}
+
+#loading{
+position:fixed;
+inset:0;
+z-index:30;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#06100a;
+color:#eee;
+transition:opacity .6s;
+pointer-events:none;
+}
+
+#loading div{
+text-align:center;
+}
+
+.load-title{
+font:400 38px Georgia,serif;
+}
+
+.load-sub{
+margin-top:12px;
+font-size:9px;
+letter-spacing:.25em;
+opacity:.5;
+}
+
+#error{
+display:none;
+position:fixed;
+inset:0;
+z-index:50;
+background:#06100a;
+color:#fff;
+padding:28px;
+font-size:14px;
+}
+
 @media(max-width:700px){
- .ui{top:18px;left:22px;right:22px}.progress{left:22px;bottom:20px}.scrollhint{right:20px;bottom:18px}
- .panel{left:22px;right:22px;width:auto}.quote,.story2{left:22px;right:22px;text-align:left}.quote p,.story2 p{margin-left:0}
- .orb-info{right:22px;left:22px;top:auto;bottom:75px;transform:translateY(10px);width:auto}.orb-info.show{transform:translateY(0)}
- .mobile-note{display:block;position:fixed;z-index:6;left:50%;bottom:20px;transform:translateX(-50%);font-size:9px;letter-spacing:.14em;opacity:.5;white-space:nowrap}
+
+#copy{
+left:22px;
+top:22vh;
+width:74vw;
+}
+
+h1{
+font-size:44px;
+}
+
+#desc{
+font-size:12px;
+max-width:285px;
+}
+
+#info{
+left:22px;
+right:22px;
+top:auto;
+bottom:70px;
+width:auto;
+transform:translateY(14px);
+}
+
+#info.show{
+transform:none;
+}
+
 }
 </style>
 </head>
+
 <body>
-<canvas class="webgl"></canvas>
-<div class="noise"></div><div class="vignette"></div>
 
-<div class="ui"><div class="logo">WOOD<span>/</span>LUMEN</div><div class="counter"><span id="step">01</span> / 07</div></div>
-<div class="progress"><i id="bar"></i></div>
-<div class="scrollhint">scroll / swipe</div>
-
-<div class="content">
-  <section class="panel hero" data-step="0">
-    <div class="kicker">натуральное дерево · точность света</div>
-    <h1>Когда лес<br>становится<br>архитектурой.</h1>
-    <p>Путешествие от живого дерева до предметов, которые рождаются из света лазера, человеческой руки и точного замысла.</p>
-  </section>
-
-  <section class="panel quote" data-step="1">
-    <div class="kicker">01 / происхождение</div>
-    <h2>У каждой<br>текстуры есть<br>своя история.</h2>
-    <p>Мы не прячем рисунок древесины. Наоборот — строим форму вокруг него, чтобы материал оставался главным героем.</p>
-  </section>
-
-  <section class="panel material" data-step="2">
-    <div class="kicker">02 / материал</div>
-    <h2>Дуб.<br>Тепло, которое<br>видно.</h2>
-    <p>Плотная структура, выразительные волокна и стабильность делают дуб идеальным для оконных рам и интерьерных деталей, которые должны пережить годы.</p>
-    <div class="tag">01 · oak / дуб</div>
-  </section>
-
-  <section class="panel story" data-step="3">
-    <div class="kicker">03 / точность</div>
-    <h2>Лазер режет.<br>Но форму<br>решает идея.</h2>
-    <p>Микронная точность превращает лист дерева в сложную геометрию: решётки, орнаменты, световые панели и детали, которые невозможно повторить случайно.</p>
-  </section>
-
-  <section class="panel story2" data-step="4">
-    <div class="kicker">04 / поверхность</div>
-    <h2>Свет проходит<br>сквозь дерево.</h2>
-    <p>Перфорация и глубина реза превращают обычную плоскость в живую тень. Днём — графика. Вечером — мягкое свечение.</p>
-  </section>
-
-  <section class="panel story3" data-step="5">
-    <div class="kicker">05 / предмет</div>
-    <h2>Не просто<br>окно.</h2>
-    <p>Это граница между домом и лесом. Между тишиной снаружи и тёплым светом внутри.</p>
-  </section>
-
-  <section class="panel cta" data-step="6">
-    <div class="kicker">06 / за окном</div>
-    <h2>Лес<br>остался<br>внутри.</h2>
-    <p>Ты только что прошёл сквозь окно. Там, где дерево, свет и точная резка превращаются уже не в изделие — а в пространство.</p>
-  </section>
+<div id="loading">
+<div>
+<div class="load-title">WOOD / LUMEN</div>
+<div class="load-sub">ENTERING THE FOREST</div>
+</div>
 </div>
 
-<div class="orb-info" id="orbInfo">
-  <b id="orbTitle">Материал</b><div class="line"></div>
-  <small id="orbText">Натуральная древесина с выразительной текстурой.</small>
+<div id="error"></div>
+
+<div id="hud">
+
+<div class="brand">
+WOOD<i>/</i>LUMEN
 </div>
 
-<script type="module">
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
+<div class="counter">
+<span id="step">01</span> / 07
+</div>
 
-const canvas=document.querySelector('.webgl');
-const scene=new THREE.Scene();
-scene.fog=new THREE.FogExp2(0x07100b,.018);
+</div>
 
-const camera=new THREE.PerspectiveCamera(48,innerWidth/innerHeight,.1,250);
-camera.position.set(0,3.2,17);
+<div id="copy">
 
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-renderer.setSize(innerWidth,innerHeight);
-renderer.outputColorSpace=THREE.SRGBColorSpace;
-renderer.toneMapping=THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure=1.15;
+<div class="kicker" id="kick">
+01 / происхождение
+</div>
 
-scene.add(new THREE.HemisphereLight(0xc9d7c2,0x182017,2.0));
-const sun=new THREE.DirectionalLight(0xffe3b0,3.2);sun.position.set(-8,14,8);scene.add(sun);
-const rim=new THREE.PointLight(0x91d9bf,25,45);rim.position.set(4,5,-5);scene.add(rim);
+<h1 id="title">
+Когда лес<br>
+становится<br>
+архитектурой.
+</h1>
 
-function mat(color,rough=.8){return new THREE.MeshStandardMaterial({color,roughness:rough,metalness:.02})}
+<p id="desc">
+Дерево начинается в лесу. Проведи пальцем — камера продолжит путь вперёд, следуя за объектом.
+</p>
 
-// Forest
-const forest=new THREE.Group();scene.add(forest);
-const trunkMat=mat(0x4b3523,.95), leafMat=mat(0x172d1b,.95), leaf2=mat(0x27472a,.9);
-for(let i=0;i<95;i++){
-  const a=Math.random()*Math.PI*2, r=13+Math.random()*27;
-  const x=Math.cos(a)*r,z=Math.sin(a)*r-4,h=7+Math.random()*12;
-  const g=new THREE.Group();
-  const trunk=new THREE.Mesh(new THREE.CylinderGeometry(.12+Math.random()*.22,.2+Math.random()*.28,h,7),trunkMat);
-  trunk.position.y=h/2-1;g.add(trunk);
-  for(let j=0;j<3;j++){
-    const crown=new THREE.Mesh(new THREE.ConeGeometry(1.5+Math.random()*1.7,3.3+Math.random()*2,8),j%2?leaf2:leafMat);
-    crown.position.y=h-1.2+j*1.5;crown.scale.x=.8+Math.random()*.5;crown.scale.z=.8+Math.random()*.5;g.add(crown);
-  }
-  g.position.set(x,-1,z);g.rotation.y=Math.random()*6;forest.add(g);
+</div>
+
+<div id="info">
+
+<b id="mat">
+Дуб
+</b>
+
+<hr>
+
+<span id="matText">
+Плотная древесина с выразительным рисунком — для окон, дверей и деталей, которые должны жить десятилетиями.
+</span>
+
+</div>
+
+<div id="bottom">
+
+<div id="progress">
+<i></i>
+</div>
+
+<div id="hint">
+SWIPE / СВАЙП
+</div>
+
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<script>
+
+(function(){
+
+"use strict";
+
+var error=document.getElementById("error");
+
+
+function fail(e){
+
+console.error(e);
+
+error.style.display="block";
+
+error.innerHTML=
+"<b>WOOD / LUMEN</b><br><br>"+
+"3D не удалось запустить.<br><br>"+
+(e&&e.message?e.message:"Попробуй обновить страницу.");
+
 }
-// ground
-const ground=new THREE.Mesh(new THREE.PlaneGeometry(180,180),new THREE.MeshStandardMaterial({color:0x0a160e,roughness:1}));
-ground.rotation.x=-Math.PI/2;ground.position.y=-1;scene.add(ground);
 
-// Glowing alien material orbs
-const orbGroup=new THREE.Group();scene.add(orbGroup);
-const orbData=[
- {x:-3.0,y:3.1,z:1.5,c:0x9ee6c8,title:'Дуб',text:'Плотный, тёплый и выразительный материал. Хорошо держит геометрию и красиво стареет.'},
- {x:3.1,y:2.4,z:-1.5,c:0xb8d9ff,title:'Ясень',text:'Светлая структура и длинный рисунок волокон. Даёт интерьеру ощущение воздуха.'},
- {x:-2.5,y:1.8,z:-6,c:0xe5bd78,title:'Фанера',text:'Стабильная многослойная основа для точной лазерной резки и сложных декоративных элементов.'},
- {x:2.6,y:3.4,z:-10,c:0xa58cff,title:'Световой орнамент',text:'Перфорация создаёт узор из света и тени — особенно эффектно вечером.'}
+
+try{
+
+if(!window.THREE){
+
+throw new Error("Three.js не загрузился.");
+
+}
+
+
+var THREE=window.THREE;
+
+var scene=new THREE.Scene();
+
+scene.background=new THREE.Color(0x07120b);
+
+scene.fog=new THREE.Fog(
+0x07120b,
+38,
+175
+);
+
+
+var camera=
+new THREE.PerspectiveCamera(
+58,
+innerWidth/innerHeight,
+.1,
+260
+);
+
+
+var renderer=
+new THREE.WebGLRenderer({
+
+antialias:false,
+
+powerPreference:"high-performance"
+
+});
+
+
+renderer.setPixelRatio(
+Math.min(
+devicePixelRatio||1,
+innerWidth<=700?1:1.35
+)
+);
+
+renderer.setSize(
+innerWidth,
+innerHeight,
+false
+);
+
+renderer.outputEncoding=
+THREE.sRGBEncoding;
+
+document.body.appendChild(
+renderer.domElement
+);
+
+
+/* =========================
+   WEBGL PROTECTION
+========================= */
+
+renderer.domElement.addEventListener(
+"webglcontextlost",
+function(e){
+
+e.preventDefault();
+
+error.style.display="block";
+
+error.innerHTML=
+"<b>WOOD / LUMEN</b><br><br>"+
+"Графический контекст iPhone был временно потерян.<br><br>"+
+"Обнови страницу — сцена восстановится.";
+
+},
+false
+);
+
+
+renderer.domElement.addEventListener(
+"webglcontextrestored",
+function(){
+
+location.reload();
+
+},
+false
+);
+
+
+/* =========================
+   LIGHT
+========================= */
+
+scene.add(
+new THREE.HemisphereLight(
+0xcfe8d6,
+0x18251b,
+2.25
+)
+);
+
+
+var sun=
+new THREE.DirectionalLight(
+0xffdfaa,
+2.35
+);
+
+sun.position.set(
+-25,
+32,
+18
+);
+
+scene.add(sun);
+
+
+var rim=
+new THREE.DirectionalLight(
+0x8ab9a0,
+.5
+);
+
+rim.position.set(
+22,
+12,
+-35
+);
+
+scene.add(rim);
+
+
+/* =========================
+   GROUND
+========================= */
+
+var ground=
+new THREE.Mesh(
+
+new THREE.PlaneGeometry(
+110,
+390
+),
+
+new THREE.MeshStandardMaterial({
+
+color:0x09160d,
+
+roughness:1
+
+})
+
+);
+
+ground.rotation.x=-Math.PI/2;
+
+ground.position.set(
+0,
+-1,
+-150
+);
+
+scene.add(ground);
+
+
+/* =========================
+   FOREST
+========================= */
+
+var trunkMat=
+new THREE.MeshStandardMaterial({
+
+color:0x4a3220,
+
+roughness:1
+
+});
+
+
+var leafMat=
+new THREE.MeshStandardMaterial({
+
+color:0x14351d,
+
+roughness:1
+
+});
+
+
+var leafMat2=
+new THREE.MeshStandardMaterial({
+
+color:0x285331,
+
+roughness:1
+
+});
+
+
+var seed=31;
+
+
+function rnd(){
+
+seed=
+(seed*9301+49297)%233280;
+
+return seed/233280;
+
+}
+
+
+function tree(x,z,s){
+
+var g=new THREE.Group();
+
+
+var tr=
+new THREE.Mesh(
+
+new THREE.CylinderGeometry(
+.15*s,
+.3*s,
+6*s,
+7
+),
+
+trunkMat
+
+);
+
+
+tr.position.y=3*s;
+
+g.add(tr);
+
+
+for(
+var j=0;
+j<3;
+j++
+){
+
+var c=
+new THREE.Mesh(
+
+new THREE.ConeGeometry(
+(1.45+j*.2)*s,
+(3.1-j*.1)*s,
+7
+),
+
+j%2?leafMat:leafMat2
+
+);
+
+
+c.position.y=
+(5+j*1.55)*s;
+
+g.add(c);
+
+}
+
+
+g.position.set(
+x,
+-.5,
+z
+);
+
+scene.add(g);
+
+}
+
+
+for(
+var z=4;
+z>-165;
+z-=5
+){
+
+tree(
+-(9+rnd()*19),
+z-rnd()*4,
+.65+rnd()*1.05
+);
+
+
+tree(
+9+rnd()*19,
+z-rnd()*4,
+.65+rnd()*1.05
+);
+
+}
+
+
+/* =========================
+   WOOD WINDOW
+========================= */
+
+var player=
+new THREE.Group();
+
+scene.add(player);
+
+
+var wood=
+new THREE.MeshStandardMaterial({
+
+color:0x71492a,
+
+roughness:.67
+
+});
+
+
+var woodDark=
+new THREE.MeshStandardMaterial({
+
+color:0x332015,
+
+roughness:.82
+
+});
+
+
+function beam(
+w,h,d,
+x,y,z,
+m
+){
+
+var q=
+new THREE.Mesh(
+
+new THREE.BoxGeometry(
+w,h,d
+),
+
+m||wood
+
+);
+
+q.position.set(
+x,y,z
+);
+
+player.add(q);
+
+}
+
+
+beam(
+5.8,
+.27,
+.35,
+0,
+3,
+0
+);
+
+
+beam(
+5.8,
+.27,
+.35,
+0,
+-2.4,
+0
+);
+
+
+beam(
+.27,
+5.6,
+.35,
+-2.76,
+.3,
+0
+);
+
+
+beam(
+.27,
+5.6,
+.35,
+2.76,
+.3,
+0
+);
+
+
+beam(
+.15,
+5.1,
+.25,
+0,
+.3,
+0,
+woodDark
+);
+
+
+beam(
+5.25,
+.15,
+.25,
+0,
+.3,
+0,
+woodDark
+);
+
+
+var glass=
+new THREE.Mesh(
+
+new THREE.PlaneGeometry(
+5.2,
+5
+),
+
+new THREE.MeshBasicMaterial({
+
+color:0x9bcbb3,
+
+transparent:true,
+
+opacity:.12
+
+})
+
+);
+
+
+glass.position.set(
+0,
+.3,
+-.22
+);
+
+player.add(glass);
+
+
+/* =========================
+   MATERIAL SPHERES
+========================= */
+
+var materials=[
+
+{
+z:-27,
+x:-3,
+y:3,
+c:0xa8f0cf,
+n:"ДУБ",
+t:"Плотный материал с выразительным рисунком. Используется там, где нужны долговечность, точность и тёплая фактура."
+},
+
+{
+z:-50,
+x:3,
+y:2.7,
+c:0xb9dcff,
+n:"ЯСЕНЬ",
+t:"Светлое волокно и спокойный рисунок. Делает интерьер визуально легче и лучше работает со светом."
+},
+
+{
+z:-74,
+x:-3,
+y:2.4,
+c:0xe2c07f,
+n:"ФАНЕРА",
+t:"Стабильная многослойная основа для тонких деталей, сложных контуров и лазерной резки."
+},
+
+{
+z:-99,
+x:3,
+y:3,
+c:0xc09cff,
+n:"ЛАЗЕРНЫЙ ОРНАМЕНТ",
+t:"Перфорация превращает древесину в экран: днём появляется графика, вечером — свет и тень."
+}
+
 ];
-const orbMeshes=[];
-for(const d of orbData){
- const group=new THREE.Group();
- const core=new THREE.Mesh(new THREE.IcosahedronGeometry(.85,5),new THREE.MeshPhysicalMaterial({color:d.c,roughness:.08,metalness:.15,transmission:.18,transparent:true,opacity:.92,emissive:d.c,emissiveIntensity:.22}));
- group.add(core);
- const halo=new THREE.Mesh(new THREE.SphereGeometry(1.18,32,32),new THREE.MeshBasicMaterial({color:d.c,transparent:true,opacity:.055,side:THREE.BackSide}));
- group.add(halo);
- for(let k=0;k<4;k++){
-   const ring=new THREE.Mesh(new THREE.TorusGeometry(1.05+k*.09,.008,8,100),new THREE.MeshBasicMaterial({color:d.c,transparent:true,opacity:.55}));
-   ring.rotation.set(Math.random()*3,Math.random()*3,Math.random()*3);group.add(ring);
- }
- group.position.set(d.x,d.y,d.z);orbGroup.add(group);orbMeshes.push({group,core,data:d});
+
+
+var orbs=[];
+
+
+materials.forEach(
+function(d){
+
+var g=
+new THREE.Group();
+
+
+var core=
+new THREE.Mesh(
+
+new THREE.IcosahedronGeometry(
+.92,
+2
+),
+
+new THREE.MeshStandardMaterial({
+
+color:d.c,
+
+emissive:d.c,
+
+emissiveIntensity:.22,
+
+roughness:.12,
+
+metalness:.05
+
+})
+
+);
+
+
+g.add(core);
+
+
+var halo=
+new THREE.Mesh(
+
+new THREE.SphereGeometry(
+1.32,
+16,
+12
+),
+
+new THREE.MeshBasicMaterial({
+
+color:d.c,
+
+transparent:true,
+
+opacity:.055,
+
+side:THREE.BackSide
+
+})
+
+);
+
+
+g.add(halo);
+
+
+for(
+var i=0;
+i<3;
+i++
+){
+
+var ring=
+new THREE.Mesh(
+
+new THREE.TorusGeometry(
+1.08+i*.09,
+.012,
+6,
+40
+),
+
+new THREE.MeshBasicMaterial({
+
+color:d.c,
+
+transparent:true,
+
+opacity:.55
+
+})
+
+);
+
+
+ring.rotation.set(
+rnd()*3,
+rnd()*3,
+rnd()*3
+);
+
+g.add(ring);
+
 }
 
-// Laser workshop / window + final interior reveal
-const heroObj=new THREE.Group();scene.add(heroObj);
-const interiorGroup=new THREE.Group();scene.add(interiorGroup);
-const wood=new THREE.MeshStandardMaterial({color:0x765032,roughness:.7});
-const woodDark=new THREE.MeshStandardMaterial({color:0x352316,roughness:.8});
-function box(w,h,d,x,y,z,material=wood){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);m.position.set(x,y,z);heroObj.add(m);return m}
-box(7,.45,.55,0,2.7,-15);box(7,.45,.55,0,-3.0,-15);box(.45,6.15,.55,-3.3,-.15,-15);box(.45,6.15,.55,3.3,-.15,-15);
-box(.32,5.9,.45,0,-.15,-15,woodDark);box(6.4,.32,.45,0,-.15,-15,woodDark);
-const glass=new THREE.Mesh(new THREE.PlaneGeometry(6.25,5.7),new THREE.MeshPhysicalMaterial({color:0x89b8a1,transparent:true,opacity:.11,roughness:.05,metalness:.05}));
-glass.position.set(0,-.15,-15.35);heroObj.add(glass);
-// secondary inner sash, making the object read as a real crafted window
-box(5.9,.22,.32,0,2.55,-15.55,woodDark);box(5.9,.22,.32,0,-2.85,-15.55,woodDark);
-box(.22,5.4,.32,-2.95,-.15,-15.55,woodDark);box(.22,5.4,.32,2.95,-.15,-15.55,woodDark);
-const laser=new THREE.PointLight(0xe4bd77,40,18);laser.position.set(0,1,-13);heroObj.add(laser);
-// Deep interior: warm timber room revealed when the camera reaches the finale.
-const roomWood=mat(0x5b3b25,.72), roomDark=mat(0x25170e,.9), warm=0xffc978;
-function ibox(w,h,d,x,y,z,m=roomWood){
-  const q=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);q.position.set(x,y,z);interiorGroup.add(q);return q;
+
+g.position.set(
+d.x,
+d.y,
+d.z
+);
+
+scene.add(g);
+
+orbs.push({
+g:g,
+d:d
+});
+
 }
-ibox(15,.35,10,0,-.9,-20,roomDark);
-ibox(15,.35,10,0,6,-20,roomWood);
-ibox(.35,7,10,-7.5,2.5,-20,roomWood);
-ibox(.35,7,10,7.5,2.5,-20,roomWood);
-// ceiling beams
-for(let i=-2;i<=2;i++) ibox(.38,.5,9,i*3,5.55,-20,roomDark);
-// long wooden table
-ibox(5,.28,1.7,0,.15,-23,roomWood);
-ibox(.22,2.1,.22,-2,-.9,-23,roomDark);
-ibox(.22,2.1,.22,2,-.9,-23,roomDark);
-// glowing pendant lamps
-for(const x of [-3,0,3]){
-  const bulb=new THREE.Mesh(new THREE.SphereGeometry(.16,20,20),
-    new THREE.MeshStandardMaterial({color:0xffdca0,emissive:0xffb84d,emissiveIntensity:4}));
-  bulb.position.set(x,4.4,-21);interiorGroup.add(bulb);
-  const pl=new THREE.PointLight(warm,12,6);pl.position.set(x,4.4,-21);interiorGroup.add(pl);
+);
+
+
+/* =========================
+   EPIC FINAL WINDOW
+========================= */
+
+var finale=
+new THREE.Group();
+
+finale.position.set(
+0,
+2,
+-130
+);
+
+scene.add(finale);
+
+
+function fbeam(
+w,h,d,
+x,y,z,
+m
+){
+
+var q=
+new THREE.Mesh(
+
+new THREE.BoxGeometry(
+w,h,d
+),
+
+m||wood
+
+);
+
+q.position.set(
+x,y,z
+);
+
+finale.add(q);
+
 }
-// laser-cut decorative wall panel
-const panelMat=new THREE.MeshStandardMaterial({color:0x9a7047,roughness:.65});
-for(let i=0;i<9;i++){
-  const sl=new THREE.Mesh(new THREE.BoxGeometry(.08,4.6,.16),panelMat);
-  sl.position.set(-3.2+i*.8,2,-24.65);
-  sl.rotation.z=(i%2?-.15:.15);interiorGroup.add(sl);
+
+
+fbeam(
+10,
+.55,
+.7,
+0,
+4.2,
+0
+);
+
+
+fbeam(
+10,
+.55,
+.7,
+0,
+-4.2,
+0
+);
+
+
+fbeam(
+.55,
+8.8,
+.7,
+-4.7,
+0,
+0
+);
+
+
+fbeam(
+.55,
+8.8,
+.7,
+4.7,
+0,
+0
+);
+
+
+fbeam(
+.38,
+7.8,
+.55,
+0,
+0,
+0,
+woodDark
+);
+
+
+fbeam(
+9,
+.35,
+.55,
+0,
+0,
+0,
+woodDark
+);
+
+
+var inside=
+new THREE.Mesh(
+
+new THREE.PlaneGeometry(
+9,
+7.8
+),
+
+new THREE.MeshBasicMaterial({
+
+color:0x101810
+
+})
+
+);
+
+
+inside.position.z=-.38;
+
+finale.add(inside);
+
+
+var warm=
+new THREE.PointLight(
+0xffc979,
+22,
+20
+);
+
+warm.position.set(
+0,
+1,
+-2
+);
+
+finale.add(warm);
+
+
+/* =========================
+   PARTICLES
+========================= */
+
+var N=220;
+
+var geo=
+new THREE.BufferGeometry();
+
+var arr=
+new Float32Array(
+N*3
+);
+
+
+for(
+var n=0;
+n<N;
+n++
+){
+
+arr[n*3]=
+(rnd()-.5)*25;
+
+arr[n*3+1]=
+rnd()*12;
+
+arr[n*3+2]=
+-rnd()*140;
+
 }
 
 
-// floating dust
-const dustGeo=new THREE.BufferGeometry(),count=900,pos=new Float32Array(count*3);
-for(let i=0;i<count;i++){pos[i*3]=(Math.random()-.5)*35;pos[i*3+1]=Math.random()*18-1;pos[i*3+2]=Math.random()*35-18}
-dustGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
-const dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({color:0xd5d1ad,size:.025,transparent:true,opacity:.55}));
-scene.add(dust);
+geo.setAttribute(
+"position",
+new THREE.BufferAttribute(
+arr,
+3
+)
+);
 
-// Camera path controlled by scroll
-let targetProgress=0,progress=0, touchStartY=0;
-function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
-function setScroll(v){targetProgress=clamp(v,0,1)}
-addEventListener('scroll',()=>setScroll(scrollY/(document.documentElement.scrollHeight-innerHeight)));
-addEventListener('wheel',()=>{}, {passive:true});
-addEventListener('touchstart',e=>touchStartY=e.touches[0].clientY,{passive:true});
-addEventListener('touchmove',e=>{
- const dy=touchStartY-e.touches[0].clientY;
- setScroll(targetProgress+dy/innerHeight*.012);
- touchStartY=e.touches[0].clientY;
- scrollTo({top:targetProgress*(document.documentElement.scrollHeight-innerHeight),behavior:'instant'});
-},{passive:true});
 
-const panels=[...document.querySelectorAll('.panel')], step=document.getElementById('step'),bar=document.getElementById('bar');
-const info=document.getElementById('orbInfo'),orbTitle=document.getElementById('orbTitle'),orbText=document.getElementById('orbText');
+scene.add(
+
+new THREE.Points(
+
+geo,
+
+new THREE.PointsMaterial({
+
+color:0xd9d2b8,
+
+size:.035,
+
+transparent:true,
+
+opacity:.4
+
+})
+
+)
+
+);
+
+
+/* =========================
+   CAMERA
+   ORIGINAL MOVEMENT
+========================= */
+
+function cameraFollow(){
+
+camera.position.x+=
+(
+player.position.x*.55-
+camera.position.x
+)*.06;
+
+
+camera.position.y+=
+(
+6.4-
+camera.position.y
+)*.06;
+
+
+camera.position.z+=
+(
+player.position.z+12-
+camera.position.z
+)*.06;
+
+
+camera.lookAt(
+player.position.x*.2,
+1.8,
+player.position.z-13
+);
+
+}
+
+
+/* =========================
+   TOUCH
+========================= */
+
+var touching=false;
+
+var lastX=0;
+
+var targetX=0;
+
+var px=0;
+
+var distance=0;
+
+
+renderer.domElement.addEventListener(
+"touchstart",
+function(e){
+
+touching=true;
+
+lastX=
+e.touches[0].clientX;
+
+},
+{passive:true}
+);
+
+
+renderer.domElement.addEventListener(
+"touchmove",
+function(e){
+
+if(!touching)return;
+
+var x=
+e.touches[0].clientX;
+
+
+targetX=
+Math.max(
+-3.4,
+Math.min(
+3.4,
+targetX+
+(x-lastX)*.004
+)
+);
+
+
+lastX=x;
+
+},
+{passive:true}
+);
+
+
+renderer.domElement.addEventListener(
+"touchend",
+function(){
+
+touching=false;
+
+},
+{passive:true}
+);
+
+
+renderer.domElement.addEventListener(
+"touchcancel",
+function(){
+
+touching=false;
+
+},
+{passive:true}
+);
+
+
+/* =========================
+   MOUSE
+========================= */
+
+var mouse=false;
+
+
+renderer.domElement.addEventListener(
+"pointerdown",
+function(e){
+
+if(
+e.pointerType==="mouse"
+){
+
+mouse=true;
+
+lastX=e.clientX;
+
+}
+
+}
+);
+
+
+renderer.domElement.addEventListener(
+"pointermove",
+function(e){
+
+if(mouse){
+
+targetX=
+Math.max(
+-3.4,
+Math.min(
+3.4,
+targetX+
+(e.clientX-lastX)*.004
+)
+);
+
+lastX=e.clientX;
+
+}
+
+}
+);
+
+
+addEventListener(
+"pointerup",
+function(){
+
+mouse=false;
+
+}
+);
+
+
+/* =========================
+   TEXT
+========================= */
+
+var texts=[
+
+[
+"01 / происхождение",
+"Когда лес<br>становится<br>архитектурой.",
+"Дерево начинается здесь. Дальше лес постепенно превращается в точную архитектурную форму."
+],
+
+[
+"02 / материал",
+"У каждой<br>текстуры есть<br>характер.",
+"Материал не прячется: его волокно становится частью дизайна."
+],
+
+[
+"03 / лазер",
+"Лазер режет.<br>Идея остаётся.",
+"Точная резка превращает древесину в сложную геометрию."
+],
+
+[
+"04 / свет",
+"Тень<br>становится<br>материалом.",
+"Перфорация заставляет свет рисовать на дереве."
+],
+
+[
+"05 / окно",
+"Граница<br>между двумя<br>мирами.",
+"Деревянное окно связывает интерьер с природой."
+],
+
+[
+"06 / мастерская",
+"Машинная<br>точность.<br>Ручное чувство.",
+"После лазера начинается работа мастера."
+],
+
+[
+"07 / финал",
+"Теперь<br>можно войти.",
+"Большое деревянное окно. За ним — тёплая мастерская."
+]
+
+];
+
+
+var step=
+document.getElementById("step");
+
+var kick=
+document.getElementById("kick");
+
+var title=
+document.getElementById("title");
+
+var desc=
+document.getElementById("desc");
+
+var bar=
+document.querySelector(
+"#progress i"
+);
+
+var info=
+document.getElementById("info");
+
+var mat=
+document.getElementById("mat");
+
+var matText=
+document.getElementById("matText");
+
 
 function updateUI(){
- const s=Math.min(6,Math.floor(progress*7));
- panels.forEach((p,i)=>p.classList.toggle('active',i===s));
- step.textContent=String(s+1).padStart(2,'0');bar.style.width=(progress*100)+'%';
- // Show nearest orb during the material section.
- let best=null,bd=999;
- orbMeshes.forEach(o=>{const d=camera.position.distanceTo(o.group.position);if(d<bd){bd=d;best=o}});
- if(progress>.20&&progress<.78&&best&&bd<8){
-   info.classList.add('show');orbTitle.textContent=best.data.title;orbText.textContent=best.data.text;
- } else info.classList.remove('show');
-}
-function animate(){
- requestAnimationFrame(animate);
- progress+=(targetProgress-progress)*.055;
- const t=progress;
- // cinematic camera: retreat first, descend through forest, then reveal the giant window
- const z=17-49*t;
- const x=Math.sin(t*Math.PI*2)*2.0 + Math.sin(t*5)*.35;
- const y=3.2 + Math.sin(t*Math.PI*1.2)*1.3 - t*1.0;
- // At the last 20%, the camera crosses the window and enters the warm workshop.
- let finalX=x, finalY=y, finalZ=z;
- if(t>.79){
-   const q=(t-.79)/.21;
-   finalX*=1-q*.72;
-   finalY=1.9 + Math.sin(q*Math.PI)*.25;
-   finalZ=-15.1 - q*9.0;
- }
- camera.position.lerp(new THREE.Vector3(finalX,finalY,finalZ),.08);
- const lookZ = t>.79 ? -20.8-(t-.79)/.21*2.2 : -10-18*t;
- camera.lookAt(new THREE.Vector3(Math.sin(t*2)*.5,.7,lookZ));
- // objects float subtly
- orbMeshes.forEach((o,i)=>{o.group.rotation.x+=.0015;o.group.rotation.y+=.003+i*.0004;o.group.position.y=o.data.y+Math.sin(Date.now()*.0007+i)*.12;o.core.scale.setScalar(1+Math.sin(Date.now()*.001+i)*.035)});
- dust.rotation.y+=.00015;
- heroObj.rotation.y=Math.sin(t*2)*.025;
- updateUI();
- renderer.render(scene,camera);
-}
-animate();
 
-addEventListener('resize',()=>{
- camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);
-});
+var p=
+Math.min(
+1,
+distance/130
+);
+
+
+var s=
+Math.min(
+6,
+Math.floor(p*7)
+);
+
+
+step.textContent=
+String(
+s+1
+).padStart(
+2,
+"0"
+);
+
+
+kick.textContent=
+texts[s][0];
+
+
+title.innerHTML=
+texts[s][1];
+
+
+desc.textContent=
+texts[s][2];
+
+
+bar.style.width=
+(p*100)+"%";
+
+
+var best=null;
+
+var bd=99;
+
+
+orbs.forEach(
+function(o){
+
+var d=
+camera.position.distanceTo(
+o.g.position
+);
+
+
+if(d<bd){
+
+bd=d;
+
+best=o;
+
+}
+
+}
+);
+
+
+if(
+best&&
+bd<7&&
+p<.9
+){
+
+info.classList.add(
+"show"
+);
+
+mat.textContent=
+best.d.n;
+
+matText.textContent=
+best.d.t;
+
+}else{
+
+info.classList.remove(
+"show"
+);
+
+}
+
+}
+
+
+/* =========================
+   MAIN LOOP
+========================= */
+
+var last=
+performance.now();
+
+
+function loop(now){
+
+requestAnimationFrame(
+loop
+);
+
+
+var dt=
+Math.min(
+now-last,
+40
+);
+
+
+last=now;
+
+
+/* плавное движение по X */
+
+px+=
+(
+targetX-px
+)*
+Math.min(
+dt*.005,
+1
+);
+
+
+/* объект */
+
+player.position.x=
+px;
+
+
+/* движение вперёд */
+
+player.position.z-=
+.028*dt;
+
+
+/* прогресс */
+
+distance+=
+.028*dt;
+
+
+/* камера */
+
+cameraFollow();
+
+
+/* сферы */
+
+orbs.forEach(
+function(o,i){
+
+o.g.rotation.x+=
+.0015;
+
+o.g.rotation.y+=
+.0025;
+
+o.g.position.y=
+o.d.y+
+Math.sin(
+now*.001+i
+)*.08;
+
+}
+);
+
+
+/* финальное окно */
+
+finale.rotation.y=
+Math.sin(
+now*.0003
+)*.018;
+
+
+/* интерфейс */
+
+updateUI();
+
+
+/* render */
+
+renderer.render(
+scene,
+camera
+);
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+camera.position.set(
+0,
+6.4,
+16
+);
+
+
+/*
+Важно:
+стартуем объект перед камерой,
+чтобы первая сцена гарантированно
+была видна на iPhone.
+*/
+
+player.position.set(
+0,
+1,
+4
+);
+
+
+loop(
+performance.now()
+);
+
+
+/* =========================
+   RESIZE
+========================= */
+
+function resize(){
+
+var w=
+Math.max(
+1,
+innerWidth
+);
+
+var h=
+Math.max(
+1,
+innerHeight
+);
+
+
+camera.aspect=
+w/h;
+
+camera.updateProjectionMatrix();
+
+
+renderer.setPixelRatio(
+
+Math.min(
+devicePixelRatio||1,
+w<=700?1:1.35
+)
+
+);
+
+
+renderer.setSize(
+w,
+h,
+false
+);
+
+}
+
+
+addEventListener(
+"resize",
+resize
+);
+
+
+if(
+window.visualViewport
+){
+
+window.visualViewport.addEventListener(
+"resize",
+resize
+);
+
+}
+
+
+resize();
+
+
+/* =========================
+   LOADING
+========================= */
+
+setTimeout(
+function(){
+
+document.getElementById(
+"loading"
+).style.opacity="0";
+
+},
+700
+);
+
+
+setTimeout(
+function(){
+
+var l=
+document.getElementById(
+"loading"
+);
+
+if(l)l.remove();
+
+},
+1400
+);
+
+
+setTimeout(
+function(){
+
+var h=
+document.getElementById(
+"hint"
+);
+
+if(h)h.style.display="none";
+
+},
+5200
+);
+
+
+}catch(e){
+
+fail(e);
+
+}
+
+})();
+
 </script>
+
 </body>
 </html>
