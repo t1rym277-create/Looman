@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0a08">
+<meta name="description" content="AEON — премиальная работа с деревом: мебель, окна, панели и CNC-резьба.">
+<title>AEON — Дерево, которое становится частью дома</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<!-- CDN dependencies. The page also contains fallbacks so a missing animation library does not blank the site. -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<script src="https://unpkg.com/framer-motion@11.11.17/dist/framer-motion.js" crossorigin></script>
+
+<style>
+:root{
+  --bg:#0b0a08;--panel:rgba(24,22,18,.52);--line:rgba(255,255,255,.13);
+  --text:#f4f0e8;--muted:#a9a39a;--wood:#a77b4c;--wood2:#d1a16b;
+  --max:1240px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;background:
+ radial-gradient(circle at 76% 8%,rgba(151,108,65,.14),transparent 26rem),
+ radial-gradient(circle at 10% 48%,rgba(255,255,255,.035),transparent 28rem),
+ var(--bg);color:var(--text);font-family:Barlow,system-ui,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");mix-blend-mode:soft-light}
+::selection{background:#eee5d6;color:#17130f}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.serif{font-family:"Instrument Serif",Georgia,serif}
+.wrap{width:min(calc(100% - 40px),var(--max));margin:auto}
+.nav{
+ position:fixed;z-index:50;top:16px;left:50%;transform:translateX(-50%);
+ width:min(calc(100% - 28px),1180px);height:64px;border:1px solid rgba(255,255,255,.12);
+ background:rgba(12,11,9,.58);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+ border-radius:20px;display:flex;align-items:center;justify-content:space-between;padding:0 10px 0 20px;
+ box-shadow:0 16px 60px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.08)
+}
+.logo{font-size:14px;letter-spacing:.28em;font-weight:600}
+.navlinks{display:flex;gap:26px;color:#aaa49b;font-size:13px}
+.navlinks a{transition:color .25s}.navlinks a:hover{color:#fff}
+.pill{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);border-radius:999px;padding:10px 16px;color:#eee;transition:.25s}
+.pill:hover{background:rgba(255,255,255,.12);transform:translateY(-1px)}
+.hero{min-height:100svh;position:relative;display:grid;place-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:-3;background:
+ linear-gradient(90deg,rgba(8,7,6,.92) 0%,rgba(8,7,6,.52) 44%,rgba(8,7,6,.38) 100%),
+ linear-gradient(0deg,#0b0a08 0%,transparent 30%,rgba(0,0,0,.1) 100%)}
+.hero-media{position:absolute;inset:0;z-index:-4;width:100%;height:100%;object-fit:cover;opacity:.58;filter:saturate(.72) contrast(1.05)}
+.hero-grid{position:absolute;inset:0;z-index:-2;opacity:.12;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:80px 80px;mask-image:linear-gradient(to bottom,black,transparent 72%)}
+.hero-content{padding-top:88px;width:min(calc(100% - 40px),var(--max))}
+.eyebrow{display:flex;align-items:center;gap:10px;color:#b7b0a6;text-transform:uppercase;letter-spacing:.2em;font-size:11px}
+.dot{width:6px;height:6px;border-radius:50%;background:#c79b67;box-shadow:0 0 18px #c79b67}
+h1{font-size:clamp(62px,10vw,148px);line-height:.82;font-weight:400;letter-spacing:-.055em;margin:24px 0 28px;max-width:950px}
+h1 em{color:#b89468}
+.hero-copy{max-width:470px;color:#aaa39a;font-size:16px;line-height:1.65}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:999px;padding:14px 20px;border:1px solid rgba(255,255,255,.14);transition:.3s}
+.cta.primary{background:#eee7dc;color:#17130f;border-color:#eee7dc}.cta.primary:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(230,215,192,.12)}
+.cta.ghost{background:rgba(255,255,255,.04);color:#eee}.cta.ghost:hover{background:rgba(255,255,255,.09)}
+.hero-foot{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);width:min(calc(100% - 40px),var(--max));display:flex;justify-content:space-between;color:#777269;font-size:11px;text-transform:uppercase;letter-spacing:.16em}
+.section{padding:140px 0;position:relative}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:55px}
+.kicker{color:#9b8d7b;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.title{font-family:"Instrument Serif",serif;font-size:clamp(48px,6vw,82px);font-weight:400;line-height:.92;letter-spacing:-.035em;margin:10px 0 0}
+.lead{max-width:420px;color:#918b83;line-height:1.65;font-size:15px}
+.glass{background:linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.018));border:1px solid var(--line);box-shadow:inset 0 1px rgba(255,255,255,.06),0 25px 80px rgba(0,0,0,.16);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.material-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{border-radius:24px;min-height:310px;padding:24px;position:relative;overflow:hidden}
+.material-swatch{position:absolute;inset:0;opacity:.68}
+.oak{background:radial-gradient(circle at 20% 20%,#d5b181,transparent 30%),repeating-linear-gradient(6deg,#765333 0 3px,#a97a4e 4px 8px,#68482f 9px 11px,#bc8f5d 12px 18px)}
+.ash{background:radial-gradient(circle at 65% 10%,#eee3ce,transparent 35%),repeating-linear-gradient(95deg,#b6a894 0 3px,#d6cab5 4px 10px,#968a79 11px 13px)}
+.walnut{background:radial-gradient(circle at 70% 20%,#8d5c39,transparent 30%),repeating-linear-gradient(12deg,#2c1b13 0 4px,#593822 5px 10px,#382116 11px 14px)}
+.larch{background:radial-gradient(circle at 35% 30%,#cda06b,transparent 30%),repeating-linear-gradient(82deg,#725235 0 2px,#c39461 3px 9px,#98704a 10px 13px)}
+.card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,rgba(4,3,2,.9) 100%)}
+.card-info{position:absolute;z-index:2;bottom:20px;left:22px;right:22px}
+.card-info h3{margin:0 0 5px;font-family:"Instrument Serif",serif;font-size:32px;font-weight:400}.card-info p{margin:0;color:#b5aea4;font-size:13px}
+.index{position:absolute;z-index:2;right:20px;top:18px;color:rgba(255,255,255,.55);font-size:11px;letter-spacing:.15em}
+.machine-wrap{border-radius:32px;min-height:650px;overflow:hidden;position:relative;background:linear-gradient(145deg,#15130f,#080806)}
+.machine-bg{position:absolute;inset:0;background:radial-gradient(circle at 52% 32%,rgba(191,139,83,.2),transparent 25%),linear-gradient(180deg,rgba(255,255,255,.025),transparent 35%)}
+.machine{position:absolute;inset:0;display:grid;place-items:center}
+.machine svg{width:min(860px,90%);height:auto;filter:drop-shadow(0 30px 55px rgba(0,0,0,.5))}
+.machine-copy{position:absolute;left:34px;bottom:30px;max-width:350px;z-index:4}.machine-copy h3{font-family:"Instrument Serif";font-size:42px;font-weight:400;margin:8px 0}.machine-copy p{color:#999187;line-height:1.6;margin:0}
+.status{position:absolute;right:28px;top:26px;z-index:4;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.24);backdrop-filter:blur(14px);padding:9px 12px;border-radius:999px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#aaa}
+.status i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#b6d07a;box-shadow:0 0 14px #b6d07a;margin-right:7px}
+.product-grid{display:grid;grid-template-columns:1.35fr .8fr .8fr;grid-auto-rows:260px;gap:12px}
+.product{border-radius:24px;padding:24px;position:relative;overflow:hidden;background:#15120f}
+.product.large{grid-row:span 2}.product:nth-child(2){background:linear-gradient(145deg,#b68a5b,#503a28)}.product:nth-child(3){background:linear-gradient(145deg,#d5c1a0,#625542)}.product:nth-child(4){background:linear-gradient(145deg,#513525,#17100d)}
+.product:before{content:"";position:absolute;inset:-30%;background:repeating-linear-gradient(100deg,transparent 0 18px,rgba(255,255,255,.055) 19px 20px);transform:rotate(-9deg);opacity:.7}
+.product-label{position:absolute;z-index:2;left:22px;bottom:20px}.product-label small{display:block;color:rgba(255,255,255,.58);text-transform:uppercase;letter-spacing:.15em;font-size:9px;margin-bottom:5px}.product-label strong{font-family:"Instrument Serif";font-size:34px;font-weight:400}
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.11);border-radius:24px;overflow:hidden}
+.step{background:#100f0d;padding:28px;min-height:240px}.step:not(:last-child){border-right:1px solid rgba(255,255,255,.08)}.num{font-family:"Instrument Serif";font-size:48px;color:#9d7650}.step h3{font-size:17px;font-weight:500;margin:22px 0 8px}.step p{color:#858078;font-size:13px;line-height:1.6;margin:0}
+.contact{padding:100px 30px;border-radius:32px;text-align:center;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 0%,rgba(183,137,84,.2),transparent 42%),linear-gradient(145deg,#17130f,#0d0c0a)}
+.contact:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:linear-gradient(to bottom,black,transparent)}
+.contact>*{position:relative}.contact .title{max-width:800px;margin:12px auto 22px}.contact p{color:#918b83;max-width:500px;margin:0 auto 30px;line-height:1.6}
+footer{padding:40px 0 55px;color:#68635c;font-size:11px;letter-spacing:.12em;text-transform:uppercase;display:flex;justify-content:space-between}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:none}
+.machine-glow{animation:glow 2.2s ease-in-out infinite}.laser-head{animation:head 5s ease-in-out infinite}.beam{animation:beam .9s ease-in-out infinite alternate}.dust{animation:dust 2.8s linear infinite}
+@keyframes glow{50%{opacity:.55}}@keyframes head{0%,100%{transform:translateX(-160px)}50%{transform:translateX(160px)}}@keyframes beam{to{opacity:.35}}@keyframes dust{from{transform:translateY(0);opacity:.1}50%{opacity:.75}to{transform:translateY(-18px);opacity:0}}
+@media(max-width:900px){
+ .navlinks{display:none}.nav{height:58px}.hero-content{padding-top:80px}h1{font-size:clamp(58px,16vw,100px)}
+ .material-grid{grid-template-columns:1fr 1fr}.product-grid{grid-template-columns:1fr 1fr;grid-auto-rows:220px}.product.large{grid-row:span 2}
+ .process{grid-template-columns:1fr 1fr}.step:nth-child(2){border-right:0}.step:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.08)}
+ .machine-wrap{min-height:560px}.section{padding:100px 0}
+}
+@media(max-width:560px){
+ .wrap{width:min(calc(100% - 28px),var(--max))}.hero-content{width:min(calc(100% - 28px),var(--max))}
+ .hero-foot{width:calc(100% - 28px)}.hero-foot span:last-child{display:none}
+ .material-grid,.product-grid,.process{grid-template-columns:1fr}.product.large{grid-row:span 1;min-height:300px}.product{min-height:230px}
+ .process .step{border-right:0!important;border-bottom:1px solid rgba(255,255,255,.08)}.process .step:last-child{border-bottom:0}
+ .section-head{display:block;margin-bottom:35px}.lead{margin-top:20px}.machine-wrap{min-height:480px;border-radius:24px}.machine-copy{left:20px;right:20px;bottom:20px}.machine-copy h3{font-size:34px}
+ .status{right:15px;top:15px}.contact{padding:70px 20px;border-radius:24px}footer{display:block;line-height:2}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+(function(){
+  window.__BOOT_ERRORS__=[];
+  window.addEventListener("error",function(e){
+    window.__BOOT_ERRORS__.push(e.message||"Unknown error");
+  });
+})();
+</script>
+
+<script type="text/babel" data-presets="react">
+const h = React.createElement;
+const FM = window.FramerMotion || window.Motion || {};
+const realMotion = FM.motion || {};
+const motion = Object.keys(realMotion).length ? realMotion : new Proxy({},{
+  get:()=>({initial:{},animate:{},whileInView:{},whileHover:{},transition:{}})
+});
+const AnimatePresence = FM.AnimatePresence || ((p)=>p.children);
+
+function Reveal({children,delay=0,className=""}){
+  const [show,setShow]=React.useState(false);
+  const ref=React.useRef(null);
+  React.useEffect(()=>{
+    const el=ref.current;if(!el)return;
+    const io=new IntersectionObserver(([e])=>{if(e.isIntersecting){setShow(true);io.disconnect()}},{threshold:.12});
+    io.observe(el);return()=>io.disconnect();
+  },[]);
+  return h("div",{ref,className:`reveal ${show?"visible":""} ${className}`,style:{transitionDelay:`${delay}ms`}},children);
+}
+function Icon({name}){
+ const paths={arrow:"M5 12h14M13 6l6 6-6 6",plus:"M12 5v14M5 12h14"};
+ return h("svg",{width:17,height:17,viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"1.6",strokeLinecap:"round",strokeLinejoin:"round"},h("path",{d:paths[name]||paths.arrow}));
+}
+function AnimatedMachine(){
+ return h("div",{className:"machine-wrap glass"},
+  h("div",{className:"machine-bg"}),
+  h("div",{className:"status"},h("i")," станок работает"),
+  h("div",{className:"machine"},
+   h("svg",{viewBox:"0 0 900 520",role:"img","aria-label":"Анимированный лазерный станок"},
+    h("defs",null,
+      h("linearGradient",{id:"metal",x1:"0",y1:"0",x2:"0",y2:"1"},h("stop",{offset:"0",stopColor:"#777"}),h("stop",{offset:".5",stopColor:"#262626"}),h("stop",{offset:"1",stopColor:"#111"})),
+      h("linearGradient",{id:"wood",x1:"0",y1:"0",x2:"1",y2:"1"},h("stop",{offset:"0",stopColor:"#c99b67"}),h("stop",{offset:"1",stopColor:"#4c301d"})),
+      h("radialGradient",{id:"laser"},h("stop",{offset:"0",stopColor:"#fff"}),h("stop",{offset:".25",stopColor:"#ffdca4"}),h("stop",{offset:"1",stopColor:"#c17a37",stopOpacity:"0"}))
+    ),
+    h("ellipse",{cx:450,cy:445,rx:310,ry:34,fill:"#000",opacity:".45"}),
+    h("rect",{x:170,y:170,width:560,height:250,rx:18,fill:"url(#metal)",stroke:"#8c8c8c",strokeOpacity:".35"}),
+    h("rect",{x:195,y:195,width:510,height:205,rx:10,fill:"#0b0b0b",stroke:"#b0b0b0",strokeOpacity:".12"}),
+    h("rect",{x:245,y:270,width:410,height:92,rx:5,fill:"url(#wood)",stroke:"#e0b47b",strokeOpacity:".3"}),
+    h("g",{className:"laser-head"},
+      h("rect",{x:390,y:140,width:120,height:38,rx:8,fill:"#1a1a1a",stroke:"#a8a8a8",strokeOpacity:".35"}),
+      h("rect",{x:445,y:168,width:12,height:65,fill:"#aaa"}),
+      h("path",{className:"beam",d:"M451 228L451 302",stroke:"#e8b56f",strokeWidth:"3"}),
+      h("circle",{className:"machine-glow",cx:451,cy:305,r:25,fill:"url(#laser)"})
+    ),
+    h("path",{d:"M245 315 C330 285 350 340 420 315 S535 285 655 315",fill:"none",stroke:"#f0c080",strokeOpacity:".75",strokeWidth:"2",strokeDasharray:"5 8"}),
+    h("g",{className:"dust",fill:"#e3b57a"},
+      [0,1,2,3,4,5,6,7].map(i=>h("circle",{key:i,cx:300+i*43,cy:300-(i%3)*7,r:2.2,opacity:.5}))
+    ),
+    h("rect",{x:215,y:110,width:470,height:30,rx:8,fill:"#111",stroke:"#777",strokeOpacity:".3"}),
+    h("rect",{x:235,y:118,width:430,height:7,rx:4,fill:"#777",opacity:".3"})
+   )
+  ),
+  h("div",{className:"machine-copy"},
+   h("div",{className:"kicker"},"Точная обработка"),
+   h("h3",null,"Линия, которая знает дерево."),
+   h("p",null,"CNC и лазер работают по цифровой модели: чистый рез, повторяемость и детали, которые невозможно получить вручную.")
+  )
+ );
+}
+
+function App(){
+ const materials=[
+  ["01","Дуб","oak","Выразительная текстура и высокая стойкость."],
+  ["02","Ясень","ash","Светлая структура для современного интерьера."],
+  ["03","Орех","walnut","Глубокий оттенок и премиальная фактура."],
+  ["04","Лиственница","larch","Тёплая древесина для окон и фасадов."]
+ ];
+ return h(React.Fragment,null,
+  h("nav",{className:"nav"},
+    h("a",{href:"#top",className:"logo"},"AEON"),
+    h("div",{className:"navlinks"},["Материалы","Производство","Изделия","Процесс"].map((x,i)=>h("a",{href:["#materials","#production","#products","#process"][i],key:x},x))),
+    h("a",{href:"#contact",className:"pill"},"Обсудить проект")
+  ),
+  h("main",{id:"top"},
+   h("section",{className:"hero"},
+    h("video",{className:"hero-media",autoPlay:true,muted:true,playsInline:true,loop:true,poster:"",onError:e=>e.currentTarget.style.display="none"},
+      h("source",{src:"https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4",type:"video/mp4"})
+    ),
+    h("div",{className:"hero-bg"}),h("div",{className:"hero-grid"}),
+    h("div",{className:"hero-content"},
+      h("div",{className:"eyebrow"},h("span",{className:"dot"})," мебель · окна · интерьер"),
+      h("h1",null,"Дерево,",h("br"),"которое становится ",h("em",null,"частью дома.")),
+      h("p",{className:"hero-copy"},"Проектируем и производим изделия из натурального дерева — от одной детали до цельного интерьера. Без компромиссов в геометрии, материале и исполнении."),
+      h("div",{className:"hero-actions"},
+       h("a",{href:"#products",className:"cta primary"},"Смотреть изделия",h(Icon,{name:"arrow"})),
+       h("a",{href:"#process",className:"cta ghost"},"Как мы работаем")
+      )
+    ),
+    h("div",{className:"hero-foot"},h("span",null,"01 / 06"),h("span",null,"Stavropol · Russia"))
+   ),
+   h("section",{id:"materials",className:"section"},
+    h("div",{className:"wrap"},
+     h(Reveal,null,h("div",{className:"section-head"},h("div",null,h("div",{className:"kicker"},"Материалы / 01"),h("h2",{className:"title"},"Фактура, которую<br/>хочется потрогать.")),h("p",{className:"lead"},"Мы выбираем древесину не только по оттенку. Важны плотность, рисунок волокон, стабильность и то, как материал будет стареть в реальном доме."))),
+     h("div",{className:"material-grid"},materials.map(([n,name,cls,desc],i)=>h(Reveal,{delay:i*70,key:name},h("article",{className:"card glass"},h("div",{className:`material-swatch ${cls}`}),h("span",{className:"index"},n),h("div",{className:"card-info"},h("h3",null,name),h("p",null,desc)))))
+    )
+   ),
+   h("section",{id:"production",className:"section"},
+    h("div",{className:"wrap"},
+     h(Reveal,null,h("div",{className:"section-head"},h("div",null,h("div",{className:"kicker"},"Производство / 02"),h("h2",{className:"title"},"Технология без<br/>лишнего шума.")),h("p",{className:"lead"},"Цифровое проектирование, точная механика и ручная доводка сходятся в одной производственной линии."))),
+     h(Reveal,{delay:80},h(AnimatedMachine))
+    )
+   ),
+   h("section",{id:"products",className:"section"},
+    h("div",{className:"wrap"},
+     h(Reveal,null,h("div",{className:"section-head"},h("div",null,h("div",{className:"kicker"},"Изделия / 03"),h("h2",{className:"title"},"Сделано под<br/>ваше пространство.")),h("p",{className:"lead"},"Мебель, окна, стеновые панели, декоративные элементы и сложная резьба — всё в одной системе проектирования."))),
+     h("div",{className:"product-grid"},
+      [["large","Мебель","01"],["","Окна","02"],["","Панели","03"],["","CNC / лазер","04"]].map(([size,name,n],i)=>h(Reveal,{delay:i*70,key:name},h("article",{className:`product ${size} glass`},h("div",{className:"product-label"},h("small",null,n),h("strong",null,name))))
+     )
+    )
+   ),
+   h("section",{id:"process",className:"section"},
+    h("div",{className:"wrap"},
+     h(Reveal,null,h("div",{className:"section-head"},h("div",null,h("div",{className:"kicker"},"Процесс / 04"),h("h2",{className:"title"},"От идеи до<br/>установки.")),h("p",{className:"lead"},"Один ответственный процесс — от первого эскиза до финальной подгонки на объекте."))),
+     h(Reveal,{delay:70},h("div",{className:"process"},[
+      ["01","Слушаем","Фиксируем задачу, размеры, стиль и ограничения пространства."],
+      ["02","Проектируем","Создаём 3D-модель и согласовываем каждую видимую деталь."],
+      ["03","Производим","CNC, лазер и ручная обработка превращают модель в изделие."],
+      ["04","Устанавливаем","Доставляем, монтируем и доводим всё до идеальной посадки."]
+     ].map(x=>h("article",{className:"step",key:x[0]},h("div",{className:"num"},x[0]),h("h3",null,x[1]),h("p",null,x[2])))))
+    )
+   ),
+   h("section",{id:"contact",className:"section"},
+    h("div",{className:"wrap"},
+     h(Reveal,null,h("div",{className:"contact glass"},h("div",{className:"kicker"},"Проект / 05"),h("h2",{className:"title"},"Давайте сделаем<br/>вещь надолго."),h("p",null,"Расскажите, что вы хотите создать. Мы оценим задачу, предложим материал и подготовим следующий шаг."),h("a",{className:"cta primary",href:"mailto:hello@example.com"},"Обсудить проект",h(Icon,{name:"arrow"}))))
+    )
+   )
+  ),
+  h("footer",{className:"wrap"},h("span",null,"AEON / Wood & Interior"),h("span",null,"© 2026"))
+ );
+}
+function boot(){
+ const root=document.getElementById("root");
+ if(!window.React||!window.ReactDOM){root.innerHTML='<div style="padding:40px;font-family:Arial;color:white;background:#0b0a08;min-height:100vh">Не загрузился React. Проверьте интернет и откройте файл повторно.</div>';return}
+ ReactDOM.createRoot(root).render(h(App));
+}
+if(window.Babel){boot()}else{document.addEventListener("DOMContentLoaded",boot)}
+</script>
+</body>
+</html>
