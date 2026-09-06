@@ -1,35 +1,3018 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>NovaAI — Manufacturing</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="NovaAI — wood manufacturing, CNC, laser technology, windows, furniture and interiors.">
+
+<title>novaai — wood manufacturing</title>
+
 <style>
-:root{color-scheme:dark}*{box-sizing:border-box}html{scroll-behavior:auto}body{margin:0;background:#090909;color:#fff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}a,button{font:inherit;color:inherit}a{text-decoration:none}.bg{position:fixed;inset:0;z-index:0;background:#090909;overflow:hidden}.bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.92}.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.58),transparent 48%,rgba(0,0,0,.35)),linear-gradient(180deg,rgba(0,0,0,.5),transparent 35%,transparent 68%,rgba(0,0,0,.65));}.vignette{position:absolute;inset:0;background:radial-gradient(circle at center,transparent 25%,rgba(0,0,0,.38) 100%)}.page{position:relative;z-index:5}.nav{position:fixed;z-index:30;top:0;left:0;right:0;height:68px;padding:0 24px;display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,.15);background:rgba(10,10,10,.16);backdrop-filter:blur(16px)}.logo{font-size:20px;letter-spacing:-.05em;font-weight:500;display:flex;gap:9px;align-items:center}.hex{width:22px;height:22px;border:1.5px solid #fff;clip-path:polygon(25% 6.7%,75% 6.7%,100% 50%,75% 93.3%,25% 93.3%,0 50%)}nav{display:flex;gap:30px;margin-left:auto;margin-right:30px}nav a,.cta{font-size:13px;color:rgba(255,255,255,.82)}.cta{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.14);padding:9px 15px;border-radius:8px}.menu{display:none;margin-left:auto;width:38px;height:38px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);border-radius:8px}.section{min-height:100vh;min-height:100svh;padding:104px 24px 48px;display:flex;flex-direction:column;justify-content:space-between}.hero .top,.hero .bottom{display:flex;justify-content:space-between;gap:30px}.services{display:grid;gap:7px}.mono{font-size:10px;letter-spacing:.16em;text-transform:uppercase}.services .mono{font-size:11px}.intro{max-width:400px;text-align:right}.intro p{font-size:19px;line-height:1.55;margin:0;text-shadow:0 3px 10px #000}.center{text-align:center;max-width:800px;width:100%;margin:auto;padding:7vh 0}.kicker{color:rgba(255,255,255,.62)}h1,h2{font-size:clamp(3.4rem,7.8vw,7rem);line-height:.99;letter-spacing:-.065em;font-weight:400;margin:10px 0}em{font-style:normal;color:rgba(255,255,255,.6)}.badge{display:inline-block;border-left:2px solid white;background:rgba(255,255,255,.13);padding:7px 12px;font-size:10px;letter-spacing:.16em;margin-bottom:17px;backdrop-filter:blur(12px)}.sub{max-width:500px;margin:0 auto;color:rgba(255,255,255,.74);font-size:14px;line-height:1.65}.contact{display:flex;align-items:center;gap:13px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(14px);padding:11px;border-radius:12px}.contact img{width:68px;height:84px;object-fit:cover;border-radius:8px}.contact strong{font-size:13px;font-weight:500}.contact small{display:block;color:rgba(255,255,255,.58);margin-top:4px}.contact button{border:0;border-radius:999px;background:#fff;color:#000;padding:7px 13px;margin-top:8px;font-size:11px}.bottom-copy{max-width:470px;color:rgba(255,255,255,.72);font-size:13px;line-height:1.6}.spacer{height:75vh}.story{min-height:90vh;padding-top:100px}.story-grid{display:flex;justify-content:space-between;gap:60px;align-items:end}.story-copy{max-width:620px}.body{font-size:16px;line-height:1.65;color:rgba(255,255,255,.76);max-width:540px}.buttons{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}.btn{border-radius:999px;padding:10px 19px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.11);font-size:13px}.btn.primary{background:#fff;color:#000;border-color:#fff}.cap{width:min(500px,100%);border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.09);backdrop-filter:blur(16px);border-radius:16px;padding:0 22px}.row{padding:18px 0;border-bottom:1px solid rgba(255,255,255,.14);display:grid;grid-template-columns:30px 1fr;gap:18px}.row:last-child{border:0}.row-title{display:flex;justify-content:space-between;font-size:17px}.row p{margin:5px 0 0;color:rgba(255,255,255,.65);font-size:13px;line-height:1.5}.num{color:rgba(255,255,255,.45)}.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}.reveal.show{opacity:1;transform:none}.final{min-height:95vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:18vh 24px}.final h3{font-size:clamp(2.8rem,6.5vw,6rem);line-height:1.03;font-weight:400;letter-spacing:-.06em;margin:15px 0}.final p{color:rgba(255,255,255,.62);font-size:13px}footer{padding:25px 24px 35px;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;color:rgba(255,255,255,.55);font-size:12px}.process{position:fixed;inset:0;z-index:2;pointer-events:none}.process svg{position:absolute;width:min(620px,76vw);height:min(720px,86vh);left:50%;top:50%;transform:translate(-50%,-50%);opacity:.32;filter:drop-shadow(0 16px 35px rgba(0,0,0,.5));transition:transform .12s linear}.progress{position:absolute;right:24px;top:50%;height:160px;width:1px;background:rgba(255,255,255,.2);transform:translateY(-50%)}.progress i{display:block;width:100%;height:100%;background:white;transform-origin:top;transform:scaleY(0)}.readout{position:absolute;left:50%;bottom:7vh;transform:translateX(-50%);width:min(390px,calc(100% - 45px));text-align:center;text-shadow:0 4px 15px #000}.readout strong{display:block;font-size:14px;margin-top:5px}.readout p{margin:5px 0;color:rgba(255,255,255,.66);font-size:12px;line-height:1.5}.mobile-panel{display:none}
-@media(max-width:767px){.nav{padding:0 15px}.nav nav,.cta{display:none}.menu{display:block}.section{padding-left:18px;padding-right:18px}.hero .top,.hero .bottom{flex-direction:column}.intro{text-align:left;max-width:none}.center{padding:5vh 0}h1,h2{font-size:clamp(3rem,16vw,5.1rem)}.contact{width:min(390px,100%)}.process svg{width:125vw;height:75vh;opacity:.23}.progress{right:10px;height:120px}.readout{bottom:5vh}.story-grid{flex-direction:column;align-items:stretch}.cap{width:100%;padding:0 16px}.spacer{height:55vh}.final{justify-content:flex-start;text-align:left}.mobile-panel{position:absolute;top:68px;left:12px;right:12px;padding:9px;display:none;background:rgba(10,10,10,.78);border:1px solid rgba(255,255,255,.15);border-radius:14px;backdrop-filter:blur(20px)}.mobile-panel.open{display:grid}.mobile-panel a{padding:12px;border-radius:8px}.mobile-panel a:hover{background:rgba(255,255,255,.08)}footer{flex-direction:column;gap:10px}}
-@media(prefers-reduced-motion:reduce){.reveal{transition:none}.process{display:none}}
+/* =========================================================
+   NOVAAI — WOOD MANUFACTURING
+   Single-file production build
+   ========================================================= */
+
+:root{
+    --bg:#050505;
+    --white:#f5f5f2;
+    --muted:rgba(245,245,242,.58);
+    --soft:rgba(245,245,242,.12);
+    --line:rgba(245,245,242,.16);
+    --ease:cubic-bezier(.22,.61,.36,1);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    background:var(--bg);
+    color:var(--white);
+    scroll-behavior:auto;
+}
+
+body{
+    min-width:320px;
+    background:var(--bg);
+    color:var(--white);
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Helvetica,
+        Arial,
+        sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+}
+
+button,
+a{
+    -webkit-tap-highlight-color:transparent;
+}
+
+button{
+    font-family:inherit;
+}
+
+a{
+    color:inherit;
+    text-decoration:none;
+}
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(255,255,255,.055),
+            transparent 38%
+        ),
+        #050505;
+}
+
+.background video{
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:.08;
+    filter:
+        grayscale(1)
+        contrast(1.2)
+        brightness(.55);
+}
+
+.background-overlay{
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.96) 0%,
+            rgba(0,0,0,.68) 42%,
+            rgba(0,0,0,.88) 100%
+        ),
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,.88),
+            transparent 35%,
+            transparent 65%,
+            rgba(0,0,0,.96)
+        );
+}
+
+.noise{
+    position:absolute;
+    inset:-50%;
+    pointer-events:none;
+    opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    transform:rotate(7deg);
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.nav{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:76px;
+    z-index:100;
+
+    display:flex;
+    align-items:center;
+
+    padding:
+        0
+        max(28px,5vw);
+
+    border-bottom:1px solid var(--line);
+
+    background:rgba(5,5,5,.48);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    font-size:22px;
+    font-weight:450;
+    letter-spacing:-.06em;
+}
+
+.logo-mark{
+    width:22px;
+    height:22px;
+
+    border:1.5px solid white;
+
+    clip-path:
+        polygon(
+            25% 7%,
+            75% 7%,
+            100% 50%,
+            75% 93%,
+            25% 93%,
+            0 50%
+        );
+}
+
+.desktop-nav{
+    margin-left:auto;
+
+    display:flex;
+    align-items:center;
+    gap:30px;
+}
+
+.desktop-nav a{
+    position:relative;
+
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.16em;
+
+    color:rgba(255,255,255,.65);
+
+    transition:
+        color .3s ease;
+}
+
+.desktop-nav a::after{
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    right:0;
+    bottom:-7px;
+
+    height:1px;
+
+    background:white;
+
+    transform:scaleX(0);
+    transform-origin:left;
+
+    transition:transform .3s var(--ease);
+}
+
+.desktop-nav a:hover{
+    color:white;
+}
+
+.desktop-nav a:hover::after{
+    transform:scaleX(1);
+}
+
+.nav-button{
+    margin-left:30px;
+
+    padding:11px 16px;
+
+    border:1px solid var(--line);
+    border-radius:9px;
+
+    background:rgba(255,255,255,.07);
+
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+
+    transition:
+        background .3s ease,
+        border-color .3s ease;
+}
+
+.nav-button:hover{
+    background:rgba(255,255,255,.14);
+    border-color:rgba(255,255,255,.32);
+}
+
+.menu-button{
+    display:none;
+
+    margin-left:auto;
+
+    width:46px;
+    height:46px;
+
+    border:1px solid var(--line);
+    border-radius:12px;
+
+    background:rgba(255,255,255,.07);
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:22px;
+}
+
+.mobile-menu{
+    display:none;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero{
+    position:relative;
+    z-index:2;
+
+    min-height:100svh;
+
+    padding:
+        125px
+        max(20px,5vw)
+        40px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.hero-top{
+    display:grid;
+    grid-template-columns:1fr minmax(280px,500px);
+    gap:50px;
+}
+
+.eyebrow{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.22em;
+
+    color:rgba(255,255,255,.72);
+}
+
+.hero-description{
+    font-size:19px;
+    line-height:1.55;
+
+    color:rgba(255,255,255,.75);
+}
+
+.hero-center{
+    max-width:1150px;
+    width:100%;
+
+    margin:
+        8vh
+        auto
+        5vh;
+}
+
+.hero-kicker{
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.3em;
+
+    color:var(--muted);
+
+    margin-bottom:24px;
+}
+
+.hero-title{
+    font-size:
+        clamp(
+            4.5rem,
+            11vw,
+            11rem
+        );
+
+    line-height:.83;
+
+    font-weight:350;
+
+    letter-spacing:-.085em;
+}
+
+.hero-title span{
+    color:rgba(255,255,255,.4);
+}
+
+.hero-subtitle{
+    max-width:650px;
+
+    margin-top:35px;
+
+    font-size:15px;
+    line-height:1.7;
+
+    color:var(--muted);
+}
+
+.hero-bottom{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+
+    gap:30px;
+}
+
+.hero-badge{
+    display:inline-block;
+
+    padding:
+        11px
+        16px;
+
+    border-left:2px solid white;
+
+    background:rgba(255,255,255,.08);
+
+    font-size:10px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+}
+
+.hero-note{
+    max-width:500px;
+
+    margin-top:14px;
+
+    font-size:13px;
+    line-height:1.6;
+
+    color:var(--muted);
+}
+
+.scroll-indicator{
+    text-align:right;
+
+    color:var(--muted);
+
+    font-size:10px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+}
+
+.scroll-indicator strong{
+    display:block;
+
+    margin-top:9px;
+
+    color:white;
+
+    font-size:12px;
+}
+
+/* =========================================================
+   MAIN SCROLL SCENE
+   ========================================================= */
+
+.process{
+    position:relative;
+
+    height:700vh;
+
+    z-index:3;
+}
+
+.sticky-scene{
+    position:sticky;
+    top:0;
+
+    height:100svh;
+
+    overflow:hidden;
+}
+
+.scene-stage{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    pointer-events:none;
+}
+
+/* =========================================================
+   ARTWORK
+   ========================================================= */
+
+.artwork{
+    width:min(700px,70vw);
+    height:min(700px,78vh);
+
+    overflow:visible;
+
+    opacity:.95;
+
+    transform:
+        translate3d(8vw,0,0)
+        scale(.94);
+
+    transition:
+        transform .25s linear;
+}
+
+.art-group{
+    transform-box:fill-box;
+    transform-origin:center;
+}
+
+.svg-thin{
+    fill:none;
+    stroke:rgba(255,255,255,.2);
+    stroke-width:2;
+}
+
+.svg-line{
+    fill:none;
+    stroke:rgba(255,255,255,.75);
+    stroke-width:3;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.svg-bright{
+    fill:none;
+    stroke:white;
+    stroke-width:4;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.svg-fill{
+    fill:rgba(255,255,255,.055);
+    stroke:rgba(255,255,255,.48);
+    stroke-width:2;
+}
+
+/* tree */
+
+.tree-leaf{
+    transform-box:fill-box;
+    transform-origin:center;
+
+    animation:
+        leafMove
+        4.8s
+        ease-in-out
+        infinite;
+}
+
+.tree-leaf:nth-of-type(2){
+    animation-delay:-1.3s;
+}
+
+.tree-leaf:nth-of-type(3){
+    animation-delay:-2.7s;
+}
+
+.tree-leaf:nth-of-type(4){
+    animation-delay:-3.5s;
+}
+
+@keyframes leafMove{
+    0%,100%{
+        transform:rotate(-1deg);
+    }
+
+    50%{
+        transform:rotate(2deg);
+    }
+}
+
+/* machine details */
+
+.machine-head{
+    transform-box:fill-box;
+    transform-origin:center;
+}
+
+/* =========================================================
+   SCENE TEXT
+   ========================================================= */
+
+.scene-copy{
+    position:absolute;
+
+    left:max(20px,5vw);
+    top:50%;
+
+    width:min(480px,42vw);
+
+    transform:translateY(-50%);
+
+    z-index:10;
+}
+
+.scene-number{
+    font-size:10px;
+
+    letter-spacing:.25em;
+
+    color:var(--muted);
+}
+
+.scene-divider{
+    width:75px;
+    height:1px;
+
+    margin:
+        22px
+        0
+        22px;
+
+    background:white;
+}
+
+.scene-title{
+    font-size:
+        clamp(
+            3.8rem,
+            7vw,
+            7.5rem
+        );
+
+    line-height:.87;
+
+    font-weight:350;
+
+    letter-spacing:-.075em;
+}
+
+.scene-title span{
+    color:rgba(255,255,255,.38);
+}
+
+.scene-description{
+    max-width:440px;
+
+    margin-top:25px;
+
+    font-size:14px;
+    line-height:1.7;
+
+    color:var(--muted);
+}
+
+.scene-status{
+    position:absolute;
+
+    right:max(20px,5vw);
+    bottom:7vh;
+
+    text-align:right;
+
+    z-index:20;
+}
+
+.progress-line{
+    width:1px;
+    height:150px;
+
+    margin-left:auto;
+    margin-bottom:12px;
+
+    background:rgba(255,255,255,.18);
+}
+
+.progress-fill{
+    display:block;
+
+    width:100%;
+    height:100%;
+
+    background:white;
+
+    transform:
+        scaleY(0);
+
+    transform-origin:top;
+}
+
+.percent{
+    font-size:10px;
+    letter-spacing:.2em;
+
+    color:var(--muted);
+}
+
+.scene-bottom{
+    position:absolute;
+
+    left:max(20px,5vw);
+    right:max(20px,5vw);
+    bottom:6vh;
+
+    display:flex;
+    justify-content:space-between;
+
+    font-size:9px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+
+    color:var(--muted);
+}
+
+/* =========================================================
+   LASER BEAM
+   ========================================================= */
+
+.laser-beam{
+    position:absolute;
+
+    width:2px;
+    height:110px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            white,
+            transparent
+        );
+
+    opacity:0;
+
+    filter:
+        drop-shadow(
+            0 0 9px
+            rgba(255,255,255,.9)
+        );
+}
+
+/* =========================================================
+   TECHNOLOGY SECTION
+   ========================================================= */
+
+.technology{
+    position:relative;
+    z-index:5;
+
+    padding:
+        16vh
+        max(20px,5vw);
+
+    border-top:1px solid var(--line);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(5,5,5,.96),
+            #050505
+        );
+}
+
+.tech-grid{
+    max-width:1250px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1fr)
+        minmax(350px,.8fr);
+
+    gap:80px;
+}
+
+.tech-kicker{
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:.24em;
+
+    color:var(--muted);
+}
+
+.tech-title{
+    margin-top:20px;
+
+    font-size:
+        clamp(
+            4rem,
+            8vw,
+            8rem
+        );
+
+    line-height:.86;
+
+    font-weight:350;
+
+    letter-spacing:-.075em;
+}
+
+.tech-title span{
+    color:rgba(255,255,255,.4);
+}
+
+.tech-description{
+    max-width:570px;
+
+    margin-top:35px;
+
+    color:var(--muted);
+
+    font-size:15px;
+    line-height:1.75;
+}
+
+.tech-list{
+    border:
+        1px solid
+        var(--line);
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    background:
+        rgba(255,255,255,.035);
+}
+
+.tech-item{
+    display:grid;
+
+    grid-template-columns:
+        42px
+        1fr;
+
+    gap:15px;
+
+    padding:25px;
+
+    border-bottom:
+        1px solid
+        var(--line);
+
+    transition:
+        background .35s ease,
+        padding-left .35s var(--ease);
+}
+
+.tech-item:last-child{
+    border-bottom:0;
+}
+
+.tech-item:hover{
+    background:rgba(255,255,255,.06);
+
+    padding-left:30px;
+}
+
+.tech-number{
+    font-size:10px;
+
+    color:var(--muted);
+
+    letter-spacing:.15em;
+}
+
+.tech-item h3{
+    font-size:16px;
+    font-weight:450;
+}
+
+.tech-item p{
+    margin-top:8px;
+
+    color:var(--muted);
+
+    font-size:13px;
+    line-height:1.55;
+}
+
+/* =========================================================
+   FINAL
+   ========================================================= */
+
+.final{
+    position:relative;
+    z-index:5;
+
+    min-height:90svh;
+
+    display:grid;
+    place-items:center;
+
+    padding:
+        15vh
+        20px;
+
+    text-align:center;
+
+    border-top:1px solid var(--line);
+
+    background:#050505;
+}
+
+.final-kicker{
+    font-size:10px;
+
+    text-transform:uppercase;
+    letter-spacing:.25em;
+
+    color:var(--muted);
+}
+
+.final-title{
+    margin-top:25px;
+
+    font-size:
+        clamp(
+            4.5rem,
+            11vw,
+            11rem
+        );
+
+    line-height:.82;
+
+    font-weight:350;
+
+    letter-spacing:-.085em;
+}
+
+.final-title span{
+    color:rgba(255,255,255,.4);
+}
+
+.final-description{
+    max-width:520px;
+
+    margin:30px auto 0;
+
+    color:var(--muted);
+
+    font-size:14px;
+    line-height:1.7;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer{
+    position:relative;
+    z-index:5;
+
+    padding:
+        25px
+        max(20px,5vw);
+
+    display:flex;
+    justify-content:space-between;
+
+    border-top:1px solid var(--line);
+
+    color:var(--muted);
+
+    font-size:10px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+/* =========================================================
+   REVEALS
+   ========================================================= */
+
+.reveal{
+    opacity:0;
+
+    transform:
+        translateY(30px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s var(--ease);
+}
+
+.reveal.visible{
+    opacity:1;
+
+    transform:
+        translateY(0);
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width:800px){
+
+    .nav{
+        height:68px;
+
+        padding:
+            0
+            16px;
+    }
+
+    .desktop-nav,
+    .nav-button{
+        display:none;
+    }
+
+    .menu-button{
+        display:block;
+    }
+
+    .mobile-menu{
+        position:absolute;
+
+        top:77px;
+        left:12px;
+        right:12px;
+
+        padding:8px;
+
+        border:
+            1px solid
+            var(--line);
+
+        border-radius:15px;
+
+        background:
+            rgba(8,8,8,.94);
+
+        backdrop-filter:blur(20px);
+
+        -webkit-backdrop-filter:blur(20px);
+    }
+
+    .mobile-menu.open{
+        display:grid;
+    }
+
+    .mobile-menu a{
+        padding:15px;
+
+        border-radius:9px;
+
+        font-size:12px;
+        text-transform:uppercase;
+        letter-spacing:.15em;
+
+        color:rgba(255,255,255,.75);
+    }
+
+    .mobile-menu a:active{
+        background:rgba(255,255,255,.1);
+    }
+
+    .hero{
+        min-height:100svh;
+
+        padding:
+            100px
+            18px
+            28px;
+    }
+
+    .hero-top{
+        display:block;
+    }
+
+    .hero-description{
+        margin-top:28px;
+
+        font-size:16px;
+        line-height:1.55;
+    }
+
+    .hero-center{
+        margin:
+            7vh
+            0
+            4vh;
+    }
+
+    .hero-kicker{
+        margin-bottom:20px;
+    }
+
+    .hero-title{
+        font-size:
+            clamp(
+                4.2rem,
+                20vw,
+                7rem
+            );
+    }
+
+    .hero-subtitle{
+        margin-top:28px;
+
+        font-size:13px;
+    }
+
+    .hero-bottom{
+        display:block;
+    }
+
+    .scroll-indicator{
+        display:none;
+    }
+
+    /* mobile scroll scene */
+
+    .process{
+        height:720vh;
+    }
+
+    .sticky-scene{
+        height:100svh;
+    }
+
+    .scene-stage{
+        align-items:center;
+    }
+
+    .artwork{
+        position:absolute;
+
+        width:125vw;
+        height:65vh;
+
+        top:22%;
+
+        left:50%;
+
+        transform:
+            translateX(-50%)
+            scale(.98);
+
+        opacity:.72;
+    }
+
+    .scene-copy{
+        left:18px;
+        right:18px;
+
+        top:11%;
+
+        width:auto;
+
+        transform:none;
+    }
+
+    .scene-number{
+        font-size:9px;
+    }
+
+    .scene-divider{
+        margin:
+            15px
+            0;
+    }
+
+    .scene-title{
+        font-size:
+            clamp(
+                3.3rem,
+                16vw,
+                5.8rem
+            );
+    }
+
+    .scene-description{
+        max-width:330px;
+
+        margin-top:18px;
+
+        font-size:12px;
+
+        line-height:1.55;
+    }
+
+    .scene-status{
+        right:18px;
+        bottom:7vh;
+    }
+
+    .progress-line{
+        height:95px;
+    }
+
+    .scene-bottom{
+        left:18px;
+        right:18px;
+        bottom:4vh;
+    }
+
+    .scene-bottom span{
+        font-size:7px;
+    }
+
+    /* technologies */
+
+    .technology{
+        padding:
+            13vh
+            18px;
+    }
+
+    .tech-grid{
+        grid-template-columns:1fr;
+
+        gap:50px;
+    }
+
+    .tech-title{
+        font-size:
+            clamp(
+                3.4rem,
+                15vw,
+                5.5rem
+            );
+    }
+
+    .tech-description{
+        font-size:13px;
+    }
+
+    .tech-item{
+        padding:20px;
+    }
+
+    /* final */
+
+    .final{
+        min-height:85svh;
+
+        padding:
+            12vh
+            18px;
+    }
+
+    .final-title{
+        font-size:
+            clamp(
+                4rem,
+                18vw,
+                7rem
+            );
+    }
+
+    /* footer */
+
+    footer{
+        display:grid;
+
+        gap:9px;
+
+        padding:
+            22px
+            18px;
+    }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media(max-width:380px){
+
+    .hero-title{
+        font-size:4rem;
+    }
+
+    .scene-title{
+        font-size:3.1rem;
+    }
+
+    .scene-description{
+        max-width:280px;
+    }
+
+    .artwork{
+        top:25%;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+    html{
+        scroll-behavior:auto;
+    }
+
+    *,
+    *::before,
+    *::after{
+        animation-duration:.001ms !important;
+        animation-iteration-count:1 !important;
+        transition-duration:.001ms !important;
+    }
+}
 </style>
 </head>
+
 <body>
-<div class="bg"><video id="bgVideo" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260729_102822_0e6c87e8-c141-4744-bf32-ad30db296371.mp4" muted playsinline preload="auto"></video><div class="shade"></div><div class="vignette"></div></div>
-<div class="process"><svg id="art" viewBox="0 0 600 720" fill="none" xmlns="http://www.w3.org/2000/svg"><path id="tree" d="M302 680C292 570 310 485 285 405C267 348 232 317 190 277M285 405C318 351 351 320 407 284M245 335C210 301 177 277 145 250M348 343C380 305 418 279 462 259" stroke="white" stroke-opacity=".65" stroke-width="5" stroke-linecap="round"/><path d="M300 685V555" stroke="white" stroke-width="20" stroke-linecap="round"/><g id="machine"><rect x="175" y="220" width="250" height="175" rx="18" stroke="white" stroke-opacity=".7" stroke-width="3"/><path d="M205 255H395M205 365H395M230 255V365M370 255V365" stroke="white" stroke-opacity=".4"/><circle cx="300" cy="310" r="45" stroke="white" stroke-opacity=".65" stroke-width="3"/><path d="M300 275V345M265 310H335" stroke="white" stroke-opacity=".5"/></g><g id="laser"><path d="M185 470H415" stroke="white" stroke-width="4"/><path d="M300 415V530" stroke="white" stroke-width="3"/><path d="M300 530L275 575H325L300 530Z" stroke="white" stroke-width="3"/><circle cx="300" cy="415" r="12" fill="white" fill-opacity=".18" stroke="white"/></g><g id="product"><rect x="190" y="585" width="220" height="65" rx="9" stroke="white" stroke-width="3"/><path d="M215 585V550H385V585M235 650V690M365 650V690" stroke="white" stroke-width="3"/></g></svg><div class="progress"><i id="bar"></i></div><div class="readout"><span class="mono" id="stageLabel">01 · MATERIAL</span><strong id="stageTitle">Tree → timber</strong><p id="stageText">The story starts with a living material.</p></div></div>
-<div class="page">
-<header class="nav"><a class="logo" href="#top"><span class="hex"></span>novaai</a><nav><a href="#story">Process</a><a href="#capabilities">Technologies</a><a href="#contact">Contact</a></nav><a class="cta" href="#contact">Start a project</a><button class="menu" id="menu" aria-label="Open menu">☰</button><div class="mobile-panel" id="panel"><a href="#story">Process</a><a href="#capabilities">Technologies</a><a href="#contact">Contact</a></div></header>
-<section class="section hero" id="top"><div class="top"><div class="services"><span class="mono">Wood manufacturing</span><span class="mono">CNC · Laser · Furniture</span><span class="mono">Windows · Interiors</span></div><div class="intro"><p>From a living tree to precise architectural products — one continuous production story.</p></div></div><div class="center reveal"><span class="mono kicker">DIGITAL CRAFT / 2026</span><h1>Material<br><em>becomes</em> form.</h1><p class="sub">A cinematic interface for the full wood-production cycle: timber, CNC machining, laser technology, windows, furniture and interiors.</p></div><div class="bottom"><div><span class="badge">Precision / Natural / Digital</span><p class="bottom-copy">We connect natural material with controlled machining, fine laser detail and final assembly.</p></div><div class="contact" id="contact"><img src="https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260728_050334_5b076e26-0ce7-4898-b432-d764190e448f.png&w=1280&q=85" alt="" width="68" height="84"><div><strong>Manufacturing studio</strong><small>Open for production ideas</small><button onclick="location.hash='story'">Explore process →</button></div></div></div></section>
-<div class="spacer"></div>
-<section class="section story" id="story"><div class="story-grid"><div class="story-copy reveal"><span class="mono">01 — FROM NATURE TO PRODUCT</span><h2>One material.<br><em>Many technologies.</em></h2><p class="body">The process moves from living wood to prepared timber, CNC machining and laser finishing. Each stage adds precision without losing the character of the material.</p><div class="buttons"><a class="btn primary" href="#capabilities">See technologies</a><a class="btn" href="#contact">Discuss a project</a></div></div><div class="cap reveal" id="capabilities"><div class="row"><span class="num mono">01</span><div><div class="row-title">CNC machining <span>→</span></div><p>Structural cuts, profiles and repeatable geometry.</p></div></div><div class="row"><span class="num mono">02</span><div><div class="row-title">Laser technology <span>→</span></div><p>Fine engraving, patterns and interior details.</p></div></div><div class="row"><span class="num mono">03</span><div><div class="row-title">Windows & furniture <span>→</span></div><p>Precise components assembled into finished products.</p></div></div><div class="row"><span class="num mono">04</span><div><div class="row-title">Interior production <span>→</span></div><p>Warm architectural elements made for real spaces.</p></div></div></div></div></section>
-<section class="final"><div class="reveal"><span class="mono">02 — COMPLETE CYCLE</span><h3>From tree<br>to <em>interior.</em></h3><p>Natural material. Digital precision. Finished form.</p></div></section>
-<footer><span>novaai / manufacturing</span><span>Wood · CNC · Laser · Interior</span></footer>
+
+<!-- =======================================================
+     BACKGROUND
+     ======================================================= -->
+
+<div class="background">
+
+    <video
+        id="backgroundVideo"
+        muted
+        playsinline
+        preload="metadata"
+        crossorigin="anonymous"
+        src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260729_102822_0e6c87e8-c141-4744-bf32-ad30db296371.mp4">
+    </video>
+
+    <div class="background-overlay"></div>
+    <div class="noise"></div>
+
 </div>
+
+
+<!-- =======================================================
+     NAV
+     ======================================================= -->
+
+<header class="nav">
+
+    <a href="#top" class="logo">
+        <span class="logo-mark"></span>
+        novaai
+    </a>
+
+    <nav class="desktop-nav">
+        <a href="#process">Process</a>
+        <a href="#technology">Technologies</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <a href="#contact" class="nav-button">
+        Start a project
+    </a>
+
+    <button
+        id="menuButton"
+        class="menu-button"
+        type="button"
+        aria-expanded="false"
+        aria-label="Открыть меню">
+
+        ☰
+
+    </button>
+
+    <div id="mobileMenu" class="mobile-menu">
+
+        <a href="#process">Process</a>
+        <a href="#technology">Technologies</a>
+        <a href="#contact">Contact</a>
+
+    </div>
+
+</header>
+
+
+<!-- =======================================================
+     PAGE
+     ======================================================= -->
+
+<main>
+
+
+<!-- =======================================================
+     HERO
+     ======================================================= -->
+
+<section id="top" class="hero">
+
+    <div class="hero-top">
+
+        <div class="eyebrow">
+
+            <span>Wood manufacturing</span>
+            <span>CNC · Laser · Furniture</span>
+            <span>Windows · Interiors</span>
+
+        </div>
+
+        <div class="hero-description">
+
+            From a living tree to precise architectural
+            products — one continuous production story.
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-center reveal">
+
+        <div class="hero-kicker">
+            Digital craft / 2026
+        </div>
+
+        <h1 class="hero-title">
+
+            Material<br>
+
+            <span>becomes</span> form.
+
+        </h1>
+
+        <p class="hero-subtitle">
+
+            Прокручивай вниз, чтобы пройти весь производственный
+            цикл: от живого дерева до готового интерьера.
+
+        </p>
+
+    </div>
+
+
+    <div class="hero-bottom">
+
+        <div>
+
+            <div class="hero-badge">
+                Precision / Natural / Digital
+            </div>
+
+            <p class="hero-note">
+
+                Одна непрерывная система производства:
+                древесина, CNC, лазерная технология,
+                окна, мебель и интерьер.
+
+            </p>
+
+        </div>
+
+        <div class="scroll-indicator">
+
+            Scroll
+
+            <strong>
+                ↓ explore the cycle
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     CINEMATIC PROCESS
+     ======================================================= -->
+
+<section id="process" class="process">
+
+    <div class="sticky-scene">
+
+
+        <!-- ART -->
+        <div class="scene-stage">
+
+            <svg
+                id="productionSvg"
+                class="artwork"
+                viewBox="0 0 700 700"
+                aria-hidden="true">
+
+                <!-- ================= TREE ================= -->
+
+                <g
+                    id="treeGroup"
+                    class="art-group">
+
+                    <path
+                        class="svg-bright"
+                        stroke-width="8"
+                        d="
+                        M350 650
+                        C345 570 350 490 328 400
+                        C310 325 265 275 200 220
+                        " />
+
+                    <path
+                        class="svg-bright"
+                        d="
+                        M328 400
+                        C360 325 420 270 495 220
+                        " />
+
+                    <path
+                        class="svg-line"
+                        d="
+                        M300 330
+                        C255 292 210 270 160 250
+                        " />
+
+                    <path
+                        class="svg-line"
+                        d="
+                        M390 310
+                        C430 275 475 250 530 240
+                        " />
+
+                    <path
+                        class="svg-line"
+                        d="
+                        M200 220
+                        C180 190 158 170 137 157
+                        " />
+
+                    <path
+                        class="svg-line"
+                        d="
+                        M495 220
+                        C520 190 545 170 570 156
+                        " />
+
+                    <ellipse
+                        class="svg-fill tree-leaf"
+                        cx="137"
+                        cy="153"
+                        rx="50"
+                        ry="21"
+                        transform="rotate(-28 137 153)" />
+
+                    <ellipse
+                        class="svg-fill tree-leaf"
+                        cx="570"
+                        cy="153"
+                        rx="50"
+                        ry="21"
+                        transform="rotate(28 570 153)" />
+
+                    <ellipse
+                        class="svg-fill tree-leaf"
+                        cx="158"
+                        cy="248"
+                        rx="50"
+                        ry="21"
+                        transform="rotate(-7 158 248)" />
+
+                    <ellipse
+                        class="svg-fill tree-leaf"
+                        cx="530"
+                        cy="240"
+                        rx="50"
+                        ry="21"
+                        transform="rotate(8 530 240)" />
+
+                    <circle
+                        class="svg-fill"
+                        cx="350"
+                        cy="320"
+                        r="44" />
+
+                    <path
+                        class="svg-thin"
+                        d="M350 276V364M306 320H394" />
+
+                </g>
+
+
+                <!-- ================= TIMBER ================= -->
+
+                <g
+                    id="timberGroup"
+                    class="art-group"
+                    opacity="0">
+
+                    <rect
+                        class="svg-fill"
+                        x="120"
+                        y="285"
+                        width="460"
+                        height="105"
+                        rx="13" />
+
+                    <path
+                        class="svg-bright"
+                        d="M145 320H555" />
+
+                    <path
+                        class="svg-line"
+                        d="M145 352H505" />
+
+                    <path
+                        class="svg-line"
+                        d="M185 390V455" />
+
+                    <path
+                        class="svg-line"
+                        d="M515 390V455" />
+
+                    <ellipse
+                        class="svg-thin"
+                        cx="350"
+                        cy="337"
+                        rx="38"
+                        ry="18" />
+
+                    <path
+                        class="svg-thin"
+                        d="
+                        M230 285
+                        C250 320 270 350 295 390
+                        " />
+
+                    <path
+                        class="svg-thin"
+                        d="
+                        M430 285
+                        C410 320 390 350 370 390
+                        " />
+
+                </g>
+
+
+                <!-- ================= CNC ================= -->
+
+                <g
+                    id="cncGroup"
+                    class="art-group"
+                    opacity="0">
+
+                    <rect
+                        class="svg-fill"
+                        x="105"
+                        y="205"
+                        width="490"
+                        height="315"
+                        rx="20" />
+
+                    <path
+                        class="svg-thin"
+                        d="M140 250H560" />
+
+                    <path
+                        class="svg-thin"
+                        d="M140 475H560" />
+
+                    <path
+                        class="svg-thin"
+                        d="M180 250V475" />
+
+                    <path
+                        class="svg-thin"
+                        d="M520 250V475" />
+
+                    <!-- head -->
+
+                    <path
+                        class="svg-bright"
+                        d="M350 165V340" />
+
+                    <path
+                        class="svg-bright"
+                        d="M315 200H385" />
+
+                    <path
+                        class="svg-bright"
+                        d="
+                        M350 340
+                        L323 388
+                        H377
+                        Z" />
+
+                    <!-- workpiece -->
+
+                    <rect
+                        class="svg-fill"
+                        x="205"
+                        y="400"
+                        width="290"
+                        height="45"
+                        rx="5" />
+
+                    <path
+                        class="svg-line"
+                        d="M225 422H475" />
+
+                    <circle
+                        id="cncPoint"
+                        cx="350"
+                        cy="390"
+                        r="7"
+                        fill="white"
+                        opacity="0" />
+
+                </g>
+
+
+                <!-- ================= LASER ================= -->
+
+                <g
+                    id="laserGroup"
+                    class="art-group"
+                    opacity="0">
+
+                    <rect
+                        class="svg-fill"
+                        x="120"
+                        y="240"
+                        width="460"
+                        height="275"
+                        rx="18" />
+
+                    <path
+                        class="svg-line"
+                        d="M150 280H550" />
+
+                    <path
+                        class="svg-line"
+                        d="M150 475H550" />
+
+                    <path
+                        class="svg-bright"
+                        d="M350 165V300" />
+
+                    <path
+                        class="svg-bright"
+                        d="M322 205H378" />
+
+                    <path
+                        class="svg-bright"
+                        d="M350 300V430" />
+
+                    <rect
+                        class="svg-fill"
+                        x="205"
+                        y="405"
+                        width="290"
+                        height="55"
+                        rx="5" />
+
+                    <!-- engraved lines -->
+
+                    <path
+                        class="svg-thin"
+                        d="M225 432H475" />
+
+                    <path
+                        class="svg-thin"
+                        d="M255 418V447" />
+
+                    <path
+                        class="svg-thin"
+                        d="M285 418V447" />
+
+                    <path
+                        class="svg-thin"
+                        d="M415 418V447" />
+
+                    <path
+                        class="svg-thin"
+                        d="M445 418V447" />
+
+                    <circle
+                        id="laserPoint"
+                        cx="235"
+                        cy="432"
+                        r="6"
+                        fill="white"
+                        opacity="0" />
+
+                    <rect
+                        id="laserBeam"
+                        x="233"
+                        y="315"
+                        width="3"
+                        height="105"
+                        fill="white"
+                        opacity="0" />
+
+                </g>
+
+
+                <!-- ================= WINDOW ================= -->
+
+                <g
+                    id="windowGroup"
+                    class="art-group"
+                    opacity="0">
+
+                    <rect
+                        class="svg-fill"
+                        x="170"
+                        y="105"
+                        width="360"
+                        height="475"
+                        rx="12" />
+
+                    <rect
+                        class="svg-bright"
+                        x="198"
+                        y="133"
+                        width="304"
+                        height="419" />
+
+                    <path
+                        class="svg-bright"
+                        d="M350 133V552" />
+
+                    <path
+                        class="svg-bright"
+                        d="M198 343H502" />
+
+                    <path
+                        class="svg-thin"
+                        d="M225 160H475" />
+
+                    <path
+                        class="svg-thin"
+                        d="M225 525H475" />
+
+                </g>
+
+
+                <!-- ================= FURNITURE ================= -->
+
+                <g
+                    id="furnitureGroup"
+                    class="art-group"
+                    opacity="0">
+
+                    <path
+                        class="svg-bright"
+                        d="M175 305H525V420H175Z" />
+
+                    <path
+                        class="svg-bright"
+                        d="M205 420V575" />
+
+                    <path
+                        class="svg-bright"
+                        d="M495 420V575" />
+
+                    <path
+                        class="svg-bright"
+                        d="M230 305V245H470V305" />
+
+                    <path
+                        class="svg-thin"
+                        d="M255 245V305" />
+
+                    <path
+                        class="svg-thin"
+                        d="M445 245V305" />
+
+                    <circle
+                        class="svg-fill"
+                        cx="350"
+                        cy="362"
+                        r="22" />
+
+                </g>
+
+
+                <!-- ================= INTERIOR ================= -->
+
+                <g
+                    id="interiorGroup"
+                    class="art-group"
+                    opacity="0">
+
+                    <path
+                        class="svg-bright"
+                        d="
+                        M110 520
+                        L350 380
+                        L590 520
+                        " />
+
+                    <path
+                        class="svg-line"
+                        d="M155 500V285" />
+
+                    <path
+                        class="svg-line"
+                        d="M545 500V285" />
+
+                    <path
+                        class="svg-line"
+                        d="M155 285L350 165L545 285" />
+
+                    <rect
+                        class="svg-fill"
+                        x="210"
+                        y="335"
+                        width="105"
+                        height="105" />
+
+                    <rect
+                        class="svg-fill"
+                        x="385"
+                        y="335"
+                        width="105"
+                        height="105" />
+
+                    <path
+                        class="svg-bright"
+                        d="M280 520V410H420V520" />
+
+                    <path
+                        class="svg-thin"
+                        d="M190 480H510" />
+
+                </g>
+
+            </svg>
+
+        </div>
+
+
+        <!-- COPY -->
+
+        <div class="scene-copy">
+
+            <div
+                id="sceneNumber"
+                class="scene-number">
+                01 / 07 — MATERIAL
+            </div>
+
+            <div class="scene-divider"></div>
+
+            <h2
+                id="sceneTitle"
+                class="scene-title">
+                Living<br>
+                <span>material.</span>
+            </h2>
+
+            <p
+                id="sceneDescription"
+                class="scene-description">
+
+                The cycle begins with a living tree.
+                Natural structure becomes the raw material
+                for everything that follows.
+
+            </p>
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div class="scene-status">
+
+            <div class="progress-line">
+
+                <span
+                    id="progressFill"
+                    class="progress-fill">
+                </span>
+
+            </div>
+
+            <div
+                id="percent"
+                class="percent">
+
+                00%
+
+            </div>
+
+        </div>
+
+
+        <div class="scene-bottom">
+
+            <span id="sceneLeft">
+                TREE
+            </span>
+
+            <span id="sceneRight">
+                NATURAL → DIGITAL
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     TECHNOLOGIES
+     ======================================================= -->
+
+<section
+    id="technology"
+    class="technology">
+
+    <div class="tech-grid">
+
+        <div class="reveal">
+
+            <div class="tech-kicker">
+                01 — COMPLETE PRODUCTION CYCLE
+            </div>
+
+            <h2 class="tech-title">
+
+                One material.<br>
+
+                <span>
+                    Many technologies.
+                </span>
+
+            </h2>
+
+            <p class="tech-description">
+
+                Производство соединяет природный материал
+                с цифровой точностью. CNC формирует геометрию,
+                лазер добавляет детали, а финальная сборка
+                превращает отдельные элементы в окна,
+                мебель и архитектурные интерьеры.
+
+            </p>
+
+        </div>
+
+
+        <div class="tech-list reveal">
+
+            <article class="tech-item">
+
+                <div class="tech-number">
+                    01
+                </div>
+
+                <div>
+
+                    <h3>
+                        Timber preparation
+                    </h3>
+
+                    <p>
+                        Отбор, сушка, калибровка
+                        и подготовка древесины.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article class="tech-item">
+
+                <div class="tech-number">
+                    02
+                </div>
+
+                <div>
+
+                    <h3>
+                        CNC machining
+                    </h3>
+
+                    <p>
+                        Точная геометрия, соединения,
+                        профили и повторяемые детали.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article class="tech-item">
+
+                <div class="tech-number">
+                    03
+                </div>
+
+                <div>
+
+                    <h3>
+                        Laser technology
+                    </h3>
+
+                    <p>
+                        Гравировка, орнаменты
+                        и высокоточные декоративные элементы.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article class="tech-item">
+
+                <div class="tech-number">
+                    04
+                </div>
+
+                <div>
+
+                    <h3>
+                        Windows & furniture
+                    </h3>
+
+                    <p>
+                        Компоненты превращаются
+                        в готовые изделия.
+                    </p>
+
+                </div>
+
+            </article>
+
+
+            <article class="tech-item">
+
+                <div class="tech-number">
+                    05
+                </div>
+
+                <div>
+
+                    <h3>
+                        Interior
+                    </h3>
+
+                    <p>
+                        Финальная точка — пространство,
+                        в котором материал становится частью жизни.
+                    </p>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     FINAL
+     ======================================================= -->
+
+<section
+    id="contact"
+    class="final">
+
+    <div class="reveal">
+
+        <div class="final-kicker">
+            02 — COMPLETE CYCLE
+        </div>
+
+        <h2 class="final-title">
+
+            From tree<br>
+            to <span>interior.</span>
+
+        </h2>
+
+        <p class="final-description">
+
+            Natural material.
+            Digital precision.
+            Finished form.
+
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =======================================================
+     FOOTER
+     ======================================================= -->
+
+<footer>
+
+    <span>
+        novaai / manufacturing
+    </span>
+
+    <span>
+        Wood · CNC · Laser · Interior
+    </span>
+
+</footer>
+
+
+</main>
+
+
 <script>
-const video=document.getElementById('bgVideo'),bar=document.getElementById('bar'),art=document.getElementById('art');
-const stages=[['01 · MATERIAL','Tree → timber','The story starts with a living material.',0,.18],['02 · CNC','Digital → physical','A precise digital profile guides the cutting head.',.18,.42],['03 · LASER','Light → detail','The laser adds fine patterns and engraved details.',.42,.64],['04 · ASSEMBLY','Parts → product','Machined elements become windows and furniture.',.64,.82],['05 · INTERIOR','Product → home','The finished material returns to a living environment.',.82,1]];
-const label=document.getElementById('stageLabel'),title=document.getElementById('stageTitle'),text=document.getElementById('stageText');let target=0,smooth=0,lastSeek=0;
-function progress(){const max=Math.max(1,document.documentElement.scrollHeight-innerHeight);target=Math.max(0,Math.min(1,scrollY/max));}
-addEventListener('scroll',progress,{passive:true});addEventListener('resize',progress,{passive:true});progress();
-function tick(){smooth+=(target-smooth)*.11;if(Math.abs(target-smooth)<.00005)smooth=target;bar.style.transform='scaleY('+smooth+')';const s=stages.find(x=>smooth>=x[3]&&smooth<=x[4])||stages[4];label.textContent=s[0];title.textContent=s[1];text.textContent=s[2];art.style.transform='translate(-50%,-50%) translateY('+(smooth*80-40)+'px) scale('+(1+smooth*.08)+')';if(video.duration&&Math.abs(video.currentTime-smooth*(video.duration-.05))>.035&&performance.now()-lastSeek>80){lastSeek=performance.now();try{video.currentTime=smooth*(video.duration-.05)}catch(e){}}requestAnimationFrame(tick)}tick();
-const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('show')),{threshold:.15});document.querySelectorAll('.reveal').forEach(x=>io.observe(x));
-const menu=document.getElementById('menu'),panel=document.getElementById('panel');menu.onclick=()=>{panel.classList.toggle('open');menu.setAttribute('aria-label',panel.classList.contains('open')?'Close menu':'Open menu')};panel.querySelectorAll('a').forEach(a=>a.onclick=()=>panel.classList.remove('open'));
-video.addEventListener('error',()=>{document.body.dataset.videoError='1'});
+/* =========================================================
+   NOVAAI — MAIN ENGINE
+   ========================================================= */
+
+(function(){
+
+    "use strict";
+
+
+    /* -----------------------------------------------------
+       ELEMENTS
+       ----------------------------------------------------- */
+
+    const stage =
+        document.querySelector(".process");
+
+    const video =
+        document.getElementById("backgroundVideo");
+
+    const svg =
+        document.getElementById("productionSvg");
+
+    const sceneNumber =
+        document.getElementById("sceneNumber");
+
+    const sceneTitle =
+        document.getElementById("sceneTitle");
+
+    const sceneDescription =
+        document.getElementById("sceneDescription");
+
+    const sceneLeft =
+        document.getElementById("sceneLeft");
+
+    const sceneRight =
+        document.getElementById("sceneRight");
+
+    const progressFill =
+        document.getElementById("progressFill");
+
+    const percent =
+        document.getElementById("percent");
+
+    const menuButton =
+        document.getElementById("menuButton");
+
+    const mobileMenu =
+        document.getElementById("mobileMenu");
+
+    const background =
+        document.querySelector(".background");
+
+
+    /* -----------------------------------------------------
+       SCENE DATA
+       ----------------------------------------------------- */
+
+    const scenes = [
+
+        {
+            number:"01 / 07 — MATERIAL",
+
+            title:
+                "Living<br><span>material.</span>",
+
+            description:
+                "The cycle begins with a living tree. Natural structure becomes the raw material for everything that follows.",
+
+            left:"TREE",
+
+            right:"NATURAL → DIGITAL"
+        },
+
+        {
+            number:"02 / 07 — TIMBER",
+
+            title:
+                "Raw<br><span>wood.</span>",
+
+            description:
+                "The tree becomes prepared timber: selected, dried, sized and ready for controlled production.",
+
+            left:"TIMBER",
+
+            right:"PREPARE → CUT"
+        },
+
+        {
+            number:"03 / 07 — CNC",
+
+            title:
+                "CNC<br><span>precision.</span>",
+
+            description:
+                "Digital geometry moves into the physical world. The cutting head creates profiles, joints and repeatable forms.",
+
+            left:"CNC",
+
+            right:"DIGITAL → PHYSICAL"
+        },
+
+        {
+            number:"04 / 07 — LASER",
+
+            title:
+                "Light<br><span>becomes detail.</span>",
+
+            description:
+                "A focused laser creates engraving, patterns and fine architectural details on the wooden surface.",
+
+            left:"LASER",
+
+            right:"LIGHT → DETAIL"
+        },
+
+        {
+            number:"05 / 07 — WINDOWS",
+
+            title:
+                "Frame<br><span>the space.</span>",
+
+            description:
+                "Precise components become window systems: structural, functional and designed around the material.",
+
+            left:"WINDOW",
+
+            right:"COMPONENT → PRODUCT"
+        },
+
+        {
+            number:"06 / 07 — FURNITURE",
+
+            title:
+                "Objects<br><span>with purpose.</span>",
+
+            description:
+                "The same production logic becomes tables, chairs, panels and custom furniture.",
+
+            left:"FURNITURE",
+
+            right:"PRODUCT → OBJECT"
+        },
+
+        {
+            number:"07 / 07 — INTERIOR",
+
+            title:
+                "Wood<br><span>returns home.</span>",
+
+            description:
+                "The final stage is the space itself: warm architectural elements assembled into a finished interior.",
+
+            left:"INTERIOR",
+
+            right:"FORM → SPACE"
+        }
+
+    ];
+
+
+    /* -----------------------------------------------------
+       GROUPS
+       ----------------------------------------------------- */
+
+    const groups = [
+
+        document.getElementById("treeGroup"),
+        document.getElementById("timberGroup"),
+        document.getElementById("cncGroup"),
+        document.getElementById("laserGroup"),
+        document.getElementById("windowGroup"),
+        document.getElementById("furnitureGroup"),
+        document.getElementById("interiorGroup")
+
+    ];
+
+
+    /* -----------------------------------------------------
+       STATE
+       ----------------------------------------------------- */
+
+    let targetProgress = 0;
+
+    let smoothProgress = 0;
+
+    let lastScene = -1;
+
+    let animationFrame = 0;
+
+    let lastVideoTime = -1;
+
+    const reducedMotion =
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+
+    /* -----------------------------------------------------
+       CLAMP
+       ----------------------------------------------------- */
+
+    function clamp(
+        value,
+        min,
+        max
+    ){
+
+        return Math.max(
+            min,
+            Math.min(max,value)
+        );
+
+    }
+
+
+    /* -----------------------------------------------------
+       EASING
+       ----------------------------------------------------- */
+
+    function easeInOut(t){
+
+        return t < .5
+
+            ? 2 * t * t
+
+            : 1 -
+              Math.pow(
+                  -2 * t + 2,
+                  2
+              ) / 2;
+
+    }
+
+
+    /* -----------------------------------------------------
+       SCROLL PROGRESS
+       ----------------------------------------------------- */
+
+    function getScrollProgress(){
+
+        if(!stage){
+
+            return 0;
+
+        }
+
+        const rect =
+            stage.getBoundingClientRect();
+
+        const scrollable =
+            stage.offsetHeight -
+            window.innerHeight;
+
+        if(scrollable <= 0){
+
+            return 0;
+
+        }
+
+        return clamp(
+            -rect.top / scrollable,
+            0,
+            1
+        );
+
+    }
+
+
+    /* -----------------------------------------------------
+       UPDATE COPY
+       ----------------------------------------------------- */
+
+    function updateCopy(
+        index
+    ){
+
+        if(index === lastScene){
+
+            return;
+
+        }
+
+        lastScene = index;
+
+        const scene =
+            scenes[index];
+
+        if(!scene){
+
+            return;
+
+        }
+
+        sceneNumber.innerHTML =
+            scene.number;
+
+        sceneTitle.innerHTML =
+            scene.title;
+
+        sceneDescription.textContent =
+            scene.description;
+
+        sceneLeft.textContent =
+            scene.left;
+
+        sceneRight.textContent =
+            scene.right;
+
+    }
+
+
+    /* -----------------------------------------------------
+       UPDATE ART
+       ----------------------------------------------------- */
+
+    function updateArtwork(
+        progress
+    ){
+
+        const position =
+            progress *
+            (groups.length - 1);
+
+        const index =
+            Math.min(
+                groups.length - 1,
+                Math.floor(position)
+            );
+
+        const local =
+            position - index;
+
+        const smooth =
+            easeInOut(local);
+
+
+        groups.forEach(
+            (group,i) => {
+
+                if(!group){
+
+                    return;
+
+                }
+
+                let opacity = 0;
+
+                let scale = 1;
+
+                let y = 0;
+
+                if(i === index){
+
+                    opacity =
+                        .18 +
+                        .82 * smooth;
+
+                    scale =
+                        .91 +
+                        .09 * smooth;
+
+                    y =
+                        24 -
+                        24 * smooth;
+
+                }
+
+                else if(i < index){
+
+                    opacity =
+                        .075;
+
+                    scale =
+                        .98;
+
+                    y = 0;
+
+                }
+
+                group.style.opacity =
+                    opacity;
+
+                group.style.transform =
+                    "translate3d(0," +
+                    y +
+                    "px,0) scale(" +
+                    scale +
+                    ")";
+
+            }
+        );
+
+
+        /* CNC moving point */
+
+        const cncPoint =
+            document.getElementById(
+                "cncPoint"
+            );
+
+        if(cncPoint){
+
+            if(index === 2){
+
+                const x =
+                    225 +
+                    (
+                        (progress * 11) % 1
+                    ) *
+                    250;
+
+                cncPoint.setAttribute(
+                    "cx",
+                    x
+                );
+
+                cncPoint.style.opacity =
+                    ".85";
+
+            }
+
+            else{
+
+                cncPoint.style.opacity =
+                    "0";
+
+            }
+
+        }
+
+
+        /* Laser */
+
+        const laserPoint =
+            document.getElementById(
+                "laserPoint"
+            );
+
+        const laserBeam =
+            document.getElementById(
+                "laserBeam"
+            );
+
+        if(
+            laserPoint &&
+            laserBeam
+        ){
+
+            if(index === 3){
+
+                const laserProgress =
+                    (progress * 16) % 1;
+
+                const x =
+                    230 +
+                    laserProgress *
+                    240;
+
+                laserPoint.setAttribute(
+                    "cx",
+                    x
+                );
+
+                laserBeam.setAttribute(
+                    "x",
+                    x - 1.5
+                );
+
+                laserPoint.style.opacity =
+                    ".95";
+
+                laserBeam.style.opacity =
+                    ".75";
+
+            }
+
+            else{
+
+                laserPoint.style.opacity =
+                    "0";
+
+                laserBeam.style.opacity =
+                    "0";
+
+            }
+
+        }
+
+
+        /* Artwork camera movement */
+
+        const cameraX =
+            8 -
+            progress *
+            16;
+
+        const cameraScale =
+            .94 +
+            progress *
+            .08;
+
+        svg.style.transform =
+            "translate3d(" +
+            cameraX +
+            "vw,0,0) scale(" +
+            cameraScale +
+            ")";
+
+    }
+
+
+    /* -----------------------------------------------------
+       VIDEO SCRUB
+       ----------------------------------------------------- */
+
+    function updateVideo(
+        progress
+    ){
+
+        if(
+            reducedMotion ||
+            !video ||
+            !Number.isFinite(
+                video.duration
+            ) ||
+            video.duration <= 0
+        ){
+
+            return;
+
+        }
+
+        const target =
+            progress *
+            video.duration;
+
+        if(
+            Math.abs(
+                target -
+                lastVideoTime
+            ) < .12
+        ){
+
+            return;
+
+        }
+
+        lastVideoTime =
+            target;
+
+        try{
+
+            video.currentTime =
+                target;
+
+        }
+
+        catch(error){
+
+            /* video is only an optional background */
+
+        }
+
+    }
+
+
+    /* -----------------------------------------------------
+       MAIN FRAME LOOP
+       ----------------------------------------------------- */
+
+    function render(){
+
+        targetProgress =
+            getScrollProgress();
+
+        if(reducedMotion){
+
+            smoothProgress =
+                targetProgress;
+
+        }
+
+        else{
+
+            smoothProgress +=
+                (
+                    targetProgress -
+                    smoothProgress
+                ) *
+                .13;
+
+        }
+
+
+        const position =
+            smoothProgress *
+            (scenes.length - 1);
+
+        const sceneIndex =
+            Math.min(
+                scenes.length - 1,
+                Math.floor(position)
+            );
+
+
+        updateCopy(
+            sceneIndex
+        );
+
+        updateArtwork(
+            smoothProgress
+        );
+
+        updateVideo(
+            smoothProgress
+        );
+
+
+        progressFill.style.transform =
+            "scaleY(" +
+            smoothProgress +
+            ")";
+
+
+        percent.textContent =
+            String(
+                Math.round(
+                    smoothProgress * 100
+                )
+            ).padStart(
+                2,
+                "0"
+            ) +
+            "%";
+
+
+        animationFrame =
+            requestAnimationFrame(
+                render
+            );
+
+    }
+
+
+    /* -----------------------------------------------------
+       MOBILE MENU
+       ----------------------------------------------------- */
+
+    if(
+        menuButton &&
+        mobileMenu
+    ){
+
+        menuButton.addEventListener(
+            "click",
+            function(){
+
+                const opened =
+                    mobileMenu.classList.toggle(
+                        "open"
+                    );
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    opened
+                        ? "true"
+                        : "false"
+                );
+
+                menuButton.textContent =
+                    opened
+                        ? "×"
+                        : "☰";
+
+            }
+        );
+
+
+        mobileMenu
+            .querySelectorAll("a")
+            .forEach(
+                link => {
+
+                    link.addEventListener(
+                        "click",
+                        function(){
+
+                            mobileMenu
+                                .classList
+                                .remove(
+                                    "open"
+                                );
+
+                            menuButton
+                                .setAttribute(
+                                    "aria-expanded",
+                                    "false"
+                                );
+
+                            menuButton
+                                .textContent =
+                                "☰";
+
+                        }
+                    );
+
+                }
+            );
+
+    }
+
+
+    /* -----------------------------------------------------
+       REVEAL ANIMATIONS
+       ----------------------------------------------------- */
+
+    const revealElements =
+        document.querySelectorAll(
+            ".reveal"
+        );
+
+
+    if(
+        "IntersectionObserver"
+        in window
+    ){
+
+        const observer =
+            new IntersectionObserver(
+                function(entries){
+
+                    entries.forEach(
+                        entry => {
+
+                            if(
+                                entry.isIntersecting
+                            ){
+
+                                entry.target
+                                    .classList
+                                    .add(
+                                        "visible"
+                                    );
+
+                                observer
+                                    .unobserve(
+                                        entry.target
+                                    );
+
+                            }
+
+                        }
+                    );
+
+                },
+                {
+                    threshold:.15
+                }
+            );
+
+
+        revealElements.forEach(
+            element =>
+                observer.observe(
+                    element
+                )
+        );
+
+    }
+
+    else{
+
+        revealElements.forEach(
+            element =>
+                element.classList.add(
+                    "visible"
+                )
+        );
+
+    }
+
+
+    /* -----------------------------------------------------
+       VIDEO ERROR FALLBACK
+       ----------------------------------------------------- */
+
+    if(video){
+
+        video.addEventListener(
+            "error",
+            function(){
+
+                video.style.display =
+                    "none";
+
+            },
+            {
+                once:true
+            }
+        );
+
+    }
+
+
+    /* -----------------------------------------------------
+       ORIENTATION / RESIZE
+       ----------------------------------------------------- */
+
+    window.addEventListener(
+        "resize",
+        function(){
+
+            targetProgress =
+                getScrollProgress();
+
+        },
+        {
+            passive:true
+        }
+    );
+
+
+    /* -----------------------------------------------------
+       START
+       ----------------------------------------------------- */
+
+    cancelAnimationFrame(
+        animationFrame
+    );
+
+    animationFrame =
+        requestAnimationFrame(
+            render
+        );
+
+})();
 </script>
-</body></html>
+
+</body>
+</html>
