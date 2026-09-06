@@ -1,2272 +1,422 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#120e0b">
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ГРАНЬ — мебель, окна и резьба по дереву</title>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
-
 <script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        heading: ['"PT Serif"', 'serif'],
-        body: ['Manrope', 'sans-serif']
-      }
-    }
-  }
-};
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          heading: ['"PT Serif"', 'serif'],
+          body: ['Manrope', 'sans-serif'],
+        },
+      },
+    },
+  };
 </script>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
 <script src="https://unpkg.com/framer-motion@11.11.17/dist/framer-motion.js"></script>
+<script>window.Motion = window.FramerMotion;</script>
 
 <style>
+  html, body { background:#14100D; }
+  body { font-family: 'Manrope', sans-serif; }
 
-:root {
-  --bg: #120e0b;
-  --bg2: #19120e;
-  --cream: #f2eadc;
-  --muted: rgba(242,234,220,.62);
-  --line: rgba(255,255,255,.11);
-  --gold: #c9944d;
-  --orange: #ff623b;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  background: var(--bg);
-}
-
-body {
-  margin: 0;
-  background:
-    radial-gradient(circle at 75% 20%, rgba(139,76,31,.13), transparent 30%),
-    radial-gradient(circle at 15% 80%, rgba(101,54,25,.1), transparent 30%),
-    var(--bg);
-  color: white;
-  font-family: Manrope, sans-serif;
-  overflow-x: hidden;
-}
-
-/* ---------------- NOISE ---------------- */
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 999;
-  opacity: .035;
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
-}
-
-/* ---------------- GLASS ---------------- */
-
-.glass {
-  position: relative;
-  overflow: hidden;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.065),
-      rgba(255,255,255,.018)
-    );
-  border: 1px solid rgba(255,255,255,.095);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.09),
-    0 20px 60px rgba(0,0,0,.16);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
-.glass::after {
-  content: "";
-  position: absolute;
-  width: 45%;
-  height: 100%;
-  top: 0;
-  left: -70%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.06),
-    transparent
-  );
-  transform: skewX(-18deg);
-  transition: left .8s ease;
-  pointer-events: none;
-}
-
-.glass:hover::after {
-  left: 130%;
-}
-
-.glass-strong {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.11),
-      rgba(255,255,255,.025)
-    );
-  border: 1px solid rgba(255,255,255,.15);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.15),
-    0 24px 70px rgba(0,0,0,.25);
-}
-
-/* ---------------- BUTTON ---------------- */
-
-.btn {
-  transition:
-    transform .3s ease,
-    background .3s ease,
-    box-shadow .3s ease;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-}
-
-.btn:active {
-  transform: translateY(0) scale(.98);
-}
-
-/* ---------------- REVEAL ---------------- */
-
-.reveal {
-  opacity: 0;
-  transform: translateY(35px);
-  filter: blur(8px);
-  transition:
-    opacity .8s ease,
-    transform .8s cubic-bezier(.2,.8,.2,1),
-    filter .8s ease;
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-}
-
-/* ---------------- HERO ---------------- */
-
-.hero-glow {
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  right: -180px;
-  top: 10%;
-  background: radial-gradient(
-    circle,
-    rgba(196,118,48,.18),
-    transparent 65%
-  );
-  filter: blur(30px);
-  pointer-events: none;
-}
-
-.hero-grid {
-  background-image:
-    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
-  background-size: 70px 70px;
-  mask-image: linear-gradient(to bottom, black, transparent 90%);
-}
-
-/* ---------------- WOOD ---------------- */
-
-.wood-panel {
-  position: relative;
-  overflow: hidden;
-  background:
-    linear-gradient(
-      115deg,
-      #3a2417,
-      #70462a 40%,
-      #402719 70%,
-      #21150e
-    );
-}
-
-.wood-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: .28;
-  background:
-    repeating-linear-gradient(
-      4deg,
-      transparent 0 15px,
-      rgba(0,0,0,.18) 16px,
-      transparent 17px 31px
-    );
-  mix-blend-mode: multiply;
-}
-
-/* ---------------- LASER ---------------- */
-
-.laser-beam {
-  animation: laserMove 3.8s ease-in-out infinite;
-}
-
-@keyframes laserMove {
-  0%,100% {
-    transform: translateX(-75px);
+  .liquid-glass {
+    background: rgba(243,235,221,0.03);
+    background-blend-mode: luminosity;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: none;
+    box-shadow: inset 0 1px 1px rgba(255,255,255,0.08);
+    position: relative;
+    overflow: hidden;
   }
-  50% {
-    transform: translateX(75px);
+  .liquid-glass::before {
+    content: "";
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(180deg,
+      rgba(255,255,255,0.35) 0%,
+      rgba(255,255,255,0.10) 20%,
+      rgba(255,255,255,0) 40%,
+      rgba(255,255,255,0) 60%,
+      rgba(255,255,255,0.10) 80%,
+      rgba(255,255,255,0.35) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
   }
-}
-
-.laser-dot {
-  animation:
-    laserPulse .8s ease-in-out infinite alternate;
-}
-
-@keyframes laserPulse {
-  from {
-    opacity: .45;
-    transform: scale(.7);
+  .liquid-glass-strong {
+    background: rgba(243,235,221,0.05);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: none;
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.15);
+    position: relative;
+    overflow: hidden;
   }
-  to {
-    opacity: 1;
-    transform: scale(1.35);
-  }
-}
-
-/* ---------------- PROJECTS ---------------- */
-
-.project-image {
-  transition: transform 1s cubic-bezier(.2,.7,.2,1);
-}
-
-.project:hover .project-image {
-  transform: scale(1.055);
-}
-
-.project-overlay {
-  background:
-    linear-gradient(
-      to top,
-      rgba(0,0,0,.85),
-      transparent 65%
-    );
-}
-
-/* ---------------- MARQUEE ---------------- */
-
-.marquee {
-  animation: marquee 24s linear infinite;
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-/* ---------------- MATERIAL ---------------- */
-
-.material-card {
-  transition:
-    transform .4s ease,
-    border-color .4s ease;
-}
-
-.material-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(255,255,255,.25);
-}
-
-/* ---------------- CURSOR GLOW ---------------- */
-
-.cursor-glow {
-  position: fixed;
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  pointer-events: none;
-  background: radial-gradient(
-    circle,
-    rgba(198,133,69,.08),
-    transparent 68%
-  );
-  transform: translate(-50%,-50%);
-  z-index: 0;
-}
-
-/* ---------------- MOBILE ---------------- */
-
-@media(max-width: 768px) {
-
-  .hero-glow {
-    width: 350px;
-    height: 350px;
-    right: -180px;
+  .liquid-glass-strong::before {
+    content: "";
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    padding: 1.4px;
+    background: linear-gradient(180deg,
+      rgba(255,255,255,0.5) 0%,
+      rgba(255,255,255,0.2) 20%,
+      rgba(255,255,255,0) 40%,
+      rgba(255,255,255,0) 60%,
+      rgba(255,255,255,0.2) 80%,
+      rgba(255,255,255,0.5) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
   }
 
-  .cursor-glow {
-    display: none;
+  @keyframes cutDash {
+    0%   { stroke-dashoffset: 1; opacity: 1; }
+    85%  { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 1; }
+  }
+  .cut-path {
+    stroke-dasharray: 1;
+    animation: cutDash 6s linear infinite;
+  }
+  @keyframes pieceReveal {
+    0%, 84%  { opacity: 0; }
+    90%      { opacity: 0.95; }
+    97%      { opacity: 0.95; }
+    100%     { opacity: 0; }
+  }
+  .piece-reveal { animation: pieceReveal 6s linear infinite; }
+
+  @keyframes sparkFlicker {
+    0%, 100% { opacity: 0; transform: scale(0.5); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+  .spark { animation: sparkFlicker 0.9s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cut-path, .piece-reveal, .spark { animation: none !important; }
   }
 
-}
-
+  a, button { -webkit-tap-highlight-color: transparent; }
+  :focus-visible { outline: 2px solid #E8A33D; outline-offset: 2px; }
 </style>
 </head>
-
-<body>
-
+<body class="bg-[#14100D]">
 <div id="root"></div>
 
-<script>
+<script type="text/babel" data-presets="react">
+const { motion, useInView } = window.Motion;
+const { useRef, useEffect, useState } = React;
 
-const {
-  useEffect,
-  useState,
-  useRef
-} = React;
+/* ---------- Icons ---------- */
+const ArrowUpRight = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M7 17L17 7" />
+    <path d="M7 7h10v10" />
+  </svg>
+);
+const Play = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <polygon points="6 4 20 12 6 20 6 4" />
+  </svg>
+);
+const ClockIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 28 28" fill="none" stroke="white" strokeWidth="1.6" strokeLinecap="round">
+    <circle cx="14" cy="14" r="11" />
+    <line x1="14" y1="14" x2="14" y2="8" />
+    <line x1="14" y1="14" x2="18" y2="16.5" />
+  </svg>
+);
+const TreeIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 28 28" fill="none" stroke="white" strokeWidth="1.4">
+    <ellipse cx="14" cy="14" rx="10" ry="8" />
+    <ellipse cx="14" cy="14" rx="6" ry="4.6" />
+    <ellipse cx="14" cy="14" rx="2.2" ry="1.7" />
+  </svg>
+);
+const TargetIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path fillRule="evenodd" clipRule="evenodd" d="M12 2a10 10 0 100 20 10 10 0 000-20zm0 4a6 6 0 110 12 6 6 0 010-12zm0 4a2 2 0 100 4 2 2 0 000-4z" />
+  </svg>
+);
+const LinkIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M7 12a5 5 0 015-5h2v2h-2a3 3 0 000 6h2v2h-2a5 5 0 01-5-5zm10-5h-2v2h2a3 3 0 010 6h-2v2h2a5 5 0 000-10z" />
+  </svg>
+);
+const DropletIcon = ({ className }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C12 2 5 10.5 5 15a7 7 0 0014 0c0-4.5-7-13-7-13zm0 17a4 4 0 01-4-4c0-1.9 2.2-5.1 4-7.6 1.8 2.5 4 5.7 4 7.6a4 4 0 01-4 4z" />
+  </svg>
+);
 
-const {
-  motion
-} = window.FramerMotion;
-
-
-/* =========================================================
-   ICONS
-========================================================= */
-
-function Arrow() {
+/* ---------- BlurText ---------- */
+function BlurText({ text, className }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { amount: 0.1, once: true });
+  const words = text.split(" ");
   return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M7 17L17 7"/>
-      <path d="M7 7h10v10"/>
-    </svg>
+    <p ref={ref} className={className} style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", rowGap: "0.1em" }}>
+      {words.map((word, i) => (
+        <motion.span
+          key={i}
+          initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
+          animate={inView ? { filter: ["blur(10px)", "blur(5px)", "blur(0px)"], opacity: [0, 0.5, 1], y: [50, -5, 0] } : {}}
+          transition={{ duration: 0.7, times: [0, 0.5, 1], ease: "easeOut", delay: (i * 100) / 1000 }}
+          style={{ display: "inline-block", marginRight: "0.28em" }}
+        >
+          {word}
+        </motion.span>
+      ))}
+    </p>
   );
 }
 
-function ArrowRight() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M5 12h14"/>
-      <path d="M13 6l6 6-6 6"/>
-    </svg>
-  );
-}
-
-
-/* =========================================================
-   CURSOR
-========================================================= */
-
-function CursorGlow() {
-
-  const [pos,setPos] = useState({
-    x:-500,
-    y:-500
-  });
-
-  useEffect(() => {
-
-    const move = e => {
-      setPos({
-        x:e.clientX,
-        y:e.clientY
-      });
-    };
-
-    window.addEventListener("mousemove",move);
-
-    return () =>
-      window.removeEventListener("mousemove",move);
-
-  },[]);
-
-  return (
-    <div
-      className="cursor-glow"
-      style={{
-        left:pos.x,
-        top:pos.y
-      }}
-    />
-  );
-}
-
-
-/* =========================================================
-   NAVBAR
-========================================================= */
-
-function Navbar() {
-
-  const [open,setOpen] = useState(false);
-
-  const links = [
-    ["Главная","#home"],
-    ["Мебель","#projects"],
-    ["Окна","#projects"],
-    ["Резьба","#projects"],
-    ["Материалы","#materials"]
-  ];
-
-  return (
-
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 md:px-8 pt-4">
-
-      <div className="max-w-7xl mx-auto">
-
-        <div className="
-          glass rounded-full
-          px-3 py-2
-          flex items-center justify-between
-        ">
-
-          <a
-            href="#home"
-            className="
-              w-11 h-11
-              rounded-full
-              flex items-center justify-center
-              bg-white text-black
-              font-heading italic
-              text-2xl
-            "
-          >
-            Г
-          </a>
-
-
-          <nav className="
-            hidden lg:flex
-            items-center
-            gap-1
-          ">
-
-            {links.map(([name,href]) => (
-
-              <a
-                key={name}
-                href={href}
-                className="
-                  px-4 py-2
-                  rounded-full
-                  text-sm
-                  text-white/70
-                  hover:text-white
-                  hover:bg-white/5
-                  transition
-                "
-              >
-                {name}
-              </a>
-
-            ))}
-
-          </nav>
-
-
-          <a
-            href="#contact"
-            className="
-              hidden md:flex
-              items-center gap-2
-              bg-white
-              text-black
-              rounded-full
-              px-5 py-3
-              text-sm font-semibold
-              btn
-            "
-          >
-            Обсудить проект
-            <Arrow/>
-          </a>
-
-
-          <button
-            onClick={() => setOpen(!open)}
-            className="
-              md:hidden
-              w-11 h-11
-              rounded-full
-              glass
-              flex items-center justify-center
-            "
-          >
-            {open ? "×" : "☰"}
-          </button>
-
-        </div>
-
-
-        {open && (
-
-          <div className="
-            mt-2 glass
-            rounded-3xl
-            p-3
-            md:hidden
-          ">
-
-            {links.map(([name,href]) => (
-
-              <a
-                key={name}
-                href={href}
-                onClick={() => setOpen(false)}
-                className="
-                  block
-                  px-4 py-3
-                  rounded-2xl
-                  text-white/80
-                  hover:bg-white/5
-                "
-              >
-                {name}
-              </a>
-
-            ))}
-
-            <a
-              href="#contact"
-              className="
-                mt-2 block
-                bg-white
-                text-black
-                text-center
-                rounded-2xl
-                py-3
-                font-semibold
-              "
-            >
-              Обсудить проект
-            </a>
-
-          </div>
-
-        )}
-
-      </div>
-
-    </header>
-
-  );
-}
-
-
-/* =========================================================
-   LASER SCENE
-========================================================= */
-
+/* ---------- LaserScene ---------- */
 function LaserScene() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+  }, []);
+
+  const d = "M200,90 L170.3,98.4 L185.4,125.4 L158.4,110.3 L150,140 L141.6,110.3 L114.6,125.4 L129.7,98.4 L100,90 L129.7,81.6 L114.6,54.6 L141.6,69.7 L150,40 L158.4,69.7 L185.4,54.6 L170.3,81.6 Z";
 
   return (
-
-    <div className="
-      relative
-      w-full
-      aspect-[1.08]
-      rounded-[2rem]
-      overflow-hidden
-      glass
-      p-3
-    ">
-
-      <div className="
-        absolute inset-3
-        rounded-[1.5rem]
-        overflow-hidden
-        wood-panel
-      ">
-
-        <div className="
-          absolute inset-0
-          bg-gradient-to-br
-          from-transparent
-          via-black/10
-          to-black/70
-        "/>
-
-
-        {/* MACHINE FRAME */}
-
-        <div className="
-          absolute
-          left-[8%]
-          right-[8%]
-          top-[15%]
-          bottom-[15%]
-          border
-          border-white/10
-          rounded-2xl
-        ">
-
-          <div className="
-            absolute
-            left-[8%]
-            right-[8%]
-            top-[12%]
-            h-[3px]
-            bg-white/10
-          "/>
-
-          <div className="
-            absolute
-            left-[8%]
-            right-[8%]
-            bottom-[12%]
-            h-[3px]
-            bg-black/30
-          "/>
-
-        </div>
-
-
-        {/* LASER HEAD */}
-
-        <motion.div
-          className="
-            laser-beam
-            absolute
-            top-[19%]
-            left-1/2
-            w-14
-            h-10
-            -translate-x-1/2
-            rounded-lg
-            bg-gradient-to-b
-            from-zinc-600
-            to-zinc-900
-            border border-white/20
-            shadow-2xl
-          "
-        >
-
-          <div className="
-            absolute
-            left-1/2
-            -translate-x-1/2
-            bottom-[-8px]
-            w-[3px]
-            h-5
-            bg-[#ff623b]
-            shadow-[0_0_15px_#ff623b]
-          "/>
-
-        </motion.div>
-
-
-        {/* LASER DOT */}
-
-        <motion.div
-          className="
-            laser-dot
-            absolute
-            top-[51%]
-            left-1/2
-            w-3
-            h-3
-            rounded-full
-            bg-[#ff623b]
-            shadow-[0_0_30px_10px_rgba(255,98,59,.5)]
-          "
-        />
-
-
-        {/* WOOD CUT */}
-
-        <svg
-          className="
-            absolute
-            left-1/2
-            top-1/2
-            -translate-x-1/2
-            -translate-y-1/2
-            w-[55%]
-          "
-          viewBox="0 0 200 200"
-        >
-
-          <path
-            d="
-              M100 15
-              L118 70
-              L170 42
-              L142 94
-              L190 110
-              L142 126
-              L170 178
-              L118 150
-              L100 195
-              L82 150
-              L30 178
-              L58 126
-              L10 110
-              L58 94
-              L30 42
-              L82 70
-              Z
-            "
-            fill="rgba(212,157,83,.17)"
-            stroke="#d09a55"
-            strokeWidth="1.5"
-          />
-
-        </svg>
-
-
-        <div className="
-          absolute
-          bottom-6
-          left-6
-          right-6
-          flex
-          justify-between
-          items-end
-        ">
-
-          <div>
-
-            <div className="
-              text-[10px]
-              uppercase
-              tracking-[.25em]
-              text-white/45
-            ">
-              CNC / LASER
-            </div>
-
-            <div className="
-              font-heading italic
-              text-xl
-              mt-1
-            ">
-              Точность в деталях
-            </div>
-
-          </div>
-
-
-          <div className="
-            glass
-            rounded-full
-            px-3 py-1.5
-            text-[10px]
-            text-white/70
-          ">
-            ONLINE
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  );
-}
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-function Hero() {
-
-  return (
-
-    <section
-      id="home"
-      className="
-        relative
-        min-h-screen
-        flex items-center
-        overflow-hidden
-        pt-28
-      "
-    >
-
-      <div className="hero-glow"/>
-      <div className="hero-grid absolute inset-0"/>
-
-
-      <div className="
-        relative z-10
-        max-w-7xl
-        mx-auto
-        w-full
-        px-5 md:px-8
-        py-16 md:py-24
-      ">
-
-        <div className="
-          grid
-          lg:grid-cols-[.9fr_1.1fr]
-          gap-12
-          lg:gap-20
-          items-center
-        ">
-
-
-          <div>
-
-            <motion.div
-              initial={{
-                opacity:0,
-                y:20,
-                filter:"blur(10px)"
-              }}
-              animate={{
-                opacity:1,
-                y:0,
-                filter:"blur(0)"
-              }}
-              transition={{
-                duration:.8
-              }}
-              className="
-                glass
-                inline-flex
-                items-center
-                gap-2
-                rounded-full
-                p-1
-                pr-3
-              "
-            >
-
-              <span className="
-                bg-white
-                text-black
-                rounded-full
-                px-3 py-1
-                text-[11px]
-                font-bold
-              ">
-                ЦЕХ
-              </span>
-
-              <span className="
-                text-xs md:text-sm
-                text-white/65
-              ">
-                Производство полного цикла
-              </span>
-
-            </motion.div>
-
-
-            <motion.h1
-              initial={{
-                opacity:0,
-                y:35,
-                filter:"blur(12px)"
-              }}
-              animate={{
-                opacity:1,
-                y:0,
-                filter:"blur(0)"
-              }}
-              transition={{
-                duration:1,
-                delay:.15
-              }}
-              className="
-                mt-7
-                font-heading italic
-                text-[3.5rem]
-                sm:text-6xl
-                lg:text-[5.8rem]
-                leading-[.88]
-                tracking-[-.045em]
-              "
-            >
-
-              Дерево,
-              <br/>
-
-              <span className="text-white/55">
-                огранённое
-              </span>
-
-              <br/>
-
-              светом
-
-            </motion.h1>
-
-
-            <motion.p
-              initial={{
-                opacity:0,
-                y:20
-              }}
-              animate={{
-                opacity:1,
-                y:0
-              }}
-              transition={{
-                duration:.7,
-                delay:.4
-              }}
-              className="
-                mt-7
-                max-w-xl
-                text-sm md:text-base
-                leading-relaxed
-                text-white/60
-              "
-            >
-              Создаём мебель, окна и интерьерные элементы
-              из натурального дерева — от первого эскиза
-              до готового изделия.
-            </motion.p>
-
-
-            <motion.div
-              initial={{
-                opacity:0,
-                y:20
-              }}
-              animate={{
-                opacity:1,
-                y:0
-              }}
-              transition={{
-                duration:.7,
-                delay:.55
-              }}
-              className="
-                flex flex-wrap
-                gap-3
-                mt-8
-              "
-            >
-
-              <a
-                href="#contact"
-                className="
-                  btn
-                  glass-strong
-                  rounded-full
-                  px-6 py-3.5
-                  flex items-center gap-2
-                  text-sm font-semibold
-                "
-              >
-                Рассчитать проект
-                <Arrow/>
-              </a>
-
-
-              <a
-                href="#projects"
-                className="
-                  btn
-                  rounded-full
-                  px-5 py-3.5
-                  flex items-center gap-2
-                  text-sm
-                  text-white/70
-                  hover:text-white
-                  transition
-                "
-              >
-                Смотреть работы
-                <ArrowRight/>
-              </a>
-
-            </motion.div>
-
-
-            <div className="
-              grid
-              grid-cols-2
-              gap-3
-              mt-10
-              max-w-md
-            ">
-
-              <Stat
-                number="12"
-                suffix="лет"
-                text="опыта"
-              />
-
-              <Stat
-                number="9"
-                suffix="пород"
-                text="дерева"
-              />
-
-            </div>
-
-          </div>
-
-
-          <motion.div
-            initial={{
-              opacity:0,
-              scale:.96,
-              y:25
-            }}
-            animate={{
-              opacity:1,
-              scale:1,
-              y:0
-            }}
-            transition={{
-              duration:1,
-              delay:.3
-            }}
-          >
-
-            <LaserScene/>
-
-          </motion.div>
-
-        </div>
-
-
-        <div className="
-          mt-16
-          pt-6
-          border-t
-          border-white/10
-          flex flex-col
-          md:flex-row
-          md:items-center
-          md:justify-between
-          gap-5
-        ">
-
-          <span className="
-            text-xs
-            uppercase
-            tracking-[.2em]
-            text-white/35
-          ">
-            Натуральные материалы
-          </span>
-
-
-          <div className="
-            flex flex-wrap
-            gap-x-7
-            gap-y-2
-          ">
-
-            {[
-              "Дуб",
-              "Ясень",
-              "Орех",
-              "Сосна",
-              "Лиственница"
-            ].map(x => (
-
-              <span
-                key={x}
-                className="
-                  font-heading italic
-                  text-lg
-                  text-white/75
-                "
-              >
-                {x}
-              </span>
-
-            ))}
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  );
-}
-
-
-function Stat({number,suffix,text}) {
-
-  return (
-
-    <div className="
-      glass
-      rounded-2xl
-      p-4
-    ">
-
-      <div className="
-        flex items-end gap-2
-      ">
-
-        <span className="
-          font-heading italic
-          text-3xl
-        ">
-          {number}
-        </span>
-
-        <span className="
-          text-xs
-          text-white/45
-          mb-1
-        ">
-          {suffix}
-        </span>
-
-      </div>
-
-      <div className="
-        mt-1
-        text-xs
-        text-white/45
-      ">
-        {text}
-      </div>
-
-    </div>
-
-  );
-}
-
-
-/* =========================================================
-   INTRO
-========================================================= */
-
-function Intro() {
-
-  return (
-
-    <section className="
-      px-5 md:px-8
-      py-24 md:py-36
-    ">
-
-      <div className="
-        max-w-7xl mx-auto
-        grid lg:grid-cols-[.8fr_1.2fr]
-        gap-12
-      ">
-
-        <div className="
-          text-xs
-          uppercase
-          tracking-[.25em]
-          text-white/35
-        ">
-          01 / Философия
-        </div>
-
-
-        <div>
-
-          <h2 className="
-            font-heading italic
-            text-4xl md:text-6xl
-            leading-[.95]
-            tracking-[-.03em]
-          ">
-            Мы не делаем
-            <span className="text-white/45">
-              {" "}просто мебель.
-            </span>
-          </h2>
-
-          <p className="
-            mt-7
-            max-w-2xl
-            text-white/55
-            leading-relaxed
-            text-sm md:text-base
-          ">
-            Мы работаем с деревом как с живым материалом.
-            Сохраняем его рисунок, ощущение и характер,
-            соединяя традиционную столярную работу
-            с современной технологией обработки.
-          </p>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  );
-}
-
-
-/* =========================================================
-   CAPABILITIES
-========================================================= */
-
-const capabilities = [
-
-  {
-    number:"01",
-    title:"Лазерная резка",
-    text:"Точная обработка деталей сложной формы с минимальной последующей обработкой."
-  },
-
-  {
-    number:"02",
-    title:"Столярная сборка",
-    text:"Шиповые соединения, массив дерева и ручной контроль каждого изделия."
-  },
-
-  {
-    number:"03",
-    title:"Натуральное покрытие",
-    text:"Масло и воск подчёркивают структуру дерева и позволяют ему сохранять естественный вид."
-  }
-
-];
-
-
-function Capabilities() {
-
-  return (
-
-    <section className="
-      px-5 md:px-8
-      pb-32
-    ">
-
-      <div className="
-        max-w-7xl mx-auto
-      ">
-
-        <div className="
-          flex items-end
-          justify-between
-          gap-8
-        ">
-
-          <h2 className="
-            font-heading italic
-            text-4xl md:text-6xl
-            leading-none
-          ">
-            От бревна
-            <br/>
-            <span className="text-white/40">
-              до изделия
-            </span>
-          </h2>
-
-          <span className="
-            hidden md:block
-            text-xs
-            text-white/35
-            uppercase
-            tracking-[.2em]
-          ">
-            Как мы работаем
-          </span>
-
-        </div>
-
-
-        <div className="
-          grid
-          md:grid-cols-3
-          gap-4
-          mt-14
-        ">
-
-          {capabilities.map(item => (
-
-            <div
-              key={item.number}
-              className="
-                glass
-                rounded-[1.6rem]
-                p-6
-                min-h-[320px]
-                flex flex-col
-                group
-                hover:border-white/20
-                transition
-              "
-            >
-
-              <div className="
-                flex justify-between
-              ">
-
-                <span className="
-                  text-xs
-                  text-white/30
-                ">
-                  {item.number}
-                </span>
-
-                <ArrowRight/>
-
-              </div>
-
-
-              <div className="mt-auto">
-
-                <h3 className="
-                  font-heading italic
-                  text-3xl
-                ">
-                  {item.title}
-                </h3>
-
-                <p className="
-                  mt-3
-                  text-sm
-                  leading-relaxed
-                  text-white/50
-                ">
-                  {item.text}
-                </p>
-
-              </div>
-
-            </div>
-
-          ))}
-
-        </div>
-
-      </div>
-
-    </section>
-
-  );
-}
-
-
-/* =========================================================
-   PROJECTS
-========================================================= */
-
-const projects = [
-
-  {
-    title:"Кухня из дуба",
-    type:"Мебель",
-    size:"lg",
-    image:"https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=85"
-  },
-
-  {
-    title:"Панорамные окна",
-    type:"Окна",
-    size:"sm",
-    image:"https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85"
-  },
-
-  {
-    title:"Стол из массива",
-    type:"Мебель",
-    size:"sm",
-    image:"https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1000&q=85"
-  },
-
-  {
-    title:"Резная панель",
-    type:"Резьба",
-    size:"lg",
-    image:"https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1400&q=85"
-  }
-
-];
-
-
-function Projects() {
-
-  return (
-
-    <section
-      id="projects"
-      className="
-        px-5 md:px-8
-        py-24
-      "
-    >
-
-      <div className="
-        max-w-7xl mx-auto
-      ">
-
-        <div className="
-          flex
-          flex-col md:flex-row
-          md:items-end
-          md:justify-between
-          gap-5
-        ">
-
-          <div>
-
-            <div className="
-              text-xs
-              uppercase
-              tracking-[.25em]
-              text-white/30
-            ">
-              02 / Работы
-            </div>
-
-            <h2 className="
-              mt-4
-              font-heading italic
-              text-5xl md:text-7xl
-              leading-none
-            ">
-              Сделано
-              <span className="text-white/40">
-                {" "}руками
-              </span>
-            </h2>
-
-          </div>
-
-
-          <p className="
-            max-w-sm
-            text-sm
-            text-white/45
-          ">
-            Каждый проект начинается с материала
-            и заканчивается вещью, которой хочется
-            пользоваться годами.
-          </p>
-
-        </div>
-
-
-        <div className="
-          grid
-          md:grid-cols-2
-          gap-4
-          mt-14
-        ">
-
-          {projects.map((project,i) => (
-
-            <div
-              key={project.title}
-              className={`
-                project
-                relative
-                rounded-[1.6rem]
-                overflow-hidden
-                group
-                ${project.size === "lg"
-                  ? "md:aspect-[1.35]"
-                  : "md:aspect-[1.35]"
-                }
-                aspect-[1.15]
-              `}
-            >
-
-              <img
-                src={project.image}
-                alt={project.title}
-                className="
-                  project-image
-                  absolute inset-0
-                  w-full h-full
-                  object-cover
-                "
-              />
-
-              <div className="
-                project-overlay
-                absolute inset-0
-              "/>
-
-
-              <div className="
-                absolute
-                left-6
-                right-6
-                bottom-6
-                flex
-                items-end
-                justify-between
-              ">
-
-                <div>
-
-                  <div className="
-                    text-[10px]
-                    uppercase
-                    tracking-[.2em]
-                    text-white/55
-                  ">
-                    {project.type}
-                  </div>
-
-                  <h3 className="
-                    font-heading italic
-                    text-2xl md:text-3xl
-                    mt-1
-                  ">
-                    {project.title}
-                  </h3>
-
-                </div>
-
-
-                <div className="
-                  w-11 h-11
-                  rounded-full
-                  glass
-                  flex items-center justify-center
-                  group-hover:bg-white
-                  group-hover:text-black
-                  transition
-                ">
-                  <Arrow/>
-                </div>
-
-              </div>
-
-            </div>
-
-          ))}
-
-        </div>
-
-      </div>
-
-    </section>
-
-  );
-}
-
-
-/* =========================================================
-   PROCESS
-========================================================= */
-
-const process = [
-  ["01","Знакомство","Обсуждаем задачу, интерьер, размеры и бюджет."],
-  ["02","Проект","Создаём эскиз и техническую модель будущего изделия."],
-  ["03","Материал","Подбираем подходящую породу и фактуру дерева."],
-  ["04","Производство","Режем, обрабатываем, собираем и покрываем."],
-  ["05","Контроль","Проверяем геометрию, соединения и покрытие."],
-  ["06","Установка","Доставляем и устанавливаем готовое изделие."]
-];
-
-
-function Process() {
-
-  return (
-
-    <section className="
-      px-5 md:px-8
-      py-24 md:py-36
-    ">
-
-      <div className="
-        max-w-7xl mx-auto
-      ">
-
-        <div className="
-          text-xs
-          uppercase
-          tracking-[.25em]
-          text-white/30
-        ">
-          03 / Процесс
-        </div>
-
-
-        <h2 className="
-          mt-5
-          font-heading italic
-          text-5xl md:text-7xl
-          leading-[.9]
-        ">
-          Шесть шагов
-          <br/>
-          <span className="text-white/35">
-            до результата
-          </span>
-        </h2>
-
-
-        <div className="
-          mt-16
-          border-t
-          border-white/10
-        ">
-
-          {process.map(([number,title,text]) => (
-
-            <div
-              key={number}
-              className="
-                group
-                grid
-                md:grid-cols-[100px_1fr_1.2fr]
-                gap-5
-                py-7
-                border-b
-                border-white/10
-                items-start
-                hover:px-3
-                transition-all
-              "
-            >
-
-              <span className="
-                text-xs
-                text-white/30
-              ">
-                {number}
-              </span>
-
-              <h3 className="
-                font-heading italic
-                text-2xl md:text-3xl
-              ">
-                {title}
-              </h3>
-
-              <p className="
-                text-sm
-                text-white/45
-                leading-relaxed
-              ">
-                {text}
-              </p>
-
-            </div>
-
-          ))}
-
-        </div>
-
-      </div>
-
-    </section>
-
-  );
-}
-
-
-/* =========================================================
-   MATERIALS
-========================================================= */
-
-const materials = [
-
-  {
-    name:"Дуб",
-    text:"Плотный, выразительный и долговечный."
-  },
-
-  {
-    name:"Ясень",
-    text:"Светлый материал с активным рисунком."
-  },
-
-  {
-    name:"Орех",
-    text:"Глубокий оттенок и премиальная фактура."
-  },
-
-  {
-    name:"Лиственница",
-    text:"Стойкая древесина для окон и фасадов."
-  }
-
-];
-
-
-function Materials() {
-
-  return (
-
-    <section
-      id="materials"
-      className="
-        px-5 md:px-8
-        py-24
-      "
-    >
-
-      <div className="
-        max-w-7xl mx-auto
-      ">
-
-        <div className="
-          flex
-          items-end
-          justify-between
-          gap-5
-        ">
-
-          <div>
-
-            <div className="
-              text-xs
-              uppercase
-              tracking-[.25em]
-              text-white/30
-            ">
-              04 / Материалы
-            </div>
-
-            <h2 className="
-              mt-4
-              font-heading italic
-              text-5xl md:text-7xl
-              leading-none
-            ">
-              Дерево
-              <span className="text-white/35">
-                {" "}с характером
-              </span>
-            </h2>
-
-          </div>
-
-        </div>
-
-
-        <div className="
-          grid
-          grid-cols-2
-          lg:grid-cols-4
-          gap-3
-          mt-14
-        ">
-
-          {materials.map((m,i) => (
-
-            <div
-              key={m.name}
-              className="
-                material-card
-                glass
-                rounded-[1.5rem]
-                p-5
-                min-h-[230px]
-                flex flex-col
-              "
-            >
-
-              <span className="
-                text-xs
-                text-white/25
-              ">
-                0{i+1}
-              </span>
-
-
-              <div className="mt-auto">
-
-                <h3 className="
-                  font-heading italic
-                  text-3xl
-                ">
-                  {m.name}
-                </h3>
-
-                <p className="
-                  mt-2
-                  text-xs
-                  leading-relaxed
-                  text-white/45
-                ">
-                  {m.text}
-                </p>
-
-              </div>
-
-            </div>
-
-          ))}
-
-        </div>
-
-      </div>
-
-    </section>
-
-  );
-}
-
-
-/* =========================================================
-   MARQUEE
-========================================================= */
-
-function Marquee() {
-
-  const words = [
-    "МЕБЕЛЬ",
-    "ОКНА",
-    "РЕЗЬБА",
-    "МАССИВ",
-    "СТОЛЯРКА"
-  ];
-
-  return (
-
-    <div className="
-      overflow-hidden
-      border-y
-      border-white/10
-      py-6
-      my-20
-    ">
-
-      <div className="
-        marquee
-        flex
-        w-max
-        gap-10
-      ">
-
-        {[...words,...words,...words].map((word,i) => (
-
-          <span
-            key={i}
-            className="
-              font-heading italic
-              text-4xl md:text-6xl
-              text-white/[.12]
-              whitespace-nowrap
-            "
-          >
-            {word}
-          </span>
-
+    <div className="liquid-glass rounded-[1.5rem] p-6 w-full">
+      <svg viewBox="0 0 300 184" className="w-full h-auto">
+        <defs>
+          <linearGradient id="woodGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#6B4326" />
+            <stop offset="100%" stopColor="#4A2E1A" />
+          </linearGradient>
+          <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="2.6" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <rect x="20" y="20" width="260" height="144" rx="10" fill="url(#woodGrad)" />
+        {[38, 58, 78, 126, 146, 164].map((y, i) => (
+          <path key={i} d={`M28 ${y} C 90 ${y - 4}, 210 ${y + 4}, 272 ${y}`} stroke="rgba(0,0,0,0.18)" strokeWidth="1" fill="none" />
         ))}
 
-      </div>
+        <path d={d} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="2" />
+        <path
+          className={reduced ? "" : "cut-path"}
+          d={d}
+          fill="none"
+          stroke="#FF5A36"
+          strokeWidth="2"
+          pathLength="1"
+          filter="url(#glow)"
+          style={reduced ? { opacity: 1 } : {}}
+        />
+        <path className={reduced ? "" : "piece-reveal"} d={d} fill="#C9974B" fillOpacity="0.6" style={reduced ? { opacity: 0.6 } : { opacity: 0 }} />
 
+        {!reduced && [
+          [185.4, 54.6, "0s"], [185.4, 125.4, "0.3s"], [114.6, 54.6, "0.6s"], [114.6, 125.4, "0.15s"],
+        ].map(([cx, cy, delay], i) => (
+          <circle key={i} className="spark" cx={cx} cy={cy} r="1.6" fill="#FFD59A" filter="url(#glow)" style={{ animationDelay: delay }} />
+        ))}
+
+        {!reduced && (
+          <g>
+            <rect x="-7" y="-15" width="14" height="10" rx="2" fill="#221D18" stroke="#C8963E" strokeWidth="1" />
+            <line x1="0" y1="-5" x2="0" y2="0" stroke="#FF5A36" strokeWidth="1.6" filter="url(#glow)" />
+            <circle cx="0" cy="0" r="2.4" fill="#FF5A36" filter="url(#glow)" />
+            <animateMotion dur="6s" repeatCount="indefinite" keyPoints="0;1;1;0" keyTimes="0;0.85;0.98;1" calcMode="linear" rotate="auto">
+              <mpath href={"#cutPathRef"} />
+            </animateMotion>
+          </g>
+        )}
+        <path id="cutPathRef" d={d} fill="none" stroke="none" />
+      </svg>
     </div>
-
   );
 }
 
-
-/* =========================================================
-   CONTACT
-========================================================= */
-
-function Contact() {
-
-  const [sent,setSent] = useState(false);
-
-  const submit = e => {
-    e.preventDefault();
-    setSent(true);
-  };
-
+/* ---------- Navbar ---------- */
+function Navbar() {
+  const links = ["Главная", "Мебель", "Окна", "Резьба", "Материалы"];
   return (
+    <nav className="fixed top-4 left-0 right-0 z-50 px-6 lg:px-16">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="liquid-glass w-12 h-12 rounded-full flex items-center justify-center">
+          <span className="font-heading italic text-white text-2xl">Г</span>
+        </div>
+        <div className="hidden lg:flex liquid-glass rounded-full px-1.5 py-1.5 items-center gap-1">
+          {links.map((l) => (
+            <a key={l} href="#" className="px-3 py-2 text-sm font-medium text-white/90 font-body hover:text-white transition-colors">{l}</a>
+          ))}
+          <a href="#" className="flex items-center gap-1.5 bg-white text-black rounded-full px-4 py-2 text-sm font-medium whitespace-nowrap ml-1 hover:bg-white/90 transition-colors">
+            Обсудить проект <ArrowUpRight className="w-4 h-4" />
+          </a>
+        </div>
+        <a href="#" className="lg:hidden flex items-center gap-1.5 bg-white text-black rounded-full px-4 py-2.5 text-sm font-medium whitespace-nowrap hover:bg-white/90 transition-colors">
+          Обсудить проект <ArrowUpRight className="w-4 h-4" />
+        </a>
+        <div className="hidden lg:block w-12 h-12 opacity-0" />
+      </div>
+    </nav>
+  );
+}
 
-    <section
-      id="contact"
-      className="
-        px-5 md:px-8
-        py-24 md:py-36
-      "
-    >
+/* ---------- Hero ---------- */
+function Hero() {
+  const fadeUp = (delay) => ({
+    initial: { filter: "blur(10px)", opacity: 0, y: 20 },
+    animate: { filter: "blur(0px)", opacity: 1, y: 0 },
+    transition: { duration: 0.8, delay, ease: "easeOut" },
+  });
+  return (
+    <section className="relative min-h-screen bg-[#14100D] flex flex-col">
+      <Navbar />
+      <div className="flex-1 flex flex-col justify-center px-6 lg:px-16 pt-28 pb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center max-w-7xl mx-auto w-full">
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+            <motion.div {...fadeUp(0.2)} className="liquid-glass rounded-full pl-1 pr-3 py-1 flex items-center gap-2 mb-6">
+              <span className="bg-white text-black px-3 py-1 rounded-full text-xs font-semibold">Цех</span>
+              <span className="text-sm text-white/90 font-body">Собственное производство полного цикла</span>
+            </motion.div>
 
-      <div className="
-        max-w-7xl mx-auto
-      ">
+            <BlurText
+              text="Дерево, огранённое светом"
+              className="font-heading italic text-white text-5xl md:text-6xl lg:text-[4.6rem] leading-[0.95] tracking-[-1px] justify-center lg:justify-start"
+            />
 
-        <div className="
-          glass
-          rounded-[2rem]
-          p-6 md:p-12
-          grid
-          lg:grid-cols-[1fr_.8fr]
-          gap-12
-        ">
+            <motion.p {...fadeUp(0.6)} className="mt-5 text-base text-white/85 font-body font-light leading-snug max-w-md">
+              Лазерная резка и ручная столярная сборка превращают массив дерева в мебель, окна и предметы интерьера, которые служат десятилетиями.
+            </motion.p>
 
-          <div>
-
-            <div className="
-              text-xs
-              uppercase
-              tracking-[.25em]
-              text-white/30
-            ">
-              05 / Ваш проект
-            </div>
-
-
-            <h2 className="
-              mt-5
-              font-heading italic
-              text-5xl md:text-7xl
-              leading-[.9]
-            ">
-              Давайте
-              <br/>
-              <span className="text-white/35">
-                создадим
-              </span>
-            </h2>
-
-
-            <p className="
-              mt-7
-              max-w-md
-              text-sm
-              leading-relaxed
-              text-white/50
-            ">
-              Расскажите о задаче — мы предложим
-              материал, технологию и ориентировочную
-              стоимость проекта.
-            </p>
-
-
-            <div className="
-              mt-10
-              flex flex-col gap-3
-            ">
-
-              <a
-                href="tel:+70000000000"
-                className="
-                  text-white/70
-                  hover:text-white
-                  transition
-                "
-              >
-                +7 (000) 000-00-00
+            <motion.div {...fadeUp(0.9)} className="flex flex-wrap items-center justify-center lg:justify-start gap-6 mt-7">
+              <a href="#" className="liquid-glass-strong rounded-full px-5 py-2.5 text-sm font-medium text-white flex items-center gap-2 hover:brightness-110 active:brightness-95 transition-[filter]">
+                Рассчитать стоимость <ArrowUpRight className="w-5 h-5" />
               </a>
-
-              <a
-                href="mailto:hello@gran.work"
-                className="
-                  text-white/45
-                  hover:text-white
-                  transition
-                "
-              >
-                hello@gran.work
+              <a href="#" className="text-white text-sm font-medium flex items-center gap-2 hover:text-white/70 transition-colors">
+                <Play className="w-4 h-4" /> Посмотреть примеры работ
               </a>
+            </motion.div>
 
-            </div>
-
+            <motion.div {...fadeUp(1.1)} className="flex items-stretch gap-4 mt-10 w-full max-w-[400px] lg:max-w-none lg:w-auto">
+              <div className="liquid-glass p-5 flex-1 min-w-0 sm:flex-none sm:w-[190px] rounded-[1.25rem]">
+                <ClockIcon className="w-7 h-7" />
+                <div className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-4">12 лет</div>
+                <div className="text-xs text-white/80 font-body font-light mt-2">Опыт производства мебели и окон</div>
+              </div>
+              <div className="liquid-glass p-5 flex-1 min-w-0 sm:flex-none sm:w-[190px] rounded-[1.25rem]">
+                <TreeIcon className="w-7 h-7" />
+                <div className="font-heading italic text-white text-3xl tracking-[-1px] leading-none mt-4">9 пород</div>
+                <div className="text-xs text-white/80 font-body font-light mt-2">От сосны до чёрного ореха</div>
+              </div>
+            </motion.div>
           </div>
 
-
-          <form
-            onSubmit={submit}
-            className="
-              flex
-              flex-col
-              gap-3
-            "
-          >
-
-            <input
-              required
-              placeholder="Ваше имя"
-              className="
-                w-full
-                bg-white/[.04]
-                border border-white/10
-                rounded-2xl
-                px-5 py-4
-                text-sm
-                text-white
-                placeholder:text-white/25
-                outline-none
-                focus:border-white/30
-                transition
-              "
-            />
-
-
-            <input
-              required
-              placeholder="Телефон"
-              className="
-                w-full
-                bg-white/[.04]
-                border border-white/10
-                rounded-2xl
-                px-5 py-4
-                text-sm
-                text-white
-                placeholder:text-white/25
-                outline-none
-                focus:border-white/30
-                transition
-              "
-            />
-
-
-            <textarea
-              placeholder="Расскажите о проекте"
-              rows="5"
-              className="
-                w-full
-                resize-none
-                bg-white/[.04]
-                border border-white/10
-                rounded-2xl
-                px-5 py-4
-                text-sm
-                text-white
-                placeholder:text-white/25
-                outline-none
-                focus:border-white/30
-                transition
-              "
-            />
-
-
-            <button
-              type="submit"
-              className="
-                btn
-                mt-1
-                w-full
-                bg-white
-                text-black
-                rounded-2xl
-                px-5 py-4
-                font-semibold
-                flex items-center
-                justify-center
-                gap-2
-              "
-            >
-
-              {sent
-                ? "Заявка отправлена"
-                : "Отправить заявку"
-              }
-
-              {!sent && <Arrow/>}
-
-            </button>
-
-
-            <p className="
-              text-[10px]
-              text-white/25
-              text-center
-              mt-2
-            ">
-              Нажимая кнопку, вы соглашаетесь
-              с обработкой данных.
-            </p>
-
-          </form>
-
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.5 }}>
+            <LaserScene />
+          </motion.div>
         </div>
-
       </div>
 
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 1.2 }} className="flex flex-col items-center gap-4 pb-8 px-6">
+        <div className="liquid-glass rounded-full px-3.5 py-1 text-xs font-medium text-white text-center">
+          Работаем с дизайнерами интерьеров и архитекторами
+        </div>
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 md:gap-x-12">
+          {["Дуб", "Ясень", "Орех", "Сосна", "Лиственница"].map((w) => (
+            <span key={w} className="font-heading italic text-white text-lg md:text-2xl tracking-tight">{w}</span>
+          ))}
+        </div>
+      </motion.div>
     </section>
-
   );
 }
 
+/* ---------- Capabilities ---------- */
+const CARDS = [
+  {
+    Icon: TargetIcon,
+    title: "Лазерная резка",
+    tags: ["Точность 0.1 мм", "Резьба по контуру", "Без сколов", "Любая форма"],
+    body: "Каждую деталь проектируем в CAD и вырезаем лазером — кромка получается чистой, без сколов и лишней шлифовки.",
+  },
+  {
+    Icon: LinkIcon,
+    title: "Ручная сборка",
+    tags: ["Шип-паз", "Массив дерева", "Без ДСП", "Проверка на нагрузку"],
+    body: "Столяры собирают каркас на шиповых соединениях без гвоздей и ДСП. Перед отправкой каждое изделие проверяем на прочность.",
+  },
+  {
+    Icon: DropletIcon,
+    title: "Натуральное покрытие",
+    tags: ["Масло и воск", "Влагостойкость", "Живая текстура", "Без лака"],
+    body: "Покрываем маслом и воском вместо лака: дерево дышит, сохраняет текстуру и легко обновляется через годы.",
+  },
+];
 
-/* =========================================================
-   FOOTER
-========================================================= */
-
-function Footer() {
-
+function Capabilities() {
   return (
+    <section className="relative min-h-screen bg-[#14100D] px-6 md:px-16 lg:px-20 py-24">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="font-heading italic text-white text-5xl md:text-6xl lg:text-[5rem] leading-[0.95] tracking-[-1px] max-w-2xl">
+          От бревна к готовому изделию
+        </h2>
 
-    <footer className="
-      px-5 md:px-8
-      pb-8
-    ">
-
-      <div className="
-        max-w-7xl mx-auto
-        pt-8
-        border-t
-        border-white/10
-        flex
-        flex-col md:flex-row
-        gap-5
-        items-start md:items-center
-        justify-between
-      ">
-
-        <div>
-
-          <div className="
-            font-heading italic
-            text-3xl
-          ">
-            ГРАНЬ
-          </div>
-
-          <div className="
-            text-xs
-            text-white/30
-            mt-1
-          ">
-            Мебель · окна · резьба
-          </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+          {CARDS.map(({ Icon, title, tags, body }) => (
+            <div key={title} className="liquid-glass rounded-[1.25rem] p-6 min-h-[340px] flex flex-col">
+              <div className="flex items-start justify-between gap-4">
+                <div className="liquid-glass w-11 h-11 rounded-[0.75rem] flex items-center justify-center">
+                  <Icon className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex flex-wrap justify-end gap-1.5 max-w-[70%]">
+                  {tags.map((t) => (
+                    <span key={t} className="liquid-glass rounded-full px-3 py-1 text-[11px] text-white/90 font-body whitespace-nowrap">{t}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="flex-1" />
+              <div className="mt-6">
+                <h3 className="font-heading italic text-white text-3xl tracking-[-1px] leading-none">{title}</h3>
+                <p className="mt-3 text-sm text-white/85 font-body font-light leading-snug max-w-[34ch]">{body}</p>
+              </div>
+            </div>
+          ))}
         </div>
-
-
-        <div className="
-          text-xs
-          text-white/25
-        ">
-          © 2026 ГРАНЬ
-        </div>
-
       </div>
-
-    </footer>
-
+    </section>
   );
 }
-
-
-/* =========================================================
-   APP
-========================================================= */
 
 function App() {
-
-  useEffect(() => {
-
-    const observer =
-      new IntersectionObserver(
-        entries => {
-
-          entries.forEach(entry => {
-
-            if(entry.isIntersecting) {
-
-              entry.target.classList.add("visible");
-
-            }
-
-          });
-
-        },
-        {
-          threshold:.12
-        }
-      );
-
-    document
-      .querySelectorAll(".reveal")
-      .forEach(el => observer.observe(el));
-
-    return () => observer.disconnect();
-
-  },[]);
-
-
   return (
-
-    <>
-
-      <CursorGlow/>
-
-      <Navbar/>
-
-      <main>
-
-        <Hero/>
-
-        <div className="reveal">
-          <Intro/>
-        </div>
-
-        <div className="reveal">
-          <Capabilities/>
-        </div>
-
-        <Marquee/>
-
-        <div className="reveal">
-          <Projects/>
-        </div>
-
-        <div className="reveal">
-          <Process/>
-        </div>
-
-        <div className="reveal">
-          <Materials/>
-        </div>
-
-        <div className="reveal">
-          <Contact/>
-        </div>
-
-      </main>
-
-      <Footer/>
-
-    </>
-
+    <div className="bg-[#14100D]">
+      <Hero />
+      <Capabilities />
+    </div>
   );
-
 }
 
-
-ReactDOM
-  .createRoot(document.getElementById("root"))
-  .render(<App/>);
-
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 </script>
-
 </body>
 </html>
