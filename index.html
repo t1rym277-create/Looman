@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#050505">
+<title>ГРАНЬ — материал становится формой</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
+:root{--bg:#050505;--ink:#eeeae4;--muted:#99938c;--wood:#b98b61;--line:rgba(201,158,111,.24)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif}
+body{overflow-x:hidden}.page{position:relative;min-height:100svh;background:#050505}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+.grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.075;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E")}
+.ui{position:fixed;z-index:5;inset:0;pointer-events:none}
+.top{position:absolute;left:clamp(24px,5vw,72px);right:clamp(24px,5vw,72px);top:max(28px,env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:15px;font-weight:700;letter-spacing:.48em}.status{display:flex;align-items:center;gap:12px;font:500 11px "DM Mono",monospace;letter-spacing:.2em;color:#aaa39a}
+.dot{width:9px;height:9px;border-radius:50%;background:#bd8750;box-shadow:0 0 22px #bd8750;animation:pulse 1.7s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.45;transform:scale(.78)}}
+.counter{position:absolute;right:clamp(24px,5vw,72px);top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font:400 10px "DM Mono",monospace;letter-spacing:.22em;color:#77716b}
+.hero{position:relative;z-index:4;min-height:100svh;display:flex;align-items:flex-end;padding:0 clamp(24px,6vw,90px) max(54px,env(safe-area-inset-bottom) + 42px);pointer-events:none}
+.copy{max-width:760px}.eyebrow{font:500 10px "DM Mono",monospace;letter-spacing:.28em;color:#8c847b;margin-bottom:17px}
+h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(54px,8.2vw,124px);line-height:.82;font-weight:500;letter-spacing:-.055em;margin:0;max-width:900px}
+h1 span{display:block;color:#c19a72;font-style:italic}
+.sub{max-width:640px;color:#aaa49e;font-size:clamp(15px,1.6vw,20px);line-height:1.7;margin:28px 0 0}
+.bottom{position:absolute;right:clamp(24px,5vw,72px);bottom:max(44px,env(safe-area-inset-bottom) + 32px);text-align:right;font:500 10px "DM Mono",monospace;letter-spacing:.24em;color:#9d968e}
+.progress{position:absolute;left:clamp(24px,5vw,72px);bottom:max(44px,env(safe-area-inset-bottom) + 32px);width:120px;height:1px;background:rgba(255,255,255,.13)}
+.progress i{display:block;width:18%;height:100%;background:#c19a72;transition:width .15s}
+#loading{position:fixed;z-index:7;left:50%;top:50%;transform:translate(-50%,-50%);width:min(430px,calc(100vw - 48px));border:1px solid rgba(193,154,114,.28);background:rgba(7,7,7,.74);backdrop-filter:blur(16px);padding:20px 20px 18px;opacity:0;pointer-events:none;transition:.35s}
+#loading.show{opacity:1}.load-title{font-weight:600;font-size:15px}.load-sub{font-size:12px;line-height:1.6;color:#928c86;margin-top:8px}.bar{height:2px;background:rgba(255,255,255,.12);margin-top:16px;overflow:hidden}.bar i{display:block;width:0;height:100%;background:#c19a72;transition:width .4s}
+#hint{position:fixed;z-index:6;left:50%;bottom:20px;transform:translateX(-50%);font:400 9px "DM Mono",monospace;letter-spacing:.18em;color:#716b65;opacity:.8;pointer-events:none}
+@media(max-width:700px){
+ .counter{display:none}.hero{padding-bottom:88px}.copy{max-width:calc(100vw - 48px)}
+ h1{font-size:clamp(49px,15vw,78px);line-height:.84}.sub{font-size:14px;line-height:1.65;margin-top:22px}
+ .bottom{font-size:9px;bottom:48px}.progress{bottom:48px;width:82px}
+ .status{font-size:9px;gap:8px}.dot{width:7px;height:7px}.logo{font-size:13px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+<canvas id="scene"></canvas><div class="grain"></div>
+<div class="ui">
+  <div class="top"><div class="logo">ГРАНЬ</div><div class="status"><i class="dot"></i><span id="status">3D / LOADING</span></div></div>
+  <div class="counter">MATERIAL / PROCESS / FORM</div>
+</div>
+<main class="hero">
+ <div class="copy">
+  <div class="eyebrow">WORKSHOP / 01 — DIGITAL CRAFT</div>
+  <h1>Материал<br><span>становится формой.</span></h1>
+  <p class="sub">Одна непрерывная сцена: мастерская, станок, дерево, лазер и архитектура. Реальные удалённые GLB-модели загружаются прямо во время запуска.</p>
+ </div>
+ <div class="bottom">SCROLL · DRAG</div>
+ <div class="progress"><i id="progress"></i></div>
+</main>
+<div id="loading"><div class="load-title" id="loadTitle">Загрузка 3D-сцены</div><div class="load-sub" id="loadSub">Подключаем реальные PBR-ассеты…</div><div class="bar"><i id="bar"></i></div></div>
+<div id="hint">TOUCH / DRAG TO EXPLORE</div>
+</div>
+
+<script type="importmap">
+{"imports":{
+ "three":"https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js",
+ "three/addons/":"https://cdn.jsdelivr.net/npm/three@0.185.1/examples/jsm/"
+}}
+</script>
+<script type="module">
+import * as THREE from "three";
+import {GLTFLoader} from "three/addons/loaders/GLTFLoader.js";
+import {RoomEnvironment} from "three/addons/environments/RoomEnvironment.js";
+
+const canvas=document.querySelector("#scene"), statusEl=document.querySelector("#status");
+const load=document.querySelector("#loading"), loadSub=document.querySelector("#loadSub"), bar=document.querySelector("#bar");
+const progressEl=document.querySelector("#progress"), hint=document.querySelector("#hint");
+const isMobile=matchMedia("(max-width:700px)").matches;
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x050505);
+scene.fog=new THREE.FogExp2(0x050505,isMobile?.028:.021);
+
+const camera=new THREE.PerspectiveCamera(isMobile?42:36,innerWidth/innerHeight,.05,80);
+camera.position.set(5.8,3.6,8.8);
+
+const renderer=new THREE.WebGLRenderer({canvas,antialias:!isMobile,alpha:false,powerPreference:"high-performance"});
+renderer.setPixelRatio(Math.min(devicePixelRatio,isMobile?1.5:2));
+renderer.setSize(innerWidth,innerHeight,false);
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.12;
+renderer.shadowMap.enabled=!isMobile;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+
+const pmrem=new THREE.PMREMGenerator(renderer);
+scene.environment=pmrem.fromScene(new RoomEnvironment(),0.045).texture;
+
+const world=new THREE.Group();scene.add(world);
+const assets=new THREE.Group();world.add(assets);
+
+const floor=new THREE.Mesh(
+ new THREE.PlaneGeometry(40,40),
+ new THREE.MeshStandardMaterial({color:0x0a0908,roughness:.9,metalness:.05})
+);
+floor.rotation.x=-Math.PI/2;floor.position.y=-.04;floor.receiveShadow=true;world.add(floor);
+
+const grid=new THREE.GridHelper(28,28,0x2b241e,0x161311);
+grid.position.y=-.02;grid.material.transparent=true;grid.material.opacity=.18;world.add(grid);
+
+function box(w,h,d,mat,x,y,z){
+ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat);m.position.set(x,y,z);m.castShadow=m.receiveShadow=true;world.add(m);return m;
+}
+const woodMat=new THREE.MeshStandardMaterial({color:0x5a3822,roughness:.72,metalness:0});
+const darkMetal=new THREE.MeshStandardMaterial({color:0x171717,roughness:.25,metalness:.88});
+const metal2=new THREE.MeshStandardMaterial({color:0x393939,roughness:.32,metalness:.82});
+const benchTop=box(7.5,.28,2.25,woodMat,0,1.05,-1.25);
+box(7.1,.18,.18,darkMetal,0,1.22,-2.18);
+for(const x of [-3.15,3.15])for(const z of [-2.05,-.45])box(.16,1.05,.16,darkMetal,x,.5,z);
+
+const machine=new THREE.Group();world.add(machine);machine.position.set(0,1.35,-1.35);
+const frameMat=new THREE.MeshStandardMaterial({color:0x1b1b1b,roughness:.24,metalness:.9});
+const machineBody=box(4.2,1.7,2.35,frameMat,0,1.55,-1.2); machineBody.parent.remove(machineBody); machine.add(machineBody);machineBody.position.set(0,0,0);
+const rails=[];
+for(const x of [-1.72,1.72]){
+ const r=box(.16,2.35,.16,metal2,x,1.0,-1.2); r.parent.remove(r);machine.add(r);r.position.set(x,0,0);rails.push(r);
+}
+const topRail=box(3.6,.16,.16,metal2,0,2.08,-1.2);topRail.parent.remove(topRail);machine.add(topRail);topRail.position.set(0,.55,0);
+const head=new THREE.Group();machine.add(head);
+const headBlock=box(.36,.22,.42,metal2,0,1.68,-1.2);headBlock.parent.remove(headBlock);head.add(headBlock);headBlock.position.set(0,.15,0);
+const nozzle=box(.12,.28,.12,darkMetal,0,1.47,-1.2);nozzle.parent.remove(nozzle);head.add(nozzle);nozzle.position.set(0,-.08,0);
+const laserMat=new THREE.MeshBasicMaterial({color:0xff6a28});
+const beam=new THREE.Mesh(new THREE.CylinderGeometry(.018,.018,1.3,8),laserMat);
+beam.rotation.z=Math.PI/2;beam.position.set(0,-.28,0);beam.scale.y=.35;head.add(beam);
+
+const workpiece=new THREE.Mesh(new THREE.BoxGeometry(3.0,.18,1.45),new THREE.MeshStandardMaterial({color:0x744728,roughness:.64,metalness:0}));
+workpiece.position.set(0,1.34,-1.25);workpiece.castShadow=true;world.add(workpiece);
+
+const warm=new THREE.PointLight(0xd88a4b,16,9,2);warm.position.set(0,4,-2);world.add(warm);
+const key=new THREE.SpotLight(0xffe1bd,35,20,.48,.5,1.5);key.position.set(5,7,5);key.target.position.set(0,1,-1);world.add(key,key.target);
+const rim=new THREE.SpotLight(0x8b9db8,26,18,.55,.4,1.4);rim.position.set(-5,5,1);rim.target.position.set(0,1,-1);world.add(rim,rim.target);
+const low=new THREE.PointLight(0xa15b2c,6,8,2);low.position.set(0,.4,-1);world.add(low);
+
+if(renderer.shadowMap.enabled){key.castShadow=true;key.shadow.mapSize.set(1024,1024);}
+
+const particleCount=isMobile?260:520;
+const positions=new Float32Array(particleCount*3);
+for(let i=0;i<particleCount;i++){positions[i*3]=(Math.random()-.5)*13;positions[i*3+1]=Math.random()*5+.1;positions[i*3+2]=(Math.random()-.5)*8-1}
+const dustGeo=new THREE.BufferGeometry();dustGeo.setAttribute("position",new THREE.BufferAttribute(positions,3));
+const dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({color:0xb99b7c,size:isMobile?.018:.024,transparent:true,opacity:.38,depthWrite:false}));
+world.add(dust);
+
+const loader=new GLTFLoader();
+const remote = {
+ table:"https://image3d.io/models/files/wooden-table-02/wooden-table-02.glb",
+ shelves:"https://image3d.io/models/files/steel-frame-shelves-01/steel-frame-shelves-01.glb",
+ chair:"https://image3d.io/models/files/modern-arm-chair-01/modern-arm-chair-01.glb"
+};
+const remoteGroup=new THREE.Group();world.add(remoteGroup);
+const remoteItems=[];
+let loaded=0,total=Object.keys(remote).length;
+
+function frameModel(g,scale,targetHeight=1.2){
+ const box3=new THREE.Box3().setFromObject(g), size=box3.getSize(new THREE.Vector3()), center=box3.getCenter(new THREE.Vector3());
+ const s=targetHeight/Math.max(size.y,.001);g.scale.multiplyScalar(s);
+ const b2=new THREE.Box3().setFromObject(g), c2=b2.getCenter(new THREE.Vector3());
+ g.position.sub(c2);g.position.y+=targetHeight/2;
+ g.traverse(o=>{if(o.isMesh){o.castShadow=!isMobile;o.receiveShadow=true;o.frustumCulled=true;if(o.material){o.material.envMapIntensity=1.15}}});
+}
+function addRemote(name,url,pos,targetHeight,rot=0){
+ return new Promise((resolve,reject)=>{
+  loader.load(url,gltf=>{
+   const g=gltf.scene;frameModel(g,1,targetHeight);g.position.x+=pos[0];g.position.z+=pos[1];g.position.y+=pos[2]||0;g.rotation.y=rot;
+   remoteGroup.add(g);remoteItems.push({g,name,base:g.position.clone(),phase:Math.random()*6.28});loaded++;bar.style.width=(loaded/total*100)+"%";resolve(g);
+  },undefined,e=>reject(e));
+ });
+}
+
+load.classList.add("show");
+Promise.allSettled([
+ addRemote("TABLE",remote.table,[1.8,-.1],1.18,-.22),
+ addRemote("SHELVES",remote.shelves,[-2.4,-2.25],1.75,.12),
+ addRemote("CHAIR",remote.chair,[3.0,-3.1],1.45,-.35)
+]).then(results=>{
+ const failed=results.filter(x=>x.status==="rejected").length;
+ statusEl.textContent=failed===0?"3D / READY":`3D / ${loaded}/${total}`;
+ loadSub.textContent=failed===0?"PBR-ассеты подключены. Сцена готова.":"Часть внешних ассетов недоступна — сцена продолжает работать.";
+ setTimeout(()=>load.classList.remove("show"),700);
+});
+
+let scroll=0,targetScroll=0,drag=false,lastX=0,rotY=0,targetRot=0;
+addEventListener("wheel",e=>{targetScroll=Math.max(0,Math.min(1,targetScroll+e.deltaY*.00075))},{passive:true});
+addEventListener("pointerdown",e=>{drag=true;lastX=e.clientX;hint.style.opacity=.15});
+addEventListener("pointerup",()=>drag=false);
+addEventListener("pointercancel",()=>drag=false);
+addEventListener("pointermove",e=>{if(!drag)return;const dx=e.clientX-lastX;lastX=e.clientX;targetRot+=dx*.004;targetScroll=Math.max(0,Math.min(1,targetScroll-dx*.00015))},{passive:true});
+
+function animate(t){
+ requestAnimationFrame(animate);
+ const time=t*.001;
+ scroll+=(targetScroll-scroll)*.055;targetRot+=(rotY-targetRot)*.04;rotY=targetRot;
+ const auto=(Math.sin(time*.24)+1)/2*.34;
+ const p=Math.max(scroll,auto);
+ progressEl.style.width=(12+p*88)+"%";
+ machine.rotation.y=p*Math.PI*2*.5;
+ machine.position.z=-1.35-p*.8;
+ head.position.x=Math.sin(time*.85)*1.45;
+ beam.scale.y=.28+Math.abs(Math.sin(time*2.8))*.95;
+ workpiece.rotation.z=Math.sin(time*.3)*.015;
+ dust.rotation.y=time*.018;dust.position.y=Math.sin(time*.16)*.08;
+ remoteGroup.rotation.y=rotY+p*.10;
+ remoteItems.forEach((it,i)=>{it.g.position.y=it.base.y+Math.sin(time*.7+it.phase)*.025});
+ camera.position.x+=(5.8+Math.sin(time*.18)*.65-p*2.7-camera.position.x)*.025;
+ camera.position.y+=(3.6+p*.8-camera.position.y)*.025;
+ camera.position.z+=(8.8-p*2.1-camera.position.z)*.025;
+ camera.lookAt(0,1.35,-1.15-p*.5);
+ renderer.render(scene,camera);
+}
+animate(0);
+
+addEventListener("resize",()=>{
+ camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();
+ renderer.setPixelRatio(Math.min(devicePixelRatio,isMobile?1.5:2));renderer.setSize(innerWidth,innerHeight,false);
+});
+</script>
+</body>
+</html>
