@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>RY-L1390 — Exploded 3D Assembly</title>
+<style>
+:root{--bg:#090a0b;--steel:#8d9499;--steel2:#596067;--dark:#20252a;--edge:#c7cdd0;--accent:#e7a43b}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:Inter,system-ui,sans-serif;color:#d8dde0}
+body{touch-action:none}
+#app{position:fixed;inset:0;background:
+ radial-gradient(ellipse at 50% 58%,#1a1d20 0%,#0c0e10 46%,#070809 100%);
+}
+.grid{position:absolute;inset:0;opacity:.18;background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:72px 72px;mask-image:linear-gradient(to bottom,transparent 5%,#000 35%,#000 75%,transparent)}
+.vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.72) 100%);pointer-events:none}
+header{position:absolute;z-index:5;top:max(20px,env(safe-area-inset-top));left:22px;right:22px;display:flex;justify-content:space-between;align-items:flex-start}
+.brand{font-size:11px;letter-spacing:.28em;color:#92999e}.brand b{display:block;font-size:20px;letter-spacing:.08em;color:#e6e9ea;margin-top:5px}
+.hint{text-align:right;font-size:10px;letter-spacing:.2em;color:#737a7e;text-transform:uppercase}.hint strong{display:block;color:#c5c9cb;margin-top:6px}
+#stage{position:absolute;inset:8% 0 3%;width:100%;height:89%}
+.part{transform-box:fill-box;transform-origin:center;will-change:transform,opacity,filter}
+.part *{vector-effect:non-scaling-stroke}
+.shadow{fill:#000;opacity:.32;filter:url(#blur)}
+.status{position:absolute;z-index:5;left:22px;bottom:max(24px,env(safe-area-inset-bottom));font-size:9px;letter-spacing:.2em;color:#737a7e}
+.status span{color:#d4d8da}
+.progress{position:absolute;z-index:5;right:22px;bottom:max(24px,env(safe-area-inset-bottom));width:110px;height:2px;background:#24282b}.bar{height:100%;width:0;background:#c9ced1;transform-origin:left}
+@media(min-width:900px){header{left:44px;right:44px}.status{left:44px}.progress{right:44px}}
+</style>
+</head>
+<body>
+<div id="app">
+<div class="grid"></div><div class="vignette"></div>
+<header><div class="brand">RY INDUSTRIAL<b>L1390 / ASSEMBLY SYSTEM</b></div><div class="hint">DRAG / SWIPE<strong>BUILD THE MACHINE</strong></div></header>
+
+<svg id="stage" viewBox="0 0 1200 760" preserveAspectRatio="xMidYMid meet">
+<defs>
+ <linearGradient id="gBody" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c3c8ca"/><stop offset=".25" stop-color="#7d858a"/><stop offset=".55" stop-color="#30363b"/><stop offset="1" stop-color="#111518"/></linearGradient>
+ <linearGradient id="gSide" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#b9bec1"/><stop offset=".22" stop-color="#555d63"/><stop offset=".8" stop-color="#171b1e"/><stop offset="1" stop-color="#090b0d"/></linearGradient>
+ <linearGradient id="gDark" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#454c51"/><stop offset=".5" stop-color="#15191c"/><stop offset="1" stop-color="#07090a"/></linearGradient>
+ <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0c6"/><stop offset=".25" stop-color="#d89b38"/><stop offset=".65" stop-color="#80501a"/><stop offset="1" stop-color="#28170a"/></linearGradient>
+ <filter id="blur"><feGaussianBlur stdDeviation="12"/></filter>
+ <filter id="glow"><feGaussianBlur stdDeviation="4"/></filter>
+</defs>
+<!-- floor -->
+<ellipse class="shadow" cx="600" cy="655" rx="410" ry="45"/>
+<!-- 20 independent mechanical components -->
+<g id="parts">
+ <g class="part" data-x="-430" data-y="-170" data-r="-18" data-s=".72"><path d="M355 390h490l-28 25H380z" fill="url(#gDark)" stroke="#788087" stroke-width="3"/><path d="M380 390h465" stroke="#d2d6d7" stroke-width="2" opacity=".5"/></g>
+ <g class="part" data-x="410" data-y="-185" data-r="20" data-s=".8"><path d="M370 405h460l20 25H350z" fill="url(#gBody)" stroke="#9ba1a5" stroke-width="3"/><path d="M390 405h420" stroke="#edf0f0" opacity=".35"/></g>
+ <g class="part" data-x="-450" data-y="125" data-r="-28" data-s=".78"><path d="M350 420h65v190h-65z" fill="url(#gSide)" stroke="#9aa1a5" stroke-width="3"/><path d="M365 438v150" stroke="#e3e6e7" opacity=".25" stroke-width="4"/></g>
+ <g class="part" data-x="445" data-y="130" data-r="28" data-s=".78"><path d="M785 420h65v190h-65z" fill="url(#gSide)" stroke="#9aa1a5" stroke-width="3"/><path d="M835 438v150" stroke="#e3e6e7" opacity=".25" stroke-width="4"/></g>
+ <g class="part" data-x="-330" data-y="-250" data-r="-32" data-s=".7"><path d="M385 365h55v250h-55z" fill="url(#gDark)" stroke="#777f84" stroke-width="3"/><circle cx="412" cy="390" r="8" fill="url(#gGold)"/><circle cx="412" cy="590" r="8" fill="url(#gGold)"/></g>
+ <g class="part" data-x="325" data-y="-245" data-r="31" data-s=".7"><path d="M760 365h55v250h-55z" fill="url(#gDark)" stroke="#777f84" stroke-width="3"/><circle cx="788" cy="390" r="8" fill="url(#gGold)"/><circle cx="788" cy="590" r="8" fill="url(#gGold)"/></g>
+ <g class="part" data-x="-460" data-y="-5" data-r="-42" data-s=".75"><path d="M385 395h430v45H385z" rx="7" fill="url(#gBody)" stroke="#aeb4b7" stroke-width="3"/><path d="M405 408h390" stroke="#e5e8e9" opacity=".35" stroke-width="2"/></g>
+ <g class="part" data-x="450" data-y="-10" data-r="40" data-s=".75"><path d="M405 435h390v45H405z" fill="url(#gDark)" stroke="#8d9499" stroke-width="3"/><path d="M425 448h350" stroke="#c8cdd0" opacity=".25" stroke-width="2"/></g>
+ <g class="part" data-x="-250" data-y="250" data-r="-22" data-s=".8"><path d="M395 470h410v38H395z" fill="url(#gDark)" stroke="#7e878d" stroke-width="3"/><circle cx="430" cy="489" r="7" fill="#9ea5a8"/><circle cx="770" cy="489" r="7" fill="#9ea5a8"/></g>
+ <g class="part" data-x="250" data-y="255" data-r="24" data-s=".8"><path d="M395 545h410v38H395z" fill="url(#gDark)" stroke="#7e878d" stroke-width="3"/><circle cx="430" cy="564" r="7" fill="#9ea5a8"/><circle cx="770" cy="564" r="7" fill="#9ea5a8"/></g>
+ <g class="part" data-x="-420" data-y="-285" data-r="-55" data-s=".65"><path d="M425 395h350v22H425z" fill="url(#gGold)" stroke="#d4a04d" stroke-width="2"/></g>
+ <g class="part" data-x="420" data-y="285" data-r="52" data-s=".65"><path d="M425 585h350v22H425z" fill="url(#gGold)" stroke="#d4a04d" stroke-width="2"/></g>
+ <g class="part" data-x="-520" data-y="-80" data-r="-65" data-s=".62"><rect x="430" y="425" width="95" height="115" rx="8" fill="url(#gDark)" stroke="#969da1" stroke-width="3"/><rect x="442" y="440" width="70" height="48" rx="3" fill="#090d10" stroke="#626a70"/><circle cx="462" cy="510" r="6" fill="url(#gGold)"/><circle cx="487" cy="510" r="6" fill="#6f777c"/></g>
+ <g class="part" data-x="510" data-y="-75" data-r="63" data-s=".62"><rect x="675" y="425" width="95" height="115" rx="8" fill="url(#gDark)" stroke="#969da1" stroke-width="3"/><rect x="688" y="440" width="70" height="48" rx="3" fill="#090d10" stroke="#626a70"/><circle cx="708" cy="510" r="6" fill="url(#gGold)"/><circle cx="733" cy="510" r="6" fill="#6f777c"/></g>
+ <g class="part" data-x="-260" data-y="-305" data-r="-70" data-s=".58"><path d="M540 410h120v52H540z" rx="5" fill="url(#gSide)" stroke="#a2a8ab" stroke-width="3"/><path d="M555 423h90" stroke="#e8eaeb" opacity=".4" stroke-width="3"/></g>
+ <g class="part" data-x="275" data-y="300" data-r="68" data-s=".58"><path d="M540 525h120v52H540z" fill="url(#gDark)" stroke="#858d92" stroke-width="3"/><path d="M555 538h90" stroke="#c8cdd0" opacity=".25" stroke-width="3"/></g>
+ <g class="part" data-x="-80" data-y="-320" data-r="-38" data-s=".55"><g transform="translate(575 405)"><path d="M0 0h50v95H0z" fill="url(#gDark)" stroke="#aab0b3" stroke-width="3"/><path d="M50 15l28 10v60L50 95z" fill="#20262a" stroke="#6f777c" stroke-width="3"/><circle cx="25" cy="48" r="12" fill="url(#gGold)"/></g></g>
+ <g class="part" data-x="85" data-y="315" data-r="40" data-s=".55"><g transform="translate(575 510)"><path d="M0 0h50v95H0z" fill="url(#gSide)" stroke="#aab0b3" stroke-width="3"/><path d="M50 15l28 10v60L50 95z" fill="#171c20" stroke="#6f777c" stroke-width="3"/><circle cx="25" cy="48" r="12" fill="#777f84"/></g></g>
+ <g class="part" data-x="-500" data-y="250" data-r="-90" data-s=".5"><circle cx="600" cy="620" r="30" fill="url(#gDark)" stroke="#aeb4b7" stroke-width="4"/><circle cx="600" cy="620" r="12" fill="#111518" stroke="#d0d4d5"/><path d="M600 592v56M572 620h56" stroke="#c0c5c7" stroke-width="3"/></g>
+ <g class="part" data-x="500" data-y="250" data-r="90" data-s=".5"><circle cx="680" cy="620" r="30" fill="url(#gDark)" stroke="#aeb4b7" stroke-width="4"/><circle cx="680" cy="620" r="12" fill="#111518" stroke="#d0d4d5"/><path d="M680 592v56M652 620h56" stroke="#c0c5c7" stroke-width="3"/></g>
+</g>
+<!-- working head overlay -->
+<g id="laser" opacity="0"><path d="M580 430h40v52h-40z" fill="url(#gDark)" stroke="#c4c9cb" stroke-width="3"/><path d="M600 482v75" stroke="#d79b38" stroke-width="2"/><circle cx="600" cy="560" r="4" fill="#fff"/><path d="M600 560l-8 28h16z" fill="#e7a43b" opacity=".8"/></g>
+</svg>
+<div class="status">SYSTEM <span id="state">EXPLODED / READY</span></div><div class="progress"><div class="bar" id="bar"></div></div>
+</div>
+<script>
+const parts=[...document.querySelectorAll('.part')];
+const state=document.getElementById('state'),bar=document.getElementById('bar'),laser=document.getElementById('laser');
+let target=0,progress=0,down=false,lastY=0,lastT=0,vel=0,raf;
+function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+function render(){
+ const p=ease(progress);
+ parts.forEach((el,i)=>{
+   const x=+el.dataset.x,y=+el.dataset.y,r=+el.dataset.r,s=+el.dataset.s;
+   const wobble=(1-p)*Math.sin(p*Math.PI*(2.2+i*.13))*(8+i%4*3);
+   const tx=x*(1-p),ty=y*(1-p)+wobble,r0=r*(1-p),sc=s+(1-s)*p;
+   el.style.transform=`translate(${tx}px,${ty}px) rotate(${r0}deg) scale(${sc})`;
+   el.style.opacity=.35+.65*p;
+   el.style.filter=`brightness(${.68+.32*p})`;
+ });
+ const w=Math.max(0,Math.min(1,(progress-.84)/.16));
+ laser.style.opacity=w;
+ if(w){laser.setAttribute('transform',`translate(${Math.sin(w*Math.PI*5)*150+Math.cos(w*Math.PI*2)*70},0)`)}
+ bar.style.width=(progress*100)+'%';
+ state.textContent=progress>.985?'SYSTEM ONLINE':progress>.84?'PRECISION CUT':'ASSEMBLING / '+Math.round(progress*100)+'%';
+ raf=requestAnimationFrame(render);
+}
+function setTarget(v){target=Math.max(0,Math.min(1,v))}
+function loop(){
+ const d=target-progress;
+ progress+=d*.085;
+ if(Math.abs(d)<.0002)progress=target;
+}
+function tick(){loop();render();requestAnimationFrame(tick)}
+tick();
+addEventListener('touchstart',e=>{down=true;lastY=e.touches[0].clientY;lastT=performance.now();vel=0},{passive:false});
+addEventListener('touchmove',e=>{if(!down)return;e.preventDefault();const y=e.touches[0].clientY,now=performance.now(),dy=lastY-y;vel=dy/Math.max(8,now-lastT);setTarget(target+dy/innerHeight*1.35);lastY=y;lastT=now},{passive:false});
+addEventListener('touchend',()=>{down=false;setTarget(target+vel*.22);});
+addEventListener('wheel',e=>{e.preventDefault();setTarget(target+e.deltaY/900)},{passive:false});
+addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key===' ')setTarget(target+.08);if(e.key==='ArrowUp')setTarget(target-.08);});
+</script>
+</body>
+</html>
