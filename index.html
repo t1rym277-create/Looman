@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>RY-L1390 — Three.js 3D Assembly</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;background:#07090a;color:#dfe3e5;font-family:Inter,system-ui,sans-serif}
+#ui{position:fixed;inset:0;z-index:5;pointer-events:none}
+.top{position:absolute;top:22px;left:24px;right:24px;display:flex;justify-content:space-between}
+.logo{font-size:10px;letter-spacing:.24em;color:#7d8589}.logo b{display:block;color:#e2e5e6;font-size:19px;letter-spacing:.08em;margin-top:5px}
+.help{text-align:right;font-size:9px;letter-spacing:.17em;color:#7d8589}.help strong{display:block;color:#cbd0d2;margin-top:5px}
+.bottom{position:absolute;left:24px;right:24px;bottom:24px;display:flex;justify-content:space-between;align-items:end}
+.state{font-size:9px;letter-spacing:.16em;color:#777f83}.state span{color:#e0e4e5}
+.controls{pointer-events:auto;display:flex;gap:8px}.controls button{background:#121619;border:1px solid #30363a;color:#cdd2d4;border-radius:5px;padding:9px 12px;font-size:10px;letter-spacing:.08em}
+.bar{width:130px;height:2px;background:#252a2d;margin-bottom:5px}.fill{height:100%;width:0;background:#d8dde0}
+#hint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:10px;letter-spacing:.22em;color:#6f777b;text-align:center;opacity:.8}
+canvas{display:block}
+@media(max-width:700px){.top{left:16px;right:16px}.bottom{left:16px;right:16px}.help{display:none}.controls button{padding:8px 10px}}
+</style></head><body>
+<div id="ui"><div class="top"><div class="logo">RY INDUSTRIAL<b>L1390 / TRUE 3D ASSEMBLY</b></div><div class="help">SWIPE / DRAG<strong>EXPLODE → ASSEMBLE</strong></div></div>
+<div id="hint">DRAG / SWIPE TO BUILD</div>
+<div class="bottom"><div class="state">SYSTEM <span id="state">EXPLODED</span></div><div><div class="bar"><div class="fill" id="fill"></div></div><div class="controls"><button id="explode">EXPLODE</button><button id="assemble">ASSEMBLE</button><button id="reset">RESET</button></div></div></div></div>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+
+const names=[...Array(20)].map((_,i)=>String(i+1).padStart(2,'0'));
+const files=names.map(n=>`assets/${n}_`+({
+'01':'base_chassis','02':'left_upright','03':'right_upright','04':'top_beam','05':'rear_rail','06':'work_bed','07':'gantry_carriage','08':'gantry_left_block','09':'gantry_right_block','10':'x_carriage','11':'laser_head','12':'focus_nozzle','13':'control_box','14':'front_door_frame','15':'top_lid','16':'left_panel','17':'right_panel','18':'cable_chain','19':'leveling_feet','20':'fastener_kit'}[n])+'.glb');
+
+const scene=new THREE.Scene(); scene.background=new THREE.Color(0x07090a);
+scene.fog=new THREE.FogExp2(0x07090a,.0009);
+const camera=new THREE.PerspectiveCamera(38,innerWidth/innerHeight,.1,5000);
+camera.position.set(980,-1120,760);
+
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.7)); renderer.setSize(innerWidth,innerHeight);
+renderer.outputColorSpace=THREE.SRGBColorSpace; renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.05;
+document.body.appendChild(renderer.domElement);
+
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true; controls.dampingFactor=.055; controls.minDistance=650; controls.maxDistance=2200; controls.target.set(0,0,180);
+controls.enablePan=false;
+
+scene.add(new THREE.HemisphereLight(0xc9d0d4,0x151719,2.2));
+const key=new THREE.DirectionalLight(0xffffff,4); key.position.set(-700,-900,1400); scene.add(key);
+const rim=new THREE.DirectionalLight(0x9aa9b0,2.4); rim.position.set(1000,500,900); scene.add(rim);
+
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(5000,5000),new THREE.MeshStandardMaterial({color:0x0b0d0f,metalness:.7,roughness:.38}));
+floor.rotation.x=-Math.PI/2; floor.position.y=-150; scene.add(floor);
+
+const group=new THREE.Group(); scene.add(group);
+const loader=new GLTFLoader(); const models=[]; let loaded=0;
+const explode=[
+[-620,-280,360], [560,-240,300],[-580,230,240],[590,220,260],
+[-450,-420,520],[460,-400,500],[-720,0,20],[700,0,20],
+[-360,380,250],[360,390,250],[-260,-520,360],[260,520,340],
+[650,-350,80],[-650,330,180],[0,580,400],[ -720,-120,300],[720,-120,300],[0,0,650],[-620,520,-20],[620,520,-20]
+];
+
+files.forEach((url,i)=>{
+ loader.load(url,g=>{
+   g.scene.traverse(o=>{
+     if(o.isMesh){o.castShadow=true;o.receiveShadow=true;
+       if(o.material) o.material.envMapIntensity=1.15;
+     }
+   });
+   const box=new THREE.Box3().setFromObject(g.scene), center=box.getCenter(new THREE.Vector3());
+   g.scene.position.sub(center); // normalize pivot
+   const home=g.scene.position.clone();
+   const e=new THREE.Vector3(...explode[i]);
+   g.scene.userData={home,e,rot:new THREE.Vector3((i%3-.8)*.28,(i%4-1.5)*.2,(i%5-2)*.22),scale:.82+((i%4)*.05)};
+   g.scene.position.copy(e); g.scene.rotation.set(...g.scene.userData.rot); g.scene.scale.setScalar(g.scene.userData.scale);
+   group.add(g.scene); models.push(g.scene); loaded++;
+   if(loaded===files.length){document.getElementById('hint').style.display='block';}
+ });
+});
+
+let target=0, p=0, dragging=false,lastY=0;
+function setTarget(v){target=Math.max(0,Math.min(1,v));}
+function animate(){
+ requestAnimationFrame(animate); p+=(target-p)*.075;
+ models.forEach((m,i)=>{
+   const e=m.userData.e,h=m.userData.home,t=THREE.MathUtils.smootherstep(p,0,1);
+   m.position.lerpVectors(e,h,t);
+   m.rotation.x=m.userData.rot.x*(1-t);m.rotation.y=m.userData.rot.y*(1-t);m.rotation.z=m.userData.rot.z*(1-t);
+   const s=m.userData.scale+(1-m.userData.scale)*t;m.scale.setScalar(s);
+ });
+ document.getElementById('fill').style.width=(p*100)+'%';
+ document.getElementById('state').textContent=p>.98?'SYSTEM ONLINE':p>.82?'ASSEMBLED':p>.05?'ASSEMBLING':'EXPLODED';
+ controls.update(); renderer.render(scene,camera);
+}
+addEventListener('pointerdown',e=>{dragging=true;lastY=e.clientY});
+addEventListener('pointermove',e=>{if(!dragging)return;setTarget(target+(lastY-e.clientY)/innerHeight*1.15);lastY=e.clientY});
+addEventListener('pointerup',()=>dragging=false);
+addEventListener('wheel',e=>{setTarget(target+e.deltaY/900)},{passive:true});
+document.getElementById('explode').onclick=()=>setTarget(0);
+document.getElementById('assemble').onclick=()=>setTarget(1);
+document.getElementById('reset').onclick=()=>{setTarget(0);camera.position.set(980,-1120,760);controls.target.set(0,0,180);};
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+animate();
+</script></body></html>
