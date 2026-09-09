@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>RY-L1390 — True 3D Assembly</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050607;color:#eee}
+canvas{display:block;position:fixed;inset:0}
+#ui{position:fixed;inset:0;z-index:10;pointer-events:none}
+.top{position:absolute;top:max(20px,env(safe-area-inset-top));left:20px;right:20px;display:flex;justify-content:space-between;align-items:flex-start}
+.brand{font-size:9px;letter-spacing:.24em;color:#8c9195;text-transform:uppercase}.brand b{display:block;margin-top:6px;color:#f2f3f3;font-size:17px;letter-spacing:.07em}
+.mode{text-align:right;font-size:8px;letter-spacing:.2em;color:#777d80}.mode strong{display:block;color:#d7dadd;margin-top:5px}
+#loader{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(420px,78vw);text-align:center;transition:.4s opacity}.load-title{font-size:10px;letter-spacing:.24em;color:#cfd3d5}.loadbar{height:2px;background:#22272a;margin-top:14px}.loadfill{height:100%;width:0;background:#dfe3e5;transition:width .2s}.loadmeta{margin-top:9px;font-size:9px;letter-spacing:.12em;color:#777d81}
+#err{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);width:min(560px,86vw);display:none;padding:15px;border:1px solid #3b2222;background:rgba(20,8,8,.88);backdrop-filter:blur(12px);font:10px/1.5 ui-monospace,monospace;color:#ffb9b9;pointer-events:auto}
+.bottom{position:absolute;left:20px;right:20px;bottom:max(20px,env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:flex-end;gap:20px}.status{font-size:9px;letter-spacing:.16em;color:#73797c}.status span{color:#e5e7e8}.actions{pointer-events:auto;display:flex;gap:7px}.actions button{border:1px solid #353a3d;background:rgba(13,15,16,.82);color:#d8dcde;padding:9px 12px;border-radius:5px;font-size:9px;letter-spacing:.1em;backdrop-filter:blur(12px)}.actions button:active{transform:translateY(1px)}
+#work{position:absolute;left:50%;bottom:86px;transform:translateX(-50%);font-size:9px;letter-spacing:.2em;color:#e8e8e8;opacity:0;transition:opacity .5s;text-shadow:0 0 18px rgba(255,70,40,.65)}
+@media(max-width:700px){.top{left:14px;right:14px}.bottom{left:14px;right:14px}.mode{display:none}.actions button{padding:8px 9px}.brand b{font-size:14px}}
+</style>
+</head>
+<body>
+<div id="ui">
+  <div class="top"><div class="brand">RY INDUSTRIAL<b>L1390 / TRUE 3D</b></div><div class="mode">SWIPE / DRAG<strong id="modeText">EXPLODED</strong></div></div>
+  <div id="loader"><div class="load-title">LOADING REAL 3D COMPONENTS</div><div class="loadbar"><div class="loadfill" id="loadfill"></div></div><div class="loadmeta" id="loadmeta">0 / 20</div></div>
+  <div id="err"></div>
+  <div id="work">LASER CUTTING • LIVE</div>
+  <div class="bottom"><div class="status">SYSTEM <span id="status">LOADING</span></div><div class="actions"><button id="explode">EXPLODE</button><button id="assemble">ASSEMBLE</button><button id="reset">RESET</button></div></div>
+</div>
+
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+
+const PARTS=[
+'01_base_chassis','02_left_upright','03_right_upright','04_top_beam','05_rear_rail','06_work_bed','07_gantry_carriage','08_gantry_left_block','09_gantry_right_block','10_x_carriage','11_laser_head','12_focus_nozzle','13_control_box','14_front_door_frame','15_top_lid','16_left_panel','17_right_panel','18_cable_chain','19_leveling_feet','20_fastener_kit'
+];
+const EXPLODE=[
+[-720,-420,380],[610,-300,260],[-610,300,250],[620,250,360],[-480,-520,520],[450,-430,500],[-820,0,30],[820,0,30],[-420,470,280],[420,470,280],[-260,-620,360],[260,600,360],[760,-390,100],[-760,300,170],[0,720,450],[-760,-120,320],[760,-120,320],[0,0,700],[-620,520,-30],[620,520,-30]
+].map(v=>new THREE.Vector3(...v));
+
+const scene=new THREE.Scene();
+scene.background=new THREE.Color(0x050607);
+scene.fog=new THREE.Fog(0x050607,1600,3400);
+const camera=new THREE.PerspectiveCamera(38,innerWidth/innerHeight,.1,6000);
+camera.position.set(1080,-1250,760);
+const renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance',alpha:false});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));
+renderer.setSize(innerWidth,innerHeight);
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure=1.12;
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const controls=new OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true;controls.dampingFactor=.055;controls.enablePan=false;controls.minDistance=650;controls.maxDistance=2600;controls.target.set(0,0,160);
+
+scene.add(new THREE.HemisphereLight(0xdce4e8,0x08090a,2.4));
+const key=new THREE.DirectionalLight(0xffffff,4.5);key.position.set(-900,-1000,1500);key.castShadow=true;key.shadow.mapSize.set(2048,2048);scene.add(key);
+const fill=new THREE.DirectionalLight(0xffe5df,2.2);fill.position.set(900,-300,700);scene.add(fill);
+const rim=new THREE.DirectionalLight(0xaab8c0,3);rim.position.set(500,1000,1100);scene.add(rim);
+
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(5000,5000),new THREE.MeshStandardMaterial({color:0x080a0b,metalness:.65,roughness:.32}));
+floor.rotation.x=-Math.PI/2;floor.position.y=-165;floor.receiveShadow=true;scene.add(floor);
+
+const machine=new THREE.Group();scene.add(machine);
+const loader=new GLTFLoader();
+const parts=[];let target=0,progress=0,ready=false,cutting=false;
+
+function premiumMaterial(mat,kind){
+  const m=mat.clone();
+  const n=(m.name||'').toLowerCase();
+  if(kind==='chrome'){
+    m.color.setRGB(.72,.75,.78);m.metalness=.96;m.roughness=.12;
+  } else if(kind==='red'){
+    m.color.set(0x8d0711);m.metalness=.62;m.roughness=.2;
+    if('clearcoat' in m){m.clearcoat=.82;m.clearcoatRoughness=.12;m.iridescence=.16;m.iridescenceIOR=1.35}
+  } else if(n.includes('brass')){m.color.set(0xb57a28);m.metalness=.9;m.roughness=.2}
+  else if(n.includes('smoke')){m.color.set(0x111820);m.transparent=true;m.opacity=.42;m.metalness=.15;m.roughness=.08}
+  else if(n.includes('rubber')){m.color.set(0x050506);m.metalness=.05;m.roughness=.78}
+  else {m.metalness=Math.max(m.metalness||0,.72);m.roughness=Math.min(m.roughness||.45,.28)}
+  return m;
+}
+function stylePart(root,index){
+  const chrome=index===15||index===16; // side panels
+  root.traverse(o=>{
+    if(!o.isMesh)return;
+    o.castShadow=true;o.receiveShadow=true;
+    if(Array.isArray(o.material))o.material=o.material.map(m=>premiumMaterial(m,chrome?'chrome':((m.name||'').toLowerCase().includes('powder')?'red':'other')));
+    else if(o.material)o.material=premiumMaterial(o.material,chrome?'chrome':((o.material.name||'').toLowerCase().includes('powder')?'red':'other'));
+  });
+}
+
+function loadPart(index){
+ return new Promise((resolve,reject)=>{
+   const url=PARTS[index]+'.glb';
+   loader.load(url,gltf=>{
+     const wrap=new THREE.Group();
+     wrap.name='PART_'+PARTS[index];
+     stylePart(gltf.scene,index);
+     wrap.add(gltf.scene);
+     wrap.position.copy(EXPLODE[index]);
+     wrap.userData={explode:EXPLODE[index].clone(),assembled:new THREE.Vector3(),index,phase:index*.31};
+     machine.add(wrap);parts.push(wrap);resolve(wrap);
+   },xhr=>{
+     if(xhr.total){const local=(index+Math.min(xhr.loaded/xhr.total,1))/PARTS.length;document.getElementById('loadfill').style.width=(local*100)+'%';}
+   },reject);
+ });
+}
+
+async function loadAll(){
+ let ok=0,failed=[];
+ for(let i=0;i<PARTS.length;i++){
+   try{await loadPart(i);ok++;document.getElementById('loadmeta').textContent=ok+' / '+PARTS.length;document.getElementById('loadfill').style.width=(ok/PARTS.length*100)+'%';}
+   catch(e){failed.push(PARTS[i]);console.error('GLB load failed',PARTS[i],e);document.getElementById('loadmeta').textContent=ok+' / '+PARTS.length+' • ERROR';}
+ }
+ if(failed.length){
+   const err=document.getElementById('err');err.style.display='block';err.innerHTML='<b>3D LOAD ERROR</b><br><br>'+failed.join('<br>')+'<br><br>Проверь, что все 20 GLB-файлов загружены в корень GitHub рядом с index.html и имена файлов не изменены.';
+ }
+ if(ok>0){ready=true;document.getElementById('status').textContent=failed.length?'PARTIAL READY':'READY';document.getElementById('loader').style.opacity='0';setTimeout(()=>document.getElementById('loader').style.display='none',500);fitCamera();}
+ else {document.getElementById('status').textContent='LOAD ERROR';document.getElementById('err').style.display='block';document.getElementById('err').textContent='Не загружена ни одна GLB-модель. Проверь доступ к Three.js CDN и наличие 20 GLB-файлов в корне репозитория.';}
+}
+
+function fitCamera(){
+ const box=new THREE.Box3().setFromObject(machine);
+ if(box.isEmpty())return;
+ const center=box.getCenter(new THREE.Vector3());const size=box.getSize(new THREE.Vector3());
+ controls.target.lerp(center,.5);
+ const max=Math.max(size.x,size.y,size.z);const dist=max/(2*Math.tan(THREE.MathUtils.degToRad(camera.fov*.5)))*1.15;
+ const dir=new THREE.Vector3(1,-1,.65).normalize();camera.position.copy(center).addScaledVector(dir,Math.max(850,dist));camera.lookAt(center);controls.update();
+}
+
+// Workpiece: a real 3D wood blank + progressively revealed carved relief.
+const woodGroup=new THREE.Group();woodGroup.position.set(0,0,34);machine.add(woodGroup);
+const wood=new THREE.Mesh(new THREE.BoxGeometry(520,330,38),new THREE.MeshPhysicalMaterial({color:0x6b3518,roughness:.72,metalness:0,clearcoat:.12}));wood.castShadow=true;wood.receiveShadow=true;woodGroup.add(wood);
+const plaque=new THREE.Mesh(new THREE.BoxGeometry(450,260,4),new THREE.MeshPhysicalMaterial({color:0x9a5527,roughness:.62}));plaque.position.z=21;plaque.castShadow=true;woodGroup.add(plaque);
+const relief=new THREE.Group();relief.position.z=24;woodGroup.add(relief);
+for(let i=0;i<28;i++){
+ const a=i/28*Math.PI*2;const r=95+Math.sin(i*2.7)*18;const s=.65+Math.sin(i*1.4)*.1;
+ const g=new THREE.Mesh(new THREE.TorusGeometry(r*s,3.2,8,32,Math.PI*1.35),new THREE.MeshStandardMaterial({color:0x32150c,roughness:.55}));
+ g.rotation.x=Math.PI/2;g.rotation.z=a;g.visible=false;relief.add(g);
+}
+
+// Laser beam and glow
+const laser=new THREE.Group();laser.visible=false;machine.add(laser);
+const beamMat=new THREE.MeshBasicMaterial({color:0xff351d,transparent:true,opacity:.86,blending:THREE.AdditiveBlending,depthWrite:false});
+const beam=new THREE.Mesh(new THREE.CylinderGeometry(2.2,2.2,42,16),beamMat);beam.rotation.x=Math.PI/2;beam.position.z=-20;laser.add(beam);
+const glow=new THREE.PointLight(0xff2a16,12,180);laser.add(glow);
+const tip=new THREE.Mesh(new THREE.SphereGeometry(5,16,16),new THREE.MeshBasicMaterial({color:0xffc7a9}));laser.add(tip);
+
+const path=[];for(let i=0;i<=90;i++){const t=i/90;path.push(new THREE.Vector3(-180+360*t, -80+105*Math.sin(t*Math.PI*2), 58));}
+function setCutting(v){cutting=v;laser.visible=v;document.getElementById('work').style.opacity=v?'1':'0';}
+function animateCut(time){
+ if(!cutting)return;
+ const t=(time*.00013)%1;const idx=Math.floor(t*(path.length-1));const pt=path[idx];
+ // move actual laser head assembly visually with the cutting path
+ const head=parts.find(p=>p.userData.index===9);if(head)head.position.x=pt.x;
+ laser.position.copy(pt);laser.position.z=58;
+ glow.intensity=9+Math.sin(time*.018)*4;beam.scale.y=.75+Math.sin(time*.03)*.12;
+ const reveal=Math.floor(t*relief.children.length);relief.children.forEach((m,i)=>m.visible=i<=reveal);
+}
+
+function setTarget(v){target=THREE.MathUtils.clamp(v,0,1);if(ready&&target>.96)setCutting(true);else setCutting(false);}
+let drag=false,lastY=0;
+renderer.domElement.addEventListener('pointerdown',e=>{drag=true;lastY=e.clientY;renderer.domElement.setPointerCapture?.(e.pointerId)});
+renderer.domElement.addEventListener('pointermove',e=>{if(!drag)return;setTarget(target+(lastY-e.clientY)/innerHeight*1.1);lastY=e.clientY)});
+renderer.domElement.addEventListener('pointerup',()=>drag=false);
+renderer.domElement.addEventListener('pointercancel',()=>drag=false);
+window.addEventListener('wheel',e=>setTarget(target+e.deltaY/900),{passive:true});
+
+document.getElementById('explode').onclick=()=>setTarget(0);
+document.getElementById('assemble').onclick=()=>setTarget(1);
+document.getElementById('reset').onclick=()=>{setTarget(0);parts.forEach(p=>p.position.copy(p.userData.explode));camera.position.set(1080,-1250,760);controls.target.set(0,0,160);fitCamera()};
+
+function tick(time){requestAnimationFrame(tick);progress+=(target-progress)*.075;
+ const t=THREE.MathUtils.smootherstep(progress,0,1);
+ parts.forEach(p=>{p.position.lerpVectors(p.userData.explode,p.userData.assembled,t);p.rotation.x=(1-t)*Math.sin(p.userData.phase)*.24;p.rotation.y=(1-t)*Math.cos(p.userData.phase)*.18;p.rotation.z=(1-t)*Math.sin(p.userData.phase*1.7)*.16});
+ document.getElementById('modeText').textContent=progress>.985?'SYSTEM ONLINE':progress>.82?'ASSEMBLED':progress>.05?'ASSEMBLING':'EXPLODED';
+ document.getElementById('status').textContent=ready?(progress>.985?'CUTTING':progress>.82?'ASSEMBLED':'READY'):'LOADING';
+ animateCut(time);controls.update();renderer.render(scene,camera);
+}
+window.addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)});
+loadAll();tick(0);
+</script>
+</body>
+</html>
